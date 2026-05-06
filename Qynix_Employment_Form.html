@@ -128,6 +128,8 @@ table.form-table th {
 
 .input-cell { padding: 3px 6px; }
 
+.input-cell .req { color: #c0392b; font-weight: 900; }
+
 /* ── Inputs ── */
 input[type="text"],
 input[type="email"],
@@ -690,13 +692,22 @@ input.sig-type-input:focus {
       </td>
     </tr>
     <tr>
-      <td class="label-cell">NRIC / Passport No. (New) <span class="req">*</span></td>
+      <td class="label-cell" style="padding-left:30px">NRIC / Passport No. (New) <span class="req">*</span></td>
       <td class="input-cell" id="f-nric_new">
         <input type="text" id="nric_new" placeholder="New IC / Passport number" maxlength="12">
         <span class="err-msg">* NRIC/Passport (New) is required.</span>
       </td>
-      <td class="label-cell">Race &amp; Dialect Group</td>
-      <td class="input-cell"><input type="text" id="race" placeholder="e.g. Chinese / Hokkien"></td>
+      <td class="label-cell">Race & Dialect Group <span class="req">*</span></td>
+      <td class="input-cell" id="f-race">
+        <select id="race">
+          <option value="">— Select —</option>
+          <option>Chinese</option>
+          <option>Malay</option>
+          <option>Indian</option>
+          <option>Other</option>
+        </select>
+        <span class="err-msg">* Race and dialect group is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell">Citizenship <span class="req">*</span></td>
@@ -728,26 +739,35 @@ input.sig-type-input:focus {
         </select>
         <span class="err-msg">* Marital status is required.</span>
       </td>
-      <td class="label-cell">EPF No.</td>
-      <td class="input-cell"><input type="text" id="epf" placeholder="(if applicable)"></td>
+      <td class="label-cell">EPF No. <span class="req">*</span></td>
+      <td class="input-cell" id="f-epf">
+        <input type="text" id="epf" placeholder="EPF (or Nil)">
+        <span class="err-msg">* EPF number is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell">Others (please specify)</td>
       <td class="input-cell"><input type="text" id="marital_other" placeholder="(if applicable)"></td>
-      <td class="label-cell">SOCSO No.</td>
-      <td class="input-cell"><input type="text" id="socso" placeholder="(if applicable)"></td>
+      <td class="label-cell">SOCSO No. <span class="req">*</span></td>
+      <td class="input-cell" id="f-socso">
+        <input type="text" id="socso" placeholder="SOCSO (or Nil)">
+        <span class="err-msg">* SOCSO number is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell"></td>
       <td></td>
-      <td class="label-cell">Income Tax No.</td>
-      <td class="input-cell"><input type="text" id="tax" placeholder="(if applicable)"></td>
+      <td class="label-cell">Income Tax No. <span class="req">*</span></td>
+      <td class="input-cell" id="f-tax">
+        <input type="text" id="tax" placeholder="Income Tax (or Nil)">
+        <span class="err-msg">* Income Tax number is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell"></td>
       <td></td>
-      <td class="label-cell">Savings/Current Account No.<br><small style="font-weight:400">(Public Bank only)</small></td>
-      <td class="input-cell"><input type="text" id="bank_acc" placeholder="(if applicable)"></td>
+      <td class="label-cell">Savings/Current Account No.<br><small style="font-weight:400">(Public Bank only)</small> <span class="req">*</span></td>
+      <td class="input-cell"><input type="text" id="bank_acc" placeholder="Savings/Current Account (or Nil)"></td>
     </tr>
     <tr>
       <td class="label-cell" style="vertical-align:top;padding-top:8px">Permanent Address <span class="req">*</span></td>
@@ -758,13 +778,19 @@ input.sig-type-input:focus {
       <td class="label-cell" style="vertical-align:top;padding-top:8px">
         Contact Numbers
         <div style="margin-top:6px;display:flex;flex-direction:column;gap:5px">
-          <div style="font-size:11.5px;font-weight:600">Home</div>
-          <input type="tel" id="tel_home" placeholder="Home phone" style="border-bottom:1.5px solid #bbb">
-          <div style="font-size:11.5px;font-weight:600">Office</div>
-          <input type="tel" id="tel_office" placeholder="Office phone" style="border-bottom:1.5px solid #bbb">
+          <div style="font-size:11.5px;font-weight:600">Home <span class="req">*</span></div>
+          <div id="f-tel_home">
+            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" style="border-bottom:1.5px solid #bbb">
+            <span class="err-msg">* Valid home phone number is required.</span>
+          </div>
+          <div style="font-size:11.5px;font-weight:600">Office <span class="req">*</span></div>
+          <div id="f-tel_office">
+            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" style="border-bottom:1.5px solid #bbb">
+            <span class="err-msg">* Valid office phone number is required.</span>
+          </div>
           <div style="font-size:11.5px;font-weight:600">Handphone <span class="req">*</span></div>
           <div id="f-tel_hp">
-            <input type="tel" id="tel_hp" placeholder="e.g. 012-3456789" style="border-bottom:1.5px solid #bbb">
+            <input type="tel" id="tel_hp" placeholder="e.g. 012-3456789" style="border-bottom:1.5px solid #bbb" pattern="^0\d{2,3}-\d{7,8}$" >
             <span class="err-msg">* Handphone is required.</span>
           </div>
           <div style="font-size:11.5px;font-weight:600">Email ID <span class="req">*</span></div>
@@ -778,7 +804,7 @@ input.sig-type-input:focus {
     <tr>
       <td class="label-cell" style="vertical-align:top">Postal Address<br><small style="font-weight:400">(if different from above)</small></td>
       <td class="input-cell">
-        <textarea id="postal_addr" style="min-height:60px" placeholder="Leave blank if same as permanent address"></textarea>
+        <textarea id="postal_addr" style="min-height:60px" placeholder="Leave '-' if same as permanent address"></textarea>
       </td>
       <td class="label-cell" style="vertical-align:top;padding-top:8px">
         Contact Numbers
@@ -802,32 +828,80 @@ input.sig-type-input:focus {
       <th>Occupation</th>
     </tr>
     <tr>
-      <td class="label-cell">Father</td>
-      <td class="input-cell"><input type="text" id="fath_name" placeholder="Father's name"></td>
-      <td class="input-cell"><input type="date" id="fath_dob"></td>
-      <td class="input-cell"><input type="number" id="fath_age" min="0" max="120" placeholder="Age"></td>
-      <td class="input-cell"><input type="text" id="fath_occ" placeholder="Occupation"></td>
+      <td class="label-cell">Father <span class="req">*</span></td>
+      <td class="input-cell" id="f-fath_name">
+          <input type="text" id="fath_name" placeholder="Father's name">
+          <span class="err-msg">* Father's name is required.</span>
+      </td> 
+      <td class="input-cell" id="f-fath_dob">
+        <input type="date" id="fath_dob">
+        <span class="err-msg">* Father's date of birth is required.</span>
+      </td>
+      <td class="input-cell" id="f-fath_age">
+        <input type="number" id="fath_age" min="0" max="120" placeholder="Age">
+        <span class="err-msg">* Father's age is required.</span>
+      </td>
+      <td class="input-cell" id="f-fath_occ">
+        <input type="text" id="fath_occ" placeholder="Occupation">
+        <span class="err-msg">* Father's occupation is required.</span>
+      </td>
     </tr>
     <tr>
-      <td class="label-cell">Mother</td>
-      <td class="input-cell"><input type="text" id="moth_name" placeholder="Mother's name"></td>
-      <td class="input-cell"><input type="date" id="moth_dob"></td>
-      <td class="input-cell"><input type="number" id="moth_age" min="0" max="120" placeholder="Age"></td>
-      <td class="input-cell"><input type="text" id="moth_occ" placeholder="Occupation"></td>
+      <td class="label-cell">Mother <span class="req">*</span></td>
+      <td class="input-cell" id="f-moth_name">
+        <input type="text" id="moth_name" placeholder="Mother's name">
+        <span class="err-msg">* Mother's name is required.</span>
+      </td>
+      <td class="input-cell" id="f-moth_dob">
+        <input type="date" id="moth_dob">
+        <span class="err-msg">* Mother's date of birth is required.</span>
+      </td>
+      <td class="input-cell" id="f-moth_age">
+        <input type="number" id="moth_age" min="0" max="120" placeholder="Age">
+        <span class="err-msg">* Mother's age is required.</span>
+      </td>
+      <td class="input-cell" id="f-moth_occ">
+        <input type="text" id="moth_occ" placeholder="Occupation">
+        <span class="err-msg">* Mother's occupation is required.</span>
+      </td>
     </tr>
     <tr>
-      <td class="label-cell">Brother(s)</td>
-      <td class="input-cell"><textarea id="bro_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea></td>
-      <td class="input-cell"><textarea id="bro_dob" style="min-height:40px" placeholder="DOB(s)"></textarea></td>
-      <td class="input-cell"><textarea id="bro_age" style="min-height:40px" placeholder="Age(s)"></textarea></td>
-      <td class="input-cell"><textarea id="bro_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea></td>
+      <td class="label-cell">Brother(s) <span class="req">*</span></td>
+      <td class="input-cell">
+        <textarea type="text" id="bro_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea>
+        <span class="err-msg">* Brother(s) name or N/A is required.</span>
+      </td>
+      <td class="input-cell">
+        <textarea type="date" id="bro_dob" style="min-height:40px" placeholder="DOB(s)"></textarea>
+        <span class="err-msg">* Brother(s) date of birth or N/A is required.</span>
+      </td>
+      <td class="input-cell">
+        <textarea type="number" id="bro_age" style="min-height:40px" placeholder="Age(s)"></textarea>
+        <span class="err-msg">* Brother(s) age or N/A is required.</span>
+      </td>
+      <td class="input-cell">
+        <textarea type="text" id="bro_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea>
+        <span class="err-msg">* Brother(s) occupation or N/A is required.</span>
+      </td>
     </tr>
     <tr>
-      <td class="label-cell">Sister(s)</td>
-      <td class="input-cell"><textarea id="sis_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea></td>
-      <td class="input-cell"><textarea id="sis_dob" style="min-height:40px" placeholder="DOB(s)"></textarea></td>
-      <td class="input-cell"><textarea id="sis_age" style="min-height:40px" placeholder="Age(s)"></textarea></td>
-      <td class="input-cell"><textarea id="sis_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea></td>
+      <td class="label-cell">Sister(s) <span class="req">*</span></td>
+      <td class="input-cell" id="f-sis_names">
+        <textarea type="text" id="sis_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea>
+        <span class="err-msg">* Sister(s) name or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-sis_dob">
+        <textarea type="date" id="sis_dob" style="min-height:40px" placeholder="DOB(s)"></textarea>
+        <span class="err-msg">* Sister(s) date of birth or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-sis_age">
+        <textarea type="number" id="sis_age" style="min-height:40px" placeholder="Age(s)"></textarea>
+        <span class="err-msg">* Sister(s) age or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-sis_occ">
+        <textarea type="text" id="sis_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea>
+        <span class="err-msg">* Sister(s) occupation or N/A is required.</span>
+      </td>
     </tr>
   </table>
 
@@ -854,21 +928,21 @@ input.sig-type-input:focus {
       <th>Occupation</th>
     </tr>
     <tr>
-      <td class="label-cell">Spouse</td>
+      <td class="label-cell">Spouse <span class="req">*</span></td>
       <td class="input-cell"><input type="text" id="sp_name" placeholder="Spouse name"></td>
       <td class="input-cell"><input type="date" id="sp_dob"></td>
       <td class="input-cell"><input type="number" id="sp_age" min="0" max="120" placeholder="Age"></td>
       <td class="input-cell"><input type="text" id="sp_occ" placeholder="Occupation"></td>
     </tr>
     <tr>
-      <td class="label-cell">Son(s)</td>
+      <td class="label-cell">Son(s) <span class="req">*</span></td>
       <td class="input-cell"><textarea id="son_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
       <td class="input-cell"><textarea id="son_dob" style="min-height:36px"></textarea></td>
       <td class="input-cell"><textarea id="son_age" style="min-height:36px"></textarea></td>
       <td class="input-cell"><textarea id="son_occ" style="min-height:36px"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Daughter(s)</td>
+      <td class="label-cell">Daughter(s) <span class="req">*</span></td>
       <td class="input-cell"><textarea id="dau_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
       <td class="input-cell"><textarea id="dau_dob" style="min-height:36px"></textarea></td>
       <td class="input-cell"><textarea id="dau_age" style="min-height:36px"></textarea></td>
@@ -880,30 +954,30 @@ input.sig-type-input:focus {
   <div class="sec-title">Emergency Contacts</div>
   <table class="form-table">
     <tr>
-      <td class="label-cell">Name <span class="req">★</span></td>
+      <td class="label-cell" style="vertical-align:top">Name <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_name">
         <input type="text" id="emg_name" placeholder="Emergency contact full name">
-        <span class="err-msg">★ Emergency contact name is required.</span>
+        <span class="err-msg">* Emergency contact name is required.</span>
       </td>
-      <td class="label-cell">Relationship <span class="req">★</span></td>
+      <td class="label-cell" style="vertical-align:top">Relationship <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_rel">
         <input type="text" id="emg_rel" placeholder="e.g. Father, Spouse">
-        <span class="err-msg">★ Relationship is required.</span>
+        <span class="err-msg">* Relationship is required.</span>
       </td>
     </tr>
     <tr>
-      <td class="label-cell" style="vertical-align:top">Address <span class="req">★</span></td>
+      <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_addr">
         <textarea id="emg_addr" style="min-height:60px" placeholder="Emergency contact address"></textarea>
-        <span class="err-msg">★ Emergency contact address is required.</span>
+        <span class="err-msg">* Emergency contact address is required.</span>
       </td>
       <td class="label-cell" style="vertical-align:top">
-        Telephone (Home)<br>
-        <input type="tel" id="emg_home" placeholder="Home number" style="border-bottom:1.5px solid #bbb;margin:4px 0">
-        <br>(Handphone) <span class="req">★</span>
+        Telephone (Home) <span class="req">*</span><br>
+        <input type="tel" id="emg_home" placeholder="Home number or (Nil)" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+        <br>(Handphone) <span class="req">*</span>
         <div id="f-emg_hp">
           <input type="tel" id="emg_hp" placeholder="Handphone number" style="border-bottom:1.5px solid #bbb;margin-top:3px">
-          <span class="err-msg">★ Emergency handphone is required.</span>
+          <span class="err-msg">* Emergency handphone is required.</span>
         </div>
       </td>
     </tr>
@@ -913,14 +987,14 @@ input.sig-type-input:focus {
   <div class="sec-title">Educational Data</div>
   <table class="form-table">
     <tr>
-      <th style="width:38%">Names &amp; Location of Schools Attended</th>
-      <th style="width:13%">From (Mth/Yr)</th>
-      <th style="width:13%">To (Mth/Yr)</th>
-      <th>Qualifications / Achievements Obtained (incl. CGPA or Grading)</th>
+      <th class="input-cell" style="width:38%">Names &amp; Location of Schools Attended <span class="req">*</span></th>
+      <th class="input-cell" style="width:10%">From (Mth/Yr) <span class="req">*</span></th>
+      <th class="input-cell" style="width:10%">To (Mth/Yr) <span class="req">*</span></th>
+      <th class="input-cell" style="width:42%">Qualifications / Achievements Obtained (incl. CGPA or Grading) <span class="req">*</span></th>
     </tr>
     <tr>
       <td class="input-cell">
-        <span style="font-size:11px;font-weight:600;color:#555">Secondary / High School</span>
+        <span>Secondary / High School</span>
         <input type="text" id="sec_sch" placeholder="School name, location">
       </td>
       <td class="input-cell"><input type="text" id="sec_from" placeholder="mm/yyyy"></td>
@@ -929,7 +1003,7 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="input-cell">
-        <span style="font-size:11px;font-weight:600;color:#555">College / Polytechnic / University</span>
+        <span>College / Polytechnic / University</span>
         <input type="text" id="uni" placeholder="Institution name, location">
       </td>
       <td class="input-cell"><input type="text" id="uni_from" placeholder="mm/yyyy"></td>
@@ -937,16 +1011,16 @@ input.sig-type-input:focus {
       <td class="input-cell"><textarea id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA etc."></textarea></td>
     </tr>
   </table>
-  <p style="font-size:10.5px;font-style:italic;color:#555;margin-bottom:6px">(Please attach copies of original certificates. Training sessions/courses attended will ease gauging of knowledge and ability.)</p>
+  <p style="font-size:10.5px;font-style:italic;margin-bottom:6px">(Please attach copies of original certificates. Training sessions/courses attended will ease gauging of knowledge and ability.)</p>
 
   <!-- Other Courses -->
   <table class="form-table">
     <tr>
-      <th>Other Courses / Short or Long Training Completed or Currently Pursuing</th>
-      <th>Name of Institution</th>
-      <th>From (Mth/Yr)</th>
-      <th>To (Mth/Yr)</th>
-      <th>Qualification(s) Obtained / Expected</th>
+      <th class="input-cell">Other Courses / Short or Long Training Completed or Currently Pursuing <span class="req">*</span></th>
+      <th class="input-cell">Name of Institution <span class="req">*</span></th>
+      <th class="input-cell">From (Mth/Yr) <span class="req">*</span></th>
+      <th class="input-cell">To (Mth/Yr) <span class="req">*</span></th>
+      <th class="input-cell">Qualification(s) Obtained / Expected <span class="req">*</span></th>
     </tr>
     <tr>
       <td class="input-cell"><textarea id="course1" style="min-height:36px" placeholder="Course name"></textarea></td>
@@ -988,48 +1062,48 @@ input.sig-type-input:focus {
   <div class="sec-title">Skill Sets Knowledge &amp; Experience</div>
   <table class="form-table">
     <tr>
-      <td class="label-cell">Programming Language <span class="req">★</span></td>
+      <td class="label-cell">Programming Language <span class="req">*</span></td>
       <td class="input-cell" id="f-prog_lang">
         <textarea id="prog_lang" style="min-height:44px" placeholder="e.g. Java, Python, C++, JavaScript..."></textarea>
         <span class="err-msg">★ Please list your programming languages (or state N/A).</span>
       </td>
     </tr>
     <tr>
-      <td class="label-cell">Operating System</td>
+      <td class="label-cell">Operating System <span class="req">*</span></td>
       <td class="input-cell"><textarea id="os" style="min-height:36px" placeholder="e.g. Windows, Linux, macOS"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Database</td>
+      <td class="label-cell">Database <span class="req">*</span></td>
       <td class="input-cell"><textarea id="database" style="min-height:36px" placeholder="e.g. MySQL, Oracle, MongoDB"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Internet Technologies</td>
+      <td class="label-cell">Internet Technologies <span class="req">*</span></td>
       <td class="input-cell"><textarea id="internet_tech" style="min-height:36px" placeholder="e.g. HTML/CSS, REST APIs, React"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Domain Knowledge</td>
+      <td class="label-cell">Domain Knowledge <span class="req">*</span></td>
       <td class="input-cell"><textarea id="domain" style="min-height:36px" placeholder="e.g. Banking, Telecoms, Healthcare"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Others</td>
+      <td class="label-cell">Others <span class="req">*</span></td>
       <td class="input-cell"><textarea id="skills_other" style="min-height:36px" placeholder="Any other skills not listed above"></textarea></td>
     </tr>
     <tr>
-      <td class="label-cell">Languages Spoken <span class="req">★</span></td>
+      <td class="label-cell">Languages Spoken <span class="req">*</span></td>
       <td class="input-cell" id="f-lang_spoken">
         <input type="text" id="lang_spoken" placeholder="e.g. English, Bahasa Malaysia, Mandarin">
         <span class="err-msg">★ Languages spoken is required.</span>
       </td>
     </tr>
     <tr>
-      <td class="label-cell">Languages Written <span class="req">★</span></td>
+      <td class="label-cell">Languages Written <span class="req">*</span></td>
       <td class="input-cell" id="f-lang_written">
         <input type="text" id="lang_written" placeholder="e.g. English, Bahasa Malaysia">
         <span class="err-msg">★ Languages written is required.</span>
       </td>
     </tr>
     <tr>
-      <td class="label-cell">Dialects Spoken</td>
+      <td class="label-cell">Dialects Spoken <span class="req">*</span></td>
       <td class="input-cell"><input type="text" id="dialect" placeholder="e.g. Hokkien, Cantonese (optional)"></td>
     </tr>
   </table>
@@ -1038,21 +1112,21 @@ input.sig-type-input:focus {
   <div class="sec-title">Health</div>
   <table class="form-table">
     <tr>
-      <td class="label-cell" style="width:200px">Height (cm)</td>
+      <td class="label-cell" style="width:200px">Height (cm) <span class="req">*</span></td>
       <td class="input-cell"><input type="number" id="height" min="100" max="250" placeholder="e.g. 170"></td>
-      <td class="label-cell">Weight (kg)</td>
+      <td class="label-cell">Weight (kg) <span class="req">*</span></td>
       <td class="input-cell"><input type="number" id="weight" min="30" max="300" placeholder="e.g. 65"></td>
     </tr>
     <tr>
       <td colspan="4" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Physical disabilities or handicap, if any</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Physical disabilities or handicap, if any <span class="req">*</span></span>
         <span class="field-hint">(sight, hearing, speech, colour-blindness, heart condition, mental health, or any illness that may affect job performance)</span>
         <textarea id="disability" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
       </td>
     </tr>
     <tr>
       <td colspan="4" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Major illness or accident, if any, suffered since birth (with approximate dates)</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Major illness or accident, if any, suffered since birth (with approximate dates) <span class="req">*</span></span>
         <textarea id="illness" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
       </td>
     </tr>
@@ -1062,9 +1136,9 @@ input.sig-type-input:focus {
   <div class="sec-title">Details Of Friends/Relatives Working In Qynix Technologies (if any)</div>
   <table class="form-table">
     <tr>
-      <th>Name</th>
-      <th>Department</th>
-      <th>Relationship</th>
+      <th class="label-cell">Name <span class="req">*</span></th>
+      <th class="label-cell">Department <span class="req">*</span></th>
+      <th class="label-cell">Relationship <span class="req">*</span></th>
     </tr>
     <tr>
       <td class="input-cell"><input type="text" id="rel1_name" placeholder="Name (or Nil)"></td>
@@ -1091,54 +1165,55 @@ input.sig-type-input:focus {
   <table class="form-table" style="margin-bottom: 24px;">
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Name of Employer <span class="req">★</span> <em style="font-weight:400;font-size:10.5px">(Present Employer – if not currently working, state most recent former employer)</em></span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <span class="req">*</span> <em style="font-weight:400;font-size:10.5px">(Present Employer – if not currently working, state most recent former employer)</em></span>
         <div id="f-emp1_name">
           <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px">
-          <span class="err-msg">★ Employer name is required.</span>
+          <span class="err-msg">* Employer name is required.</span>
         </div>
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Full Address of Employer <span class="req">★</span></span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Full Address of Employer <span class="req">*</span></span>
         <div id="f-emp1_addr">
-          <textarea id="emp1_addr" style="min-height:44px;margin-top:3px" placeholder="Full company address"></textarea>
-          <span class="err-msg">★ Employer address is required.</span>
+          <textarea id="emp1_addr" style="min-height:50px;margin-top:3px" placeholder="Full company address"></textarea>
+          <span class="err-msg">* Employer address is required.</span>
         </div>
       </td>
     </tr>
     <tr>
       <td class="input-cell" style="width:50%">
-        <span style="font-size:11.5px;font-weight:600">Position(s) Held <span class="req">★</span></span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Position(s) Held <span class="req">*</span></span>
         <div id="f-emp1_pos">
           <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px">
-          <span class="err-msg">★ Position held is required.</span>
+          <span class="err-msg">* Position held is required.</span>
         </div>
       </td>
       <td class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">★</span></span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">*</span></span>
         <div id="f-emp1_date">
           <input type="text" id="emp1_date" placeholder="e.g. Jan 2020 – Dec 2023" style="margin-top:3px">
-          <span class="err-msg">★ Employment dates are required.</span>
+          <span class="err-msg">* Employment dates are required.</span>
         </div>
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month)</span> &nbsp; RM
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month) <span class="req">*</span></span> &nbsp; RM
         <input type="text" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px">
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming <span class="req">*</span></span>
+        <span class="field-hint">(Use separate sheets if necessary)</span>
         <textarea id="emp1_duties" style="min-height:50px;margin-top:4px" placeholder="Describe your role, key responsibilities, and technologies used..."></textarea>
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving</span>
-        <textarea id="emp1_reason" style="min-height:36px;margin-top:3px" placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving <span class="req">*</span></span>
+        "emp1_reason" style="min-height:36px;margin-top:3px" placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
       </td>
     </tr>
   </table>
@@ -1148,42 +1223,42 @@ input.sig-type-input:focus {
   <table class="form-table">
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Name of Employer <em style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em></span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <em style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em> <span class="req">*</span></span>
         <input type="text" id="emp2_name" placeholder="Company name" style="margin-top:3px">
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Full Address of Employer</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Full Address of Employer <span class="req">*</span></span>
         <textarea id="emp2_addr" style="min-height:50px;margin-top:3px" placeholder="Full company address"></textarea>
       </td>
     </tr>
     <tr>
       <td class="input-cell" style="width:50%">
-        <span style="font-size:11.5px;font-weight:600">Position(s) Held</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Position(s) Held <span class="req">*</span></span>
         <input type="text" id="emp2_pos" placeholder="e.g. Junior Developer" style="margin-top:3px">
       </td>
       <td class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Date (From/To)</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">*</span></span>
         <input type="text" id="emp2_date" placeholder="e.g. Jan 2018 – Dec 2019" style="margin-top:3px">
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month)</span> &nbsp; RM
+        <span class="label-cell" style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month) <span class="req">*</span></span> &nbsp; RM
         <input type="text" id="emp2_salary" placeholder="e.g. 2,500" style="max-width:180px;margin-left:6px">
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming <span class="req">*</span></span>
         <span class="field-hint">(Use separate sheets if necessary)</span>
         <textarea id="emp2_duties" style="min-height:80px;margin-top:4px" placeholder="Describe your role, key responsibilities, and technologies/tools used..."></textarea>
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving</span>
+        <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving <span class="req">*</span></span>
         <textarea id="emp2_reason" style="min-height:44px;margin-top:3px" placeholder="State your reason for leaving"></textarea>
       </td>
     </tr>
@@ -1206,13 +1281,13 @@ input.sig-type-input:focus {
   <table class="form-table">
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-weight:600;font-size:12px">1. Do you hold a driving licence? If yes, what class of licence?</span>
+        <span style="font-weight:600;font-size:12px">1. Do you hold a driving licence? If yes, what class of licence? <span class="req">*</span></span>
         <input type="text" id="driving" placeholder="e.g. Class D / No" style="margin-top:5px;max-width:300px">
       </td>
     </tr>
     <tr>
       <td class="input-cell" style="width:56%">
-        <span style="font-weight:600;font-size:12px">2. Do you have any issue with assignments that may require you to travel or be relocated to other locations or customer sites (outside Penang) for a short or long period?</span>
+        <span style="font-weight:600;font-size:12px">2. Do you have any issue with assignments that may require you to travel or be relocated to other locations or customer sites (outside Penang) for a short or long period? <span class="req">*</span></span>
         <div id="f-travel" style="margin-top:6px">
           <div class="radio-group">
             <label><input type="radio" name="travel" value="yes"> YES</label>
@@ -1228,7 +1303,7 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="input-cell">
-        <span style="font-weight:600;font-size:12px">3. Do you possess any valid travel document (e.g. passport)?</span>
+        <span style="font-weight:600;font-size:12px">3. Do you possess any valid travel document (e.g. passport)? <span class="req">*</span></span>
         <span class="field-hint">During employment, you are responsible for obtaining relevant travel documentation when required.</span>
         <div id="f-passport" style="margin-top:6px">
           <div class="radio-group">
@@ -1250,7 +1325,7 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-weight:600;font-size:12px">4. What is your expected salary? <span class="req">★</span></span>
+        <span style="font-weight:600;font-size:12px">4. What is your expected salary? <span class="req">*</span></span>
         <span class="field-hint">State the minimum amount in Ringgit Malaysia (RM)</span>
         <div id="f-exp_salary" style="margin-top:5px">
           <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px">
@@ -1260,7 +1335,7 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="input-cell">
-        <span style="font-weight:600;font-size:12px">5. In the last 5 years, have you been convicted of any crime other than minor traffic violations?</span>
+        <span style="font-weight:600;font-size:12px">5. In the last 5 years, have you been convicted of any crime other than minor traffic violations? <span class="req">*</span></span>
         <div id="f-criminal" style="margin-top:6px">
           <div class="radio-group">
             <label><input type="radio" name="criminal" value="yes"> YES</label>
@@ -1286,14 +1361,14 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-weight:600;font-size:12px">6. If offered employment, state the notice period required to give to your present employer.</span>
+        <span style="font-weight:600;font-size:12px">6. If offered employment, state the notice period required to give to your present employer. <span class="req">*</span></span>
         <span class="field-hint">If no notice required, please state the date you are able to commence work.</span>
         <textarea id="notice" style="min-height:44px;margin-top:5px" placeholder="e.g. 1 month notice / Can commence immediately on DD/MM/YYYY"></textarea>
       </td>
     </tr>
     <tr>
       <td colspan="2" class="input-cell">
-        <span style="font-weight:600;font-size:12px">7. Other information which is important to you and helpful to us</span>
+        <span style="font-weight:600;font-size:12px">7. Other information which is important to you and helpful to us <span class="req">*</span></span>
         <span class="field-hint">(e.g. strengths/weaknesses, other knowledge/experiences, participation in political activities, associations, clubs, sports, etc.)</span>
         <textarea id="other_info" style="min-height:80px;margin-top:5px" placeholder="Share anything else you'd like us to know about you..."></textarea>
       </td>
@@ -1353,7 +1428,11 @@ input.sig-type-input:focus {
   </div>
 
   <!-- Applicant Certification -->
-  <div class="sec-title">Applicant's Certification</div>
+  <div class="sec-title">
+    <div class="input-cell">
+      Applicant's Certification <span class="req">*</span>
+    </div>
+  </div>
   <div class="cert-box">
     <p style="font-size:12px;line-height:1.6">I hereby certify that all the above information is true and correct.</p>
     <div class="sig-line-row">
@@ -1459,16 +1538,40 @@ const REQUIRED = [
   {id:'age',          type:'text'},
   {id:'dob',          type:'text'},
   {id:'nric_old',     type:'text'},
-  {id:'pob',          type:'text'},
+  {id:'nric_new',     type:'text'},
+  {id:'pob',          type:'select'},
+  {id: 'race',        type:'text'},
   {id:'citizenship',  type:'text'},
   {id:'marital',      type:'select'},
+  {id:'epf',      type:'text'},
+  {id:'socso',    type:'text'},
+  {id:'tax', type:'text'},
+  {id:'bank_acc',  type:'text'},
   {id:'perm_addr',    type:'text'},
-  {id:'tel_hp',       type:'text'},
+  {id:'tel_home',      type:'tel'},
+  {id:'tel_office',    type:'tel'},
+  {id:'tel_hp',       type:'tel'},
   {id:'email',        type:'email'},
+  {id:'fath_name',    type:'text'},
+  {id:'fath_dob',     type:'date'},
+  {id:'fath_age',     type:'number'},
+  {id:'fath_occ',     type:'text'},
+  {id:'moth_name',    type:'text'},
+  {id:'moth_dob',     type:'date'},
+  {id:'moth_age',     type:'number'},
+  {id:'moth_occ',     type:'text'},
+  {id:'bro_names',     type:'text'},
+  {id:'bro_dob',      type:'date'},
+  {id:'bro_age',      type:'number'},
+  {id:'bro_occ',      type:'text'},
+  {id:'sis_names',     type:'text'},
+  {id:'sis_dob',      type:'date'},
+  {id:'sis_age',      type:'number'},
+  {id:'sis_occ',      type:'text'},
   {id:'emg_name',     type:'text'},
   {id:'emg_rel',      type:'text'},
   {id:'emg_addr',     type:'text'},
-  {id:'emg_hp',       type:'text'},
+  {id:'emg_hp',       type:'tel'},
   {id:'prog_lang',    type:'text'},
   {id:'lang_spoken',  type:'text'},
   {id:'lang_written', type:'text'},
@@ -1555,6 +1658,7 @@ function validateAndPrint() {
     let val = el.value.trim();
     let ok = val !== '';
     if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if (f.type === 'tel' && ok) ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
     if (!ok) {
       el.classList.add('err');
       if (wrap) wrap.classList.add('has-err');
