@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024, initial-scale=1.0">
+<title>Qynix Technologies – Application for Employment</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  background: #d8d8d8;
+  color: #111;
+  padding: 24px 12px;
+  width: 1024px;
+  margin: 0 auto;
+}
+
+/* ── Page card ── */
+.page-card {
+  background: #fff;
+  max-width: 820px;
+  margin: 0 auto 32px;
+  padding: 28px 36px 24px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0,0,0,.10);
+  page-break-after: always;
+}
+
+/* ── Header ── */
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2.5px solid #3aac28;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Inline SVG logo matching Qynix branding */
+.logo-svg { width: 110px; }
+
+/* .logo-block img {
+  height: 52px;
+  width: auto;
+  display: block;
+} */
+
+.form-title-block { text-align: center; flex: 1; padding: 0 16px; }
+.form-title-block h1 {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.form-title-block p {
+  font-size: 10.5px;
+  font-style: italic;
+  color: #333;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.page-num {
+  font-size: 11px;
+  color: #888;
+  min-width: 40px;
+  text-align: right;
+  padding-top: 6px;
+}
+
+/* ── Section headings ── */
+.sec-title {
+  font-size: 13px;
+  font-weight: 900;
+  margin: 18px 0 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+  border-left: 3px solid #3aac28;
+  padding-left: 8px;
+}
+
+/* ── Tables ── */
+table.form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+table.form-table td,
+table.form-table th {
+  border: 1px solid #c0c0c0;
+  padding: 5px 8px;
+  vertical-align: top;
+}
+
+table.form-table th {
+  background: #f0f0f0;
+  font-weight: 700;
+  text-align: center;
+  font-size: 11.5px;
+}
+
+.label-cell {
+  background: #fafafa;
+  font-weight: 600;
+  white-space: nowrap;
+  width: 190px;
+  vertical-align: middle;
+  font-size: 11.5px;
+}
+
+.label-cell .req { color: #c0392b; font-weight: 900; }
+
+.input-cell { padding: 3px 6px; }
+
+/* ── Inputs ── */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  background: transparent;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #111;
+  padding: 3px 2px;
+  outline: none;
+  transition: border-color .15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-bottom-color: #3aac28;
+  background: #f3fff1;
+}
+
+input.err,
+select.err,
+textarea.err {
+  border-bottom: 2px solid #c0392b !important;
+  background: #fff5f5 !important;
+}
+
+textarea { resize: none; field-sizing: content; max-width: 165.74px; max-height: 150px;}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  padding-right: 22px;
+  cursor: pointer;
+}
+
+/* ── Radio / Checkbox ── */
+.radio-group, .check-group {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 3px 0;
+}
+
+.radio-group label,
+.check-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.radio-group input,
+.check-group input {
+  width: auto;
+  border: none;
+  background: none;
+  cursor: pointer;
+  accent-color: #3aac28;
+}
+
+/* ── Error messages ── */
+.err-msg {
+  font-size: 10px;
+  color: #c0392b;
+  display: none;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.has-err .err-msg { display: block; }
+.has-err > input,
+.has-err > select,
+.has-err > textarea {
+  border-bottom: 2px solid #c0392b !important;
+  background: #fff5f5 !important;
+}
+
+/* ── Validation banner ── */
+#val-banner {
+  display: none;
+  background: #fff0f0;
+  border: 1.5px solid #e74c3c;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin: 0 auto 20px;
+  max-width: 840px;
+  font-size: 12.5px;
+  color: #c0392b;
+  font-weight: 600;
+}
+
+/* ── Progress bar ── */
+#progress-wrap {
+  max-width: 840px;
+  margin: 0 auto 14px;
+  background: #e5e5e5;
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+}
+#progress-bar {
+  height: 100%;
+  background: #3aac28;
+  border-radius: 4px;
+  width: 0%;
+  transition: width .3s ease;
+}
+#progress-label {
+  max-width: 840px;
+  margin: 0 auto 16px;
+  font-size: 11px;
+  color: #666;
+  text-align: right;
+}
+
+/* ── Position row ── */
+.position-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* .position-row input {
+  flex: 1;
+  border-bottom: 1.5px solid #333;
+  font-size: 13px;
+  font-weight: 400;
+} */
+
+.position-row > div {
+  flex: 1;
+}
+
+/* ── Yes/No conditional ── */
+.yn-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+/* ── Declaration / signature ── */
+.cert-box {
+  border: 1px solid #999;
+  padding: 14px 16px 20px;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.sig-line-row {
+  display: flex;
+  gap: 60px;
+  margin-top: 24px;
+}
+
+.sig-slot { flex: 1; }
+
+.sig-line {
+  border-bottom: 1.5px solid #333;
+  min-height: 34px;
+  margin-bottom: 4px;
+}
+
+.sig-lbl {
+  font-size: 10.5px;
+  color: #555;
+}
+
+/* ── Signature pad ── */
+.sig-tabs { display:flex; gap:6px; margin-bottom:6px; }
+.sig-tab {
+  font-size:11px; padding:3px 10px; border-radius:3px;
+  border:1px solid #bbb; background:#f5f5f5; cursor:pointer; font-family:inherit;
+}
+.sig-tab.active { background:#3aac28; color:#fff; border-color:#3aac28; }
+.sig-canvas-wrap {
+  border:1.5px solid #bbb; border-radius:3px; background:#fafff9;
+  position:relative; height:64px; cursor:crosshair;
+}
+.sig-canvas-wrap canvas { display:block; width:100%; height:64px; touch-action:none; }
+.sig-clear-btn {
+  font-size:10px; color:#888; background:none; border:none;
+  cursor:pointer; padding:2px 4px; text-decoration:underline; margin-top:2px;
+}
+.sig-type-input {
+  width:100%; border:none; border-bottom:1.5px solid #bbb;
+  font-family:'Segoe UI', Arial, sans-serif; font-size:17px;
+  font-style:italic; color:#111; background:transparent;
+  padding:3px 2px; outline:none; height:44px;
+}
+.sig-type-input:focus { border-bottom-color:#3aac28; background:#f3fff1; }
+
+
+/* ── Office use ── */
+.office-box {
+  border: 1px solid #999;
+  margin-top: 16px;
+  border-radius: 2px;
+}
+
+.office-box .office-hdr {
+  background: #f0f0f0;
+  text-align: center;
+  font-weight: 700;
+  padding: 5px;
+  border-bottom: 1px solid #999;
+  font-size: 12px;
+}
+
+.office-box .office-body {
+  min-height: 170px;
+  padding: 12px;
+}
+
+/* ── Action buttons ── */
+.form-actions {
+  max-width: 840px;
+  margin: 0 auto 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all .18s;
+  letter-spacing: 0.02em;
+}
+
+.btn-clear { background:#fff; border-color:#aaa; color:#555; }
+.btn-clear:hover { background:#f2f2f2; border-color:#888; }
+.btn-print { background:#3aac28; color:#fff; border-color:#3aac28; }
+.btn-print:hover { background:#2d8c20; border-color:#2d8c20; }
+
+/* ── Completion pill ── */
+.completion-pill {
+  background: #edf8eb;
+  border: 1px solid #3aac28;
+  color: #1e7012;
+  border-radius: 16px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: auto;
+}
+
+/* ── Tooltip ── */
+.field-hint {
+  font-size: 9.5px;
+  color: #777;
+  display: block;
+  margin-top: 1px;
+}
+
+/* ── Footer ── */
+.form-footer {
+  font-size: 10px;
+  color: #aaa;
+  text-align: center;
+  margin-top: 14px;
+}
+
+/* ══════════════════════════
+   PRINT — A4 portrait locked
+══════════════════════════ */
+@media print {
+  @page { size: A4 portrait; margin: 14mm 12mm 14mm 12mm; }
+
+  body { background: #fff !important; padding: 0 !important; }
+
+  .page-card {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding: 0 0 16px !important;
+    margin: 0 !important;
+  }
+
+  .form-actions, #val-banner, #success-screen { display: none !important; }
+
+  .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  input, select, textarea {
+    border-bottom: 1px solid #999 !important;
+    background: transparent !important;
+  }
+
+  .sec-title { break-after: avoid; }
+  table.form-table { break-inside: auto; }
+  table.form-table tr { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div id="val-banner">⚠ Please complete all required fields (marked with <span style="color:#c0392b">*</span>) before printing.</div>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+<div id="progress-label">Form completion: <span id="pct">0</span>% of required fields filled</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 1 — Personal Details
+══════════════════════════════════════ -->
+<div class="page-card" id="pg1">
+
+  <div class="form-header">
+    <div class="logo-block">
+      <img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg">
+    </div>
+    <div class="form-title-block">
+      <h1>Application for Employment</h1>
+      <p>(This form must be completed by candidate – please indicate "not applicable/nil" if the information required is irrelevant to you.&nbsp; Good Luck!)</p>
+    </div>
+    <div class="page-num">- 1 -</div>
+  </div>
+
+  <!-- Position Applied For -->
+  <div class="position-row">
+    <span>Position Applied For:</span>
+    <div id="f-position">
+      <input type="text" id="position" placeholder="State the position you are applying for">
+      <span class="err-msg">* This field is required.</span>
+    </div>
+  </div>
+
+  <!-- Personal Details -->
+  <div class="sec-title">Personal Details <em style="font-weight:400;text-transform:none;font-size:11px">(In capital letters)</em></div>
+
+  <table class="form-table">
+    <tr>
+      <td class="label-cell">Name (Mr/Mrs/Miss/Mdm/Dr*) <span class="req">*</span></td>
+      <td class="input-cell" id="f-fullname">
+        <textarea type="text" id="fullname" style="min-height: 0px;"placeholder="Full name as per IC / Passport" style="text-transform:uppercase"></textarea>
+        <span class="err-msg">* Full name is required.</span>
+      </td>
+      <td class="label-cell">Chinese Name</td>
+      <td class="input-cell"><textarea type="text" id="chinese_name" placeholder="(if applicable)"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Age <span class="req">*</span></td>
+      <td class="input-cell" id="f-age">
+        <input type="number" id="age" min="16" max="99" placeholder="e.g. 25">
+        <span class="err-msg">* Age is required.</span>
+      </td>
+      <td class="label-cell">Date of Birth <span class="req">*</span></td>
+      <td class="input-cell" id="f-dob">
+        <input type="date" id="dob">
+        <span class="err-msg">* Date of birth is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">NRIC / Passport No. (Old) <span class="req">*</span></td>
+      <td class="input-cell" id="f-nric_old">
+        <input type="text" id="nric_old" placeholder="Old IC / Passport number" maxlength="12">
+        <span class="err-msg">* NRIC/Passport (Old) is required.</span>
+      </td>
+      <td class="label-cell">Place of Birth <span class="req">*</span></td>
+      <td class="input-cell" id="f-pob">
+        <input type="text" id="pob" placeholder="e.g. Penang">
+        <span class="err-msg">* Place of birth is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell" style="padding-left:30px">NRIC / Passport No. (New) <span class="req">*</span></td>
+      <td class="input-cell" id="f-nric_new">
+        <input type="text" id="nric_new" placeholder="New IC / Passport number" maxlength="12">
+        <span class="err-msg">* NRIC/Passport (New) is required.</span>
+      </td>
+      <td class="label-cell">Race &amp; Dialect Group</td>
+      <td class="input-cell"><input type="text" id="race" placeholder="e.g. Chinese / Hokkien"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Citizenship <span class="req">*</span></td>
+      <td class="input-cell" id="f-citizenship">
+        <input type="text" id="citizenship" placeholder="e.g. Malaysian">
+        <span class="err-msg">* Citizenship is required.</span>
+      </td>
+      <td class="label-cell">Religion (if any)</td>
+      <td class="input-cell"><input type="text" id="religion" placeholder="(optional)"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Marital Status <span class="req">*</span></td>
+      <td class="input-cell" id="f-marital">
+        <select id="marital">
+          <option value="">— Select —</option>
+          <option>Single</option>
+          <option>Married</option>
+          <option>Divorced</option>
+          <option>Widow / Widower</option>
+        </select>
+        <span class="err-msg">* Marital status is required.</span>
+      </td>
+      <td class="label-cell">EPF No.</td>
+      <td class="input-cell"><input type="text" id="epf" placeholder="(if applicable)"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Others (please specify)</td>
+      <td class="input-cell"><input type="text" id="marital_other" placeholder="(if applicable)"></td>
+      <td class="label-cell">SOCSO No.</td>
+      <td class="input-cell"><input type="text" id="socso" placeholder="(if applicable)"></td>
+    </tr>
+    <tr>
+      <td class="label-cell"></td>
+      <td></td>
+      <td class="label-cell">Income Tax No.</td>
+      <td class="input-cell"><input type="text" id="tax" placeholder="(if applicable)"></td>
+    </tr>
+    <tr>
+      <td class="label-cell"></td>
+      <td></td>
+      <td class="label-cell">Savings/Current Account No.<br><small style="font-weight:400">(Public Bank only)</small></td>
+      <td class="input-cell"><input type="text" id="bank_acc" placeholder="(if applicable)"></td>
+    </tr>
+    <tr>
+      <td class="label-cell" style="vertical-align:top;padding-top:8px">Permanent Address <span class="req">*</span></td>
+      <td class="input-cell" id="f-perm_addr">
+        <textarea id="perm_addr" style="min-height:72px" placeholder="Full permanent address"></textarea>
+        <span class="err-msg">* Permanent address is required.</span>
+      </td>
+      <td class="label-cell" style="vertical-align:top;padding-top:8px">
+        Contact Numbers
+        <div style="margin-top:6px;display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11.5px;font-weight:600">Home</div>
+          <input type="tel" id="tel_home" placeholder="Home phone" style="border-bottom:1.5px solid #bbb">
+          <div style="font-size:11.5px;font-weight:600">Office</div>
+          <input type="tel" id="tel_office" placeholder="Office phone" style="border-bottom:1.5px solid #bbb">
+          <div style="font-size:11.5px;font-weight:600">Handphone <span class="req">*</span></div>
+          <div id="f-tel_hp">
+            <input type="tel" id="tel_hp" placeholder="e.g. 012-3456789" style="border-bottom:1.5px solid #bbb">
+            <span class="err-msg">* Handphone is required.</span>
+          </div>
+          <div style="font-size:11.5px;font-weight:600">Email ID <span class="req">*</span></div>
+          <div id="f-email">
+            <input type="email" id="email" placeholder="e.g. name@email.com" style="border-bottom:1.5px solid #bbb">
+            <span class="err-msg">* Valid email is required.</span>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell" style="vertical-align:top">Postal Address<br><small style="font-weight:400">(if different from above)</small></td>
+      <td class="input-cell">
+        <textarea id="postal_addr" style="min-height:60px" placeholder="Leave blank if same as permanent address"></textarea>
+      </td>
+      <td class="label-cell" style="vertical-align:top;padding-top:8px">
+        Contact Numbers
+        <div style="margin-top:6px">
+          <div style="font-size:11.5px;font-weight:600">Home</div>
+          <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb">
+        </div>
+      </td>
+    </tr>
+  </table>
+  <p style="font-size:10.5px;font-style:italic;color:#555;margin-bottom:10px">*Strikethrough whichever is not applicable.</p>
+
+  <!-- Family Details -->
+  <div class="sec-title">Family Details</div>
+  <table class="form-table">
+    <tr>
+      <th style="width:14%">&nbsp;</th>
+      <th style="width:32%">Name</th>
+      <th style="width:20%">Date of Birth</th>
+      <th style="width:10%">Age</th>
+      <th>Occupation</th>
+    </tr>
+    <tr>
+      <td class="label-cell">Father</td>
+      <td class="input-cell"><input type="text" id="fath_name" placeholder="Father's name"></td>
+      <td class="input-cell"><input type="date" id="fath_dob"></td>
+      <td class="input-cell"><input type="number" id="fath_age" min="0" max="120" placeholder="Age"></td>
+      <td class="input-cell"><input type="text" id="fath_occ" placeholder="Occupation"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Mother</td>
+      <td class="input-cell"><input type="text" id="moth_name" placeholder="Mother's name"></td>
+      <td class="input-cell"><input type="date" id="moth_dob"></td>
+      <td class="input-cell"><input type="number" id="moth_age" min="0" max="120" placeholder="Age"></td>
+      <td class="input-cell"><input type="text" id="moth_occ" placeholder="Occupation"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Brother(s)</td>
+      <td class="input-cell"><textarea id="bro_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="bro_dob" style="min-height:40px" placeholder="DOB(s)"></textarea></td>
+      <td class="input-cell"><textarea id="bro_age" style="min-height:40px" placeholder="Age(s)"></textarea></td>
+      <td class="input-cell"><textarea id="bro_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Sister(s)</td>
+      <td class="input-cell"><textarea id="sis_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="sis_dob" style="min-height:40px" placeholder="DOB(s)"></textarea></td>
+      <td class="input-cell"><textarea id="sis_age" style="min-height:40px" placeholder="Age(s)"></textarea></td>
+      <td class="input-cell"><textarea id="sis_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea></td>
+    </tr>
+  </table>
+
+</div><!-- /pg1 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — Family cont. / Education
+══════════════════════════════════════ -->
+<div class="page-card" id="pg2">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 2 -</div>
+  </div>
+
+  <!-- Family cont -->
+  <table class="form-table" style="margin-top:4px">
+    <tr>
+      <th style="width:14%">&nbsp;</th>
+      <th style="width:32%">Name</th>
+      <th style="width:20%">Date of Birth</th>
+      <th style="width:10%">Age</th>
+      <th>Occupation</th>
+    </tr>
+    <tr>
+      <td class="label-cell">Spouse</td>
+      <td class="input-cell"><input type="text" id="sp_name" placeholder="Spouse name"></td>
+      <td class="input-cell"><input type="date" id="sp_dob"></td>
+      <td class="input-cell"><input type="number" id="sp_age" min="0" max="120" placeholder="Age"></td>
+      <td class="input-cell"><input type="text" id="sp_occ" placeholder="Occupation"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Son(s)</td>
+      <td class="input-cell"><textarea id="son_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="son_dob" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="son_age" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="son_occ" style="min-height:36px"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Daughter(s)</td>
+      <td class="input-cell"><textarea id="dau_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="dau_dob" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="dau_age" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="dau_occ" style="min-height:36px"></textarea></td>
+    </tr>
+  </table>
+
+  <!-- Emergency Contacts -->
+  <div class="sec-title">Emergency Contacts</div>
+  <table class="form-table">
+    <tr>
+      <td class="label-cell">Name <span class="req">★</span></td>
+      <td class="input-cell" id="f-emg_name">
+        <input type="text" id="emg_name" placeholder="Emergency contact full name">
+        <span class="err-msg">★ Emergency contact name is required.</span>
+      </td>
+      <td class="label-cell">Relationship <span class="req">★</span></td>
+      <td class="input-cell" id="f-emg_rel">
+        <input type="text" id="emg_rel" placeholder="e.g. Father, Spouse">
+        <span class="err-msg">★ Relationship is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell" style="vertical-align:top">Address <span class="req">★</span></td>
+      <td class="input-cell" id="f-emg_addr">
+        <textarea id="emg_addr" style="min-height:60px" placeholder="Emergency contact address"></textarea>
+        <span class="err-msg">★ Emergency contact address is required.</span>
+      </td>
+      <td class="label-cell" style="vertical-align:top">
+        Telephone (Home)<br>
+        <input type="tel" id="emg_home" placeholder="Home number" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+        <br>(Handphone) <span class="req">★</span>
+        <div id="f-emg_hp">
+          <input type="tel" id="emg_hp" placeholder="Handphone number" style="border-bottom:1.5px solid #bbb;margin-top:3px">
+          <span class="err-msg">★ Emergency handphone is required.</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Educational Data -->
+  <div class="sec-title">Educational Data</div>
+  <table class="form-table">
+    <tr>
+      <th style="width:38%">Names &amp; Location of Schools Attended</th>
+      <th style="width:13%">From (Mth/Yr)</th>
+      <th style="width:13%">To (Mth/Yr)</th>
+      <th>Qualifications / Achievements Obtained (incl. CGPA or Grading)</th>
+    </tr>
+    <tr>
+      <td class="input-cell">
+        <span style="font-size:11px;font-weight:600;color:#555">Secondary / High School</span>
+        <input type="text" id="sec_sch" placeholder="School name, location">
+      </td>
+      <td class="input-cell"><input type="text" id="sec_from" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="sec_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results"></textarea></td>
+    </tr>
+    <tr>
+      <td class="input-cell">
+        <span style="font-size:11px;font-weight:600;color:#555">College / Polytechnic / University</span>
+        <input type="text" id="uni" placeholder="Institution name, location">
+      </td>
+      <td class="input-cell"><input type="text" id="uni_from" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="uni_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><textarea id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA etc."></textarea></td>
+    </tr>
+  </table>
+  <p style="font-size:10.5px;font-style:italic;color:#555;margin-bottom:6px">(Please attach copies of original certificates. Training sessions/courses attended will ease gauging of knowledge and ability.)</p>
+
+  <!-- Other Courses -->
+  <table class="form-table">
+    <tr>
+      <th>Other Courses / Short or Long Training Completed or Currently Pursuing</th>
+      <th>Name of Institution</th>
+      <th>From (Mth/Yr)</th>
+      <th>To (Mth/Yr)</th>
+      <th>Qualification(s) Obtained / Expected</th>
+    </tr>
+    <tr>
+      <td class="input-cell"><textarea id="course1" style="min-height:36px" placeholder="Course name"></textarea></td>
+      <td class="input-cell"><input type="text" id="course1_inst" placeholder="Institution"></td>
+      <td class="input-cell"><input type="text" id="course1_from" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course1_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course1_qual" placeholder="Qualification"></td>
+    </tr>
+    <tr>
+      <td class="input-cell"><textarea id="course2" style="min-height:36px" placeholder="Course name"></textarea></td>
+      <td class="input-cell"><input type="text" id="course2_inst" placeholder="Institution"></td>
+      <td class="input-cell"><input type="text" id="course2_from" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course2_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course2_qual" placeholder="Qualification"></td>
+    </tr>
+    <tr>
+      <td class="input-cell"><textarea id="course3" style="min-height:36px" placeholder="Course name"></textarea></td>
+      <td class="input-cell"><input type="text" id="course3_inst" placeholder="Institution"></td>
+      <td class="input-cell"><input type="text" id="course3_from" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course3_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="text" id="course3_qual" placeholder="Qualification"></td>
+    </tr>
+  </table>
+
+</div><!-- /pg2 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 3 — Skills / Health / Employment
+══════════════════════════════════════ -->
+<div class="page-card" id="pg3">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 3 -</div>
+  </div>
+
+  <!-- Skill Sets -->
+  <div class="sec-title">Skill Sets Knowledge &amp; Experience</div>
+  <table class="form-table">
+    <tr>
+      <td class="label-cell">Programming Language <span class="req">★</span></td>
+      <td class="input-cell" id="f-prog_lang">
+        <textarea id="prog_lang" style="min-height:44px" placeholder="e.g. Java, Python, C++, JavaScript..."></textarea>
+        <span class="err-msg">★ Please list your programming languages (or state N/A).</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">Operating System</td>
+      <td class="input-cell"><textarea id="os" style="min-height:36px" placeholder="e.g. Windows, Linux, macOS"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Database</td>
+      <td class="input-cell"><textarea id="database" style="min-height:36px" placeholder="e.g. MySQL, Oracle, MongoDB"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Internet Technologies</td>
+      <td class="input-cell"><textarea id="internet_tech" style="min-height:36px" placeholder="e.g. HTML/CSS, REST APIs, React"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Domain Knowledge</td>
+      <td class="input-cell"><textarea id="domain" style="min-height:36px" placeholder="e.g. Banking, Telecoms, Healthcare"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Others</td>
+      <td class="input-cell"><textarea id="skills_other" style="min-height:36px" placeholder="Any other skills not listed above"></textarea></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Languages Spoken <span class="req">★</span></td>
+      <td class="input-cell" id="f-lang_spoken">
+        <input type="text" id="lang_spoken" placeholder="e.g. English, Bahasa Malaysia, Mandarin">
+        <span class="err-msg">★ Languages spoken is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">Languages Written <span class="req">★</span></td>
+      <td class="input-cell" id="f-lang_written">
+        <input type="text" id="lang_written" placeholder="e.g. English, Bahasa Malaysia">
+        <span class="err-msg">★ Languages written is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">Dialects Spoken</td>
+      <td class="input-cell"><input type="text" id="dialect" placeholder="e.g. Hokkien, Cantonese (optional)"></td>
+    </tr>
+  </table>
+
+  <!-- Health -->
+  <div class="sec-title">Health</div>
+  <table class="form-table">
+    <tr>
+      <td class="label-cell" style="width:200px">Height (cm)</td>
+      <td class="input-cell"><input type="number" id="height" min="100" max="250" placeholder="e.g. 170"></td>
+      <td class="label-cell">Weight (kg)</td>
+      <td class="input-cell"><input type="number" id="weight" min="30" max="300" placeholder="e.g. 65"></td>
+    </tr>
+    <tr>
+      <td colspan="4" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Physical disabilities or handicap, if any</span>
+        <span class="field-hint">(sight, hearing, speech, colour-blindness, heart condition, mental health, or any illness that may affect job performance)</span>
+        <textarea id="disability" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Major illness or accident, if any, suffered since birth (with approximate dates)</span>
+        <textarea id="illness" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Friends/Relatives in Qynix -->
+  <div class="sec-title">Details Of Friends/Relatives Working In Qynix Technologies (if any)</div>
+  <table class="form-table">
+    <tr>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Relationship</th>
+    </tr>
+    <tr>
+      <td class="input-cell"><input type="text" id="rel1_name" placeholder="Name (or Nil)"></td>
+      <td class="input-cell"><input type="text" id="rel1_dept" placeholder="Department"></td>
+      <td class="input-cell"><input type="text" id="rel1_rel" placeholder="Relationship"></td>
+    </tr>
+  </table>
+
+  <!-- Employment Data — Current/Most Recent -->
+  <div class="sec-title">Employment Data</div>
+  <table class="form-table">
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Name of Employer <span class="req">★</span> <em style="font-weight:400;font-size:10.5px">(Present Employer – if not currently working, state most recent former employer)</em></span>
+        <div id="f-emp1_name">
+          <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px">
+          <span class="err-msg">★ Employer name is required.</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Full Address of Employer <span class="req">★</span></span>
+        <div id="f-emp1_addr">
+          <textarea id="emp1_addr" style="min-height:50px;margin-top:3px" placeholder="Full company address"></textarea>
+          <span class="err-msg">★ Employer address is required.</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell" style="width:50%">
+        <span style="font-size:11.5px;font-weight:600">Position(s) Held <span class="req">★</span></span>
+        <div id="f-emp1_pos">
+          <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px">
+          <span class="err-msg">★ Position held is required.</span>
+        </div>
+      </td>
+      <td class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">★</span></span>
+        <div id="f-emp1_date">
+          <input type="text" id="emp1_date" placeholder="e.g. Jan 2020 – Dec 2023" style="margin-top:3px">
+          <span class="err-msg">★ Employment dates are required.</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month)</span> &nbsp; RM
+        <input type="text" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming</span>
+        <span class="field-hint">(Use separate sheets if necessary)</span>
+        <textarea id="emp1_duties" style="min-height:80px;margin-top:4px" placeholder="Describe your role, key responsibilities, and technologies/tools used..."></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving</span>
+        <textarea id="emp1_reason" style="min-height:44px;margin-top:3px" placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
+      </td>
+    </tr>
+  </table>
+
+</div><!-- /pg3 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 4 — Previous Employment
+══════════════════════════════════════ -->
+<div class="page-card" id="pg4">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 4 -</div>
+  </div>
+
+  <!-- Previous Employer -->
+  <table class="form-table">
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Name of Employer <em style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em></span>
+        <input type="text" id="emp2_name" placeholder="Company name" style="margin-top:3px">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Full Address of Employer</span>
+        <textarea id="emp2_addr" style="min-height:50px;margin-top:3px" placeholder="Full company address"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell" style="width:50%">
+        <span style="font-size:11.5px;font-weight:600">Position(s) Held</span>
+        <input type="text" id="emp2_pos" placeholder="e.g. Junior Developer" style="margin-top:3px">
+      </td>
+      <td class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Date (From/To)</span>
+        <input type="text" id="emp2_date" placeholder="e.g. Jan 2018 – Dec 2019" style="margin-top:3px">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month)</span> &nbsp; RM
+        <input type="text" id="emp2_salary" placeholder="e.g. 2,500" style="max-width:180px;margin-left:6px">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your duties, responsibilities and skillsets used for programming</span>
+        <span class="field-hint">(Use separate sheets if necessary)</span>
+        <textarea id="emp2_duties" style="min-height:80px;margin-top:4px" placeholder="Describe your role, key responsibilities, and technologies/tools used..."></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving</span>
+        <textarea id="emp2_reason" style="min-height:44px;margin-top:3px" placeholder="State your reason for leaving"></textarea>
+      </td>
+    </tr>
+  </table>
+
+</div><!-- /pg4 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 5 — Further Information / Refs
+══════════════════════════════════════ -->
+<div class="page-card" id="pg5">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 5 -</div>
+  </div>
+
+  <div class="sec-title">Further Information</div>
+  <table class="form-table">
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-weight:600;font-size:12px">1. Do you hold a driving licence? If yes, what class of licence?</span>
+        <input type="text" id="driving" placeholder="e.g. Class D / No" style="margin-top:5px;max-width:300px">
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell" style="width:56%">
+        <span style="font-weight:600;font-size:12px">2. Do you have any issue with assignments that may require you to travel or be relocated to other locations or customer sites (outside Penang) for a short or long period?</span>
+        <div id="f-travel" style="margin-top:6px">
+          <div class="radio-group">
+            <label><input type="radio" name="travel" value="yes"> YES</label>
+            <label><input type="radio" name="travel" value="no"> NO</label>
+          </div>
+          <span class="err-msg" id="travel-err">★ Please select Yes or No.</span>
+        </div>
+      </td>
+      <td class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">If YES, please state reason:</span>
+        <textarea id="travel_reason" style="min-height:50px;margin-top:4px" placeholder="State reason if YES"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell">
+        <span style="font-weight:600;font-size:12px">3. Do you possess any valid travel document (e.g. passport)?</span>
+        <span class="field-hint">During employment, you are responsible for obtaining relevant travel documentation when required.</span>
+        <div id="f-passport" style="margin-top:6px">
+          <div class="radio-group">
+            <label><input type="radio" name="passport" value="yes"> YES</label>
+            <label><input type="radio" name="passport" value="no"> NO</label>
+          </div>
+          <span class="err-msg" id="passport-err">★ Please select Yes or No.</span>
+        </div>
+      </td>
+      <td class="input-cell">
+        <span style="font-size:11.5px;font-weight:600">If YES:</span>
+        <div style="margin-top:5px;display:flex;flex-direction:column;gap:5px">
+          <div>Passport Number:</div>
+          <input type="text" id="passport_no" placeholder="e.g. A12345678" style="border-bottom:1.5px solid #bbb">
+          <div>Date of Validity (from/to):</div>
+          <input type="text" id="passport_validity" placeholder="e.g. 01/2020 – 01/2030" style="border-bottom:1.5px solid #bbb">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-weight:600;font-size:12px">4. What is your expected salary? <span class="req">★</span></span>
+        <span class="field-hint">State the minimum amount in Ringgit Malaysia (RM)</span>
+        <div id="f-exp_salary" style="margin-top:5px">
+          <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px">
+          <span class="err-msg">★ Expected salary is required.</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell">
+        <span style="font-weight:600;font-size:12px">5. In the last 5 years, have you been convicted of any crime other than minor traffic violations?</span>
+        <div id="f-criminal" style="margin-top:6px">
+          <div class="radio-group">
+            <label><input type="radio" name="criminal" value="yes"> YES</label>
+            <label><input type="radio" name="criminal" value="no"> NO</label>
+          </div>
+          <span class="err-msg" id="criminal-err">★ Please select Yes or No.</span>
+        </div>
+      </td>
+      <td class="input-cell">
+        <table style="width:100%;border-collapse:collapse">
+          <tr>
+            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">When</th>
+            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Where</th>
+            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Disposition of Case</th>
+          </tr>
+          <tr>
+            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_when" placeholder="Date"></td>
+            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_where" placeholder="Location"></td>
+            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_disp" placeholder="Outcome"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-weight:600;font-size:12px">6. If offered employment, state the notice period required to give to your present employer.</span>
+        <span class="field-hint">If no notice required, please state the date you are able to commence work.</span>
+        <textarea id="notice" style="min-height:44px;margin-top:5px" placeholder="e.g. 1 month notice / Can commence immediately on DD/MM/YYYY"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="input-cell">
+        <span style="font-weight:600;font-size:12px">7. Other information which is important to you and helpful to us</span>
+        <span class="field-hint">(e.g. strengths/weaknesses, other knowledge/experiences, participation in political activities, associations, clubs, sports, etc.)</span>
+        <textarea id="other_info" style="min-height:80px;margin-top:5px" placeholder="Share anything else you'd like us to know about you..."></textarea>
+      </td>
+    </tr>
+  </table>
+
+  <!-- References -->
+  <div class="sec-title">References</div>
+  <p style="font-size:11px;font-style:italic;margin-bottom:8px;color:#555">List <strong>two references</strong> whom Qynix Technologies may approach for testimonials. Referees should not be family members and should be competent to comment on your education/work experience.</p>
+  <table class="form-table">
+    <tr>
+      <th style="width:35%">Full Name / Company</th>
+      <th style="width:32%">Contact Numbers</th>
+      <th>Occupation / Relationship</th>
+    </tr>
+    <tr>
+      <td class="input-cell" id="f-ref1_name">
+        <input type="text" id="ref1_name" placeholder="Referee 1 full name">
+        <span class="err-msg">★ Reference 1 name is required.</span>
+      </td>
+      <td class="input-cell">
+        Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref1_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+      </td>
+      <td class="input-cell" id="f-ref1_occ">
+        <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor">
+        <span class="err-msg">★ Occupation/relationship is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="input-cell" id="f-ref2_name">
+        <input type="text" id="ref2_name" placeholder="Referee 2 full name">
+        <span class="err-msg">★ Reference 2 name is required.</span>
+      </td>
+      <td class="input-cell">
+        Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref2_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+      </td>
+      <td class="input-cell" id="f-ref2_occ">
+        <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague">
+        <span class="err-msg">★ Occupation/relationship is required.</span>
+      </td>
+    </tr>
+  </table>
+
+</div><!-- /pg5 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 6 — Certification / Office Use
+══════════════════════════════════════ -->
+<div class="page-card" id="pg6">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 6 -</div>
+  </div>
+
+  <!-- Applicant Certification -->
+  <div class="sec-title">Applicant's Certification</div>
+  <div class="cert-box">
+    <p style="font-size:12px;line-height:1.6">I hereby certify that all the above information is true and correct.</p>
+    <div class="sig-line-row">
+      <!-- Signature slot -->
+      <div class="sig-slot">
+        <div class="sig-tabs">
+          <button type="button" class="sig-tab active" onclick="switchSigMode('draw', this)">✏️ Draw</button>
+          <button type="button" class="sig-tab" onclick="switchSigMode('type', this)">⌨️ Type</button>
+        </div>
+        <div id="sig-draw-wrap" class="sig-canvas-wrap">
+          <canvas id="sig-canvas"></canvas>
+        </div>
+        <input type="text" id="sig-type" class="sig-type-input" placeholder="Type your name as signature…" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="sig-lbl">Signature</div>
+          <button type="button" class="sig-clear-btn" onclick="clearSig()">✕ Clear</button>
+        </div>
+      </div>
+      <!-- Date slot -->
+      <div class="sig-slot" style="max-width:200px">
+        <input type="date" id="cert-date" style="width:100%;border:none;border-bottom:1.5px solid #bbb;background:transparent;font-family:inherit;font-size:13px;color:#111;padding:6px 2px;outline:none;height:64px;cursor:pointer">
+        <div class="sig-lbl">Date</div>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border:none;border-top:2px solid #333;margin:24px 0 16px">
+
+  <!-- For Office Use Only -->
+  <div class="office-box">
+    <div class="office-hdr">For Office Use Only</div>
+    <div class="office-body">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <span style="font-size:12px;font-weight:600">Interviewer's comment(s):</span>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="hired"> Hired</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="kiv"> KIV</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="rejected"> Rejected</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="others"> Others, pls specify</label>
+        <input type="text" id="decision_other" placeholder="Specify..." style="max-width:180px;border-bottom:1px solid #aaa">
+      </div>
+      <textarea id="interviewer_notes" style="width:100%;min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;font-family:inherit;font-size:12px;resize:vertical" placeholder="Interviewer's notes and comments..."></textarea>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    Qynix Technologies Sdn Bhd &nbsp;|&nbsp; Application for Employment &nbsp;|&nbsp; Form date: <span id="form-date"></span>
+  </div>
+
+</div><!-- /pg6 -->
+
+<!-- ── Action buttons ── -->
+<div class="form-actions" id="action-buttons">
+  <span class="completion-pill" id="completion-pill">0% complete</span>
+  <button class="btn btn-clear" onclick="clearAll()">🗑&nbsp; Clear All</button>
+  <button class="btn btn-print" onclick="validateAndPrint()">🖨&nbsp; Print / Save PDF</button>
+</div>
+
+<script>
+// ── Date stamp ──
+document.getElementById('form-date').textContent =
+  new Date().toLocaleDateString('en-MY', {day:'2-digit', month:'long', year:'numeric'});
+
+// ── Required field definitions ──
+const REQUIRED = [
+  {id:'position',     type:'text'},
+  {id:'fullname',     type:'text'},
+  {id:'age',          type:'text'},
+  {id:'dob',          type:'text'},
+  {id:'nric_old',     type:'text'},
+  {id:'pob',          type:'text'},
+  {id:'citizenship',  type:'text'},
+  {id:'marital',      type:'select'},
+  {id:'perm_addr',    type:'text'},
+  {id:'tel_hp',       type:'text'},
+  {id:'email',        type:'email'},
+  {id:'emg_name',     type:'text'},
+  {id:'emg_rel',      type:'text'},
+  {id:'emg_addr',     type:'text'},
+  {id:'emg_hp',       type:'text'},
+  {id:'prog_lang',    type:'text'},
+  {id:'lang_spoken',  type:'text'},
+  {id:'lang_written', type:'text'},
+  {id:'emp1_name',    type:'text'},
+  {id:'emp1_addr',    type:'text'},
+  {id:'emp1_pos',     type:'text'},
+  {id:'emp1_date',    type:'text'},
+  {id:'exp_salary',   type:'text'},
+  {id:'ref1_name',    type:'text'},
+  {id:'ref1_occ',     type:'text'},
+  {id:'ref2_name',    type:'text'},
+  {id:'ref2_occ',     type:'text'},
+];
+
+const RADIO_GROUPS = [
+  {name:'travel',   errId:'travel-err',   fieldId:'f-travel'},
+  {name:'passport', errId:'passport-err', fieldId:'f-passport'},
+  {name:'criminal', errId:'criminal-err', fieldId:'f-criminal'},
+];
+
+// ── Progress tracking ──
+function calcProgress() {
+  let filled = 0;
+  const total = REQUIRED.length + RADIO_GROUPS.length;
+
+  REQUIRED.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (!el) return;
+    let val = el.value.trim();
+    let ok = val !== '';
+    if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if (ok) filled++;
+  });
+
+  RADIO_GROUPS.forEach(g => {
+    const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
+    if (checked) filled++;
+  });
+
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct;
+  document.getElementById('completion-pill').textContent = pct + '% complete';
+
+  // colour the pill
+  const pill = document.getElementById('completion-pill');
+  if (pct === 100) {
+    pill.style.background = '#edf8eb';
+    pill.style.borderColor = '#3aac28';
+    pill.style.color = '#1e7012';
+  } else if (pct >= 60) {
+    pill.style.background = '#fff8e1';
+    pill.style.borderColor = '#f59e0b';
+    pill.style.color = '#92400e';
+  } else {
+    pill.style.background = '#fef2f2';
+    pill.style.borderColor = '#c0392b';
+    pill.style.color = '#c0392b';
+  }
+}
+
+// ── Auto-calculate age from DOB ──
+document.getElementById('dob').addEventListener('change', function() {
+  if (this.value) {
+    const dob = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    if (age >= 0 && age <= 99) document.getElementById('age').value = age;
+  }
+  calcProgress();
+});
+
+// ── Validate and print ──
+function validateAndPrint() {
+  let hasErr = false;
+
+  REQUIRED.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (!el) return;
+    const wrap = document.getElementById('f-' + f.id);
+    let val = el.value.trim();
+    let ok = val !== '';
+    if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if (!ok) {
+      el.classList.add('err');
+      if (wrap) wrap.classList.add('has-err');
+      hasErr = true;
+    } else {
+      el.classList.remove('err');
+      if (wrap) wrap.classList.remove('has-err');
+    }
+  });
+
+  RADIO_GROUPS.forEach(g => {
+    const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
+    const errEl = document.getElementById(g.errId);
+    const fieldEl = document.getElementById(g.fieldId);
+    if (!checked) {
+      if (errEl) errEl.style.display = 'block';
+      if (fieldEl) fieldEl.classList.add('has-err');
+      hasErr = true;
+    } else {
+      if (errEl) errEl.style.display = 'none';
+      if (fieldEl) fieldEl.classList.remove('has-err');
+    }
+  });
+
+  const banner = document.getElementById('val-banner');
+  if (hasErr) {
+    banner.style.display = 'block';
+    const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select');
+    if (firstErr) firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  banner.style.display = 'none';
+  window.print();
+}
+
+function clearAll() {
+  if (!confirm('This will clear all data entered. Are you sure?')) return;
+  document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],select,textarea').forEach(el => {
+    el.value = '';
+    el.classList.remove('err');
+  });
+  document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el => el.checked = false);
+  document.querySelectorAll('.has-err').forEach(el => el.classList.remove('has-err'));
+  document.querySelectorAll('.err-msg').forEach(el => el.style.display = 'none');
+  document.getElementById('val-banner').style.display = 'none';
+  // Clear signature pad
+  const canvas = document.getElementById('sig-canvas');
+  if (canvas && canvas.getContext) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  const sigType = document.getElementById('sig-type');
+  if (sigType) sigType.value = '';
+  // Reset cert date to today
+  const certDate = document.getElementById('cert-date');
+  if (certDate) certDate.valueAsDate = new Date();
+  calcProgress();
+}
+
+// ── Live validation clearing + progress ──
+document.querySelectorAll('input, select, textarea').forEach(el => {
+  el.addEventListener('input', () => {
+    el.classList.remove('err');
+    const wrap = el.closest('.has-err');
+    if (wrap) wrap.classList.remove('has-err');
+    calcProgress();
+  });
+  el.addEventListener('change', calcProgress);
+});
+
+// ── Radio live ──
+document.querySelectorAll('input[type="radio"]').forEach(el => {
+  el.addEventListener('change', () => {
+    const errEl = document.getElementById(el.name + '-err');
+    const fieldEl = document.getElementById('f-' + el.name);
+    if (errEl) errEl.style.display = 'none';
+    if (fieldEl) fieldEl.classList.remove('has-err');
+    calcProgress();
+  });
+});
+
+// Initial progress
+calcProgress();
+
+// ── Signature pad ──
+(function(){
+  const canvas = document.getElementById('sig-canvas');
+  const wrap   = document.getElementById('sig-draw-wrap');
+  let drawing  = false;
+  let ctx;
+
+  function initCanvas() {
+    canvas.width  = wrap.offsetWidth;
+    canvas.height = 64;
+    ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#111';
+    ctx.lineWidth   = 1.8;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+  }
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return { x: (src.clientX - r.left) * (canvas.width / r.width),
+             y: (src.clientY - r.top)  * (canvas.height / r.height) };
+  }
+
+  canvas.addEventListener('mousedown',  e => { drawing=true; const p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',  e => { if(!drawing) return; const p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup',    () => drawing=false);
+  canvas.addEventListener('mouseleave', () => drawing=false);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true; const p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(!drawing) return; const p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); }, {passive:false});
+  canvas.addEventListener('touchend',   () => drawing=false);
+
+  window.addEventListener('resize', initCanvas);
+  initCanvas();
+})();
+
+window.switchSigMode = function(mode, btn) {
+  document.querySelectorAll('.sig-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (mode === 'draw') {
+    document.getElementById('sig-draw-wrap').style.display = '';
+    document.getElementById('sig-type').style.display = 'none';
+  } else {
+    document.getElementById('sig-draw-wrap').style.display = 'none';
+    document.getElementById('sig-type').style.display = '';
+    document.getElementById('sig-type').focus();
+  }
+};
+
+window.clearSig = function() {
+  const canvas = document.getElementById('sig-canvas');
+  if (canvas.getContext) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  document.getElementById('sig-type').value = '';
+};
+
+// Auto-fill today's date in cert date field
+document.getElementById('cert-date').valueAsDate = new Date();
+</script>
+
+<script>
+// ── Pre-fill from PDF data ──
+window.addEventListener('load', function() {
+
+  function set(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    el.dispatchEvent(new Event('input', {bubbles:true}));
+    el.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+
+  function selectOption(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    for (var i=0; i<el.options.length; i++) {
+      if (el.options[i].text.toLowerCase() === val.toLowerCase()) {
+        el.selectedIndex = i;
+        el.dispatchEvent(new Event('change', {bubbles:true}));
+        return;
+      }
+    }
+  }
+
+  function checkRadio(name, val) {
+    var radios = document.querySelectorAll('input[name="' + name + '"]');
+    radios.forEach(function(r) {
+      if (r.value === val) {
+        r.checked = true;
+        r.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+    });
+  }
+
+  // ── Page 1: Personal Details ──
+  set('position', 'Internship');
+  set('fullname', 'MR SIN CHUEN LIANG');
+  set('chinese_name', '辛俊樑');
+  set('age', '19');
+  set('dob', '2006-11-25');
+  set('nric_old', '061125-07-0061');
+  set('nric_new', '061125-07-0061');
+  set('pob', 'PENANG');
+  set('race', 'CHINESE');
+  set('citizenship', 'MALAYSIA');
+  set('religion', 'BUDDHISM');
+  selectOption('marital', 'Single');
+  set('bank_acc', '4-9553219-37');
+  set('perm_addr', 'BLOK 23-4-17, LEBUHRAYA THEAN TEIK, TAMAN LONE PINE, 11060, AYER ITAM, PULAU PINANG');
+  set('tel_hp', '0163311750');
+  set('email', 'sin.chuen.liang@gmail.com');
+
+  // ── Family Details ──
+  set('fath_name', 'SIN KIM LEONG');
+  set('fath_dob', '1968-03-14');
+  set('fath_age', '57');
+  set('fath_occ', 'FREELANCER');
+  set('moth_name', 'KOOI GAIK MUEH');
+  set('moth_dob', '1974-10-22');
+  set('moth_age', '51');
+  set('moth_occ', 'TAILOR');
+  set('bro_names', 'SIN CHUEN AIK');
+  set('bro_dob', '1997-07-02');
+  set('bro_age', '28');
+  set('bro_occ', 'CHEF');
+
+  // ── Emergency Contact ──
+  set('emg_name', 'SIN KIM LEONG');
+  set('emg_rel', 'FATHER');
+  set('emg_addr', 'BLOK 23-4-17, LEBUHRAYA THEAN TEIK, TAMAN LONE PINE, 11060, AYER ITAM, PULAU PINANG');
+  set('emg_hp', '0164263312');
+
+  // ── Educational Data ──
+  set('sec_sch', 'SMJK CHUNG HWA CONFUCIAN, PENANG');
+  set('sec_from', '2019');
+  set('sec_to', '2023');
+  set('sec_qual', 'SPM / 2A 5B 1C 2D');
+  set('uni_name', 'TARUMT, PENANG');
+  set('uni_from', 'JULY 2024');
+  set('uni_to', '2026');
+  set('uni_qual', 'CURRENT CGPA 3.3068');
+
+  // ── Skill Sets ──
+  set('prog_lang', 'C++, JAVA, PYTHON, HTML, CSS, PHP, C#');
+  set('os', 'LINUX');
+  set('database', 'MYSQL');
+  set('internet_tech', 'CISCO');
+  set('domain', 'NETWORK CONFIGURATION, OOP, ASP.NET, BASIC WEB DEVELOPMENT AND BASIC SOFTWARE DEVELOPMENT');
+  set('lang_spoken', 'MANDARIN, ENGLISH, MALAY');
+  set('lang_written', 'MANDARIN, ENGLISH, MALAY');
+  set('dialect', 'HOKKIEN');
+
+  // ── Health ──
+  set('height', '175');
+  set('weight', '62');
+
+  // ── Further Information ──
+  checkRadio('travel', 'no');
+  checkRadio('passport', 'no');
+  set('exp_salary', 'RM800');
+  checkRadio('criminal', 'no');
+  set('notice', '12 JANUARY 2026');
+  set('other_info', 'STRENGTHS: LOGICAL THINKING, TEAMWORK, FAST LEARNER
+WEAKNESS: NEED TIME TO OPEN TO NEW PEOPLE
+SPORT: VOLLEYBALL');
+
+  // ── References ──
+  set('ref1_name', 'MR. OOI YEONG LIANG');
+  set('ref1_hp', 'EMAIL: P4409@tarc.edu.my');
+  set('ref1_occ', 'PREVIOUS LECTURER');
+  set('ref2_name', 'CIK ANGKAY A/P SUBRAMANIAM');
+  set('ref2_hp', 'EMAIL: angkays@tarc.edu.my');
+  set('ref2_occ', 'PREVIOUS LECTURER');
+
+  // ── Certification date ──
+  set('cert-date', '2025-06-11');
+});
+</script>
+
+</body>
+</html>
