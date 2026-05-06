@@ -676,7 +676,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
     <tr>
-      <td class="label-cell" style="padding-left:30px">NRIC / Passport No. (New) <span class="req">*</span></td>
+      <td class="label-cell">NRIC / Passport No. (New) <span class="req">*</span></td>
       <td class="input-cell" id="f-nric_new">
         <input type="text" id="nric_new" placeholder="New IC / Passport number" maxlength="12">
         <span class="err-msg">* NRIC/Passport (New) is required.</span>
@@ -690,8 +690,17 @@ input.sig-type-input:focus {
         <input type="text" id="citizenship" placeholder="e.g. Malaysian">
         <span class="err-msg">* Citizenship is required.</span>
       </td>
-      <td class="label-cell">Religion (if any)</td>
-      <td class="input-cell"><input type="text" id="religion" placeholder="(optional)"></td>
+      <td class="label-cell">Religion <span class="req">*</span></td>
+      <td class="input-cell" id="f-religion">
+        <select id="religion">
+          <option value="Buddhism">Buddhism</option>
+          <option value="Islam">Islam</option>
+          <option value="Hinduism">Hinduism</option>
+          <option value="Christianity">Christianity</option>
+          <option value="Others">Others</option>
+        </select>
+        <span class="err-msg">* Religion is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell">Marital Status <span class="req">*</span></td>
@@ -1448,6 +1457,7 @@ const REQUIRED = [
   {id:'ref1_occ',     type:'text'},
   {id:'ref2_name',    type:'text'},
   {id:'ref2_occ',     type:'text'},
+  {id:'religion',      type:'select'},
 ];
 
 const RADIO_GROUPS = [
@@ -1784,87 +1794,6 @@ window.addEventListener('load', function() {
       }
     });
   }
-
-  // ── Page 1: Personal Details ──
-  set('position', 'Internship');
-  set('fullname', 'MR SIN CHUEN LIANG');
-  set('chinese_name', '辛俊樑');
-  set('age', '19');
-  set('dob', '2006-11-25');
-  set('nric_old', '061125-07-0061');
-  set('nric_new', '061125-07-0061');
-  set('pob', 'PENANG');
-  set('race', 'CHINESE');
-  set('citizenship', 'MALAYSIA');
-  set('religion', 'BUDDHISM');
-  selectOption('marital', 'Single');
-  set('bank_acc', '4-9553219-37');
-  set('perm_addr', 'BLOK 23-4-17, LEBUHRAYA THEAN TEIK, TAMAN LONE PINE, 11060, AYER ITAM, PULAU PINANG');
-  set('tel_hp', '0163311750');
-  set('email', 'sin.chuen.liang@gmail.com');
-
-  // ── Family Details ──
-  set('fath_name', 'SIN KIM LEONG');
-  set('fath_dob', '1968-03-14');
-  set('fath_age', '57');
-  set('fath_occ', 'FREELANCER');
-  set('moth_name', 'KOOI GAIK MUEH');
-  set('moth_dob', '1974-10-22');
-  set('moth_age', '51');
-  set('moth_occ', 'TAILOR');
-  set('bro_names', 'SIN CHUEN AIK');
-  set('bro_dob', '1997-07-02');
-  set('bro_age', '28');
-  set('bro_occ', 'CHEF');
-
-  // ── Emergency Contact ──
-  set('emg_name', 'SIN KIM LEONG');
-  set('emg_rel', 'FATHER');
-  set('emg_addr', 'BLOK 23-4-17, LEBUHRAYA THEAN TEIK, TAMAN LONE PINE, 11060, AYER ITAM, PULAU PINANG');
-  set('emg_hp', '0164263312');
-
-  // ── Educational Data ──
-  set('sec_sch', 'SMJK CHUNG HWA CONFUCIAN, PENANG');
-  set('sec_from', '2019');
-  set('sec_to', '2023');
-  set('sec_qual', 'SPM / 2A 5B 1C 2D');
-  set('uni_name', 'TARUMT, PENANG');
-  set('uni_from', 'JULY 2024');
-  set('uni_to', '2026');
-  set('uni_qual', 'CURRENT CGPA 3.3068');
-
-  // ── Skill Sets ──
-  set('prog_lang', 'C++, JAVA, PYTHON, HTML, CSS, PHP, C#');
-  set('os', 'LINUX');
-  set('database', 'MYSQL');
-  set('internet_tech', 'CISCO');
-  set('domain', 'NETWORK CONFIGURATION, OOP, ASP.NET, BASIC WEB DEVELOPMENT AND BASIC SOFTWARE DEVELOPMENT');
-  set('lang_spoken', 'MANDARIN, ENGLISH, MALAY');
-  set('lang_written', 'MANDARIN, ENGLISH, MALAY');
-  set('dialect', 'HOKKIEN');
-
-  // ── Health ──
-  set('height', '175');
-  set('weight', '62');
-
-  // ── Further Information ──
-  checkRadio('travel', 'no');
-  checkRadio('passport', 'no');
-  set('exp_salary', 'RM800');
-  checkRadio('criminal', 'no');
-  set('notice', '12 JANUARY 2026');
-  set('other_info', 'STRENGTHS: LOGICAL THINKING, TEAMWORK, FAST LEARNERWEAKNESS: NEED TIME TO OPEN TO NEW PEOPLESORT: VOLLEYBALL');
-
-  // ── References ──
-  set('ref1_name', 'MR. OOI YEONG LIANG');
-  set('ref1_hp', 'EMAIL: P4409@tarc.edu.my');
-  set('ref1_occ', 'PREVIOUS LECTURER');
-  set('ref2_name', 'CIK ANGKAY A/P SUBRAMANIAM');
-  set('ref2_hp', 'EMAIL: angkays@tarc.edu.my');
-  set('ref2_occ', 'PREVIOUS LECTURER');
-
-  // ── Certification date ──
-  set('cert-date', '2025-06-11');
 });
 </script>
 
