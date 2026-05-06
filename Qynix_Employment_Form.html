@@ -164,7 +164,11 @@ textarea.err {
   background: #fff5f5 !important;
 }
 
-textarea { resize: none; field-sizing: content;}
+textarea {
+  resize: none;
+  overflow-y: hidden;
+  min-height: 34px;
+}
 
 select {
   appearance: none;
@@ -614,6 +618,11 @@ input.sig-type-input:focus {
   input, select, textarea {
     border-bottom: 1px solid #999 !important;
     background: transparent !important;
+  }
+  textarea {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .sec-title { break-after: avoid; }
@@ -1887,6 +1896,23 @@ window.clearSig = function() {
 
 // Auto-fill today's date in cert date field
 document.getElementById('cert-date').valueAsDate = new Date();
+
+// Auto-resize textareas to perfectly fit content height
+function autoResizeTextareas() {
+  document.querySelectorAll('textarea').forEach(tx => {
+    tx.style.height = 'auto';
+    tx.style.height = tx.scrollHeight + 'px';
+  });
+}
+document.querySelectorAll('textarea').forEach(tx => {
+  tx.addEventListener('input', () => {
+    tx.style.height = 'auto';
+    tx.style.height = tx.scrollHeight + 'px';
+  });
+});
+window.addEventListener('resize', autoResizeTextareas);
+window.addEventListener('load', autoResizeTextareas);
+setTimeout(autoResizeTextareas, 200);
 </script>
 
 <script>
