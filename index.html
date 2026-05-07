@@ -1417,6 +1417,7 @@ input.sig-type-input:focus {
       <td class="input-cell">
         <span style="font-size:11.5px;font-weight:600">If YES, please state reason:</span>
         <textarea id="travel_reason" style="min-height:50px;margin-top:4px" placeholder="State reason if YES"></textarea>
+        <span class="err-msg"></span>
       </td>
     </tr>
     <tr>
@@ -1436,8 +1437,10 @@ input.sig-type-input:focus {
         <div style="margin-top:5px;display:flex;flex-direction:column;gap:5px">
           <div>Passport Number:</div>
           <input type="text" id="passport_no" placeholder="e.g. A12345678" style="border-bottom:1.5px solid #bbb">
+          <span class="err-msg"></span>
           <div>Date of Validity (from/to):</div>
           <input type="text" id="passport_validity" placeholder="e.g. 01/2020 – 01/2030" style="border-bottom:1.5px solid #bbb">
+          <span class="err-msg"></span>
         </div>
       </td>
     </tr>
@@ -1470,9 +1473,24 @@ input.sig-type-input:focus {
             <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Disposition of Case</th>
           </tr>
           <tr>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_when" placeholder="Date"></td>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_where" placeholder="Location"></td>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_disp" placeholder="Outcome"></td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_when">
+                <input type="date" id="crim_when">
+                <span class="err-msg"></span>
+              </div>
+            </td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_where">
+                <input type="text" id="crim_where" placeholder="Location">
+                <span class="err-msg"></span>
+              </div>
+            </td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_disp">
+                <input type="text" id="crim_disp" placeholder="Outcome">
+                <span class="err-msg"></span>
+              </div>
+            </td>
           </tr>
         </table>
       </td>
@@ -1722,10 +1740,19 @@ const RADIO_GROUPS = [
   {name:'criminal', errId:'criminal-err', fieldId:'f-criminal'},
 ];
 
+const CONDITIONAL_REQUIRED = [
+  { radioName: 'travel', radioValue: 'yes', fieldId: 'travel_reason', message: 'Please state reason for travel.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_no', message: 'Passport number is required.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity', message: 'Passport validity is required.' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_when', message: 'Please provide the date (When).' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_where', message: 'Please provide the location (Where).' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_disp', message: 'Please provide the disposition of case.' }
+];
+
 // ── Progress tracking ──
 function calcProgress() {
   let filled = 0;
-  const total = REQUIRED.length + RADIO_GROUPS.length;
+  let total = REQUIRED.length + RADIO_GROUPS.length;
 
   REQUIRED.forEach(f => {
     const el = document.getElementById(f.id);
@@ -1739,6 +1766,19 @@ function calcProgress() {
   RADIO_GROUPS.forEach(g => {
     const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
     if (checked) filled++;
+  });
+
+  // Conditional required fields (only count if radio is YES)
+  CONDITIONAL_REQUIRED.forEach(c => {
+    total++; // always count toward total
+    const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
+    if (radio && radio.value === c.radioValue) {
+      const el = document.getElementById(c.fieldId);
+      if (el && el.value.trim() !== '') filled++;
+    } else {
+      // not applicable → automatically considered filled
+      filled++;
+    }
   });
 
   const pct = Math.round((filled / total) * 100);
@@ -1761,6 +1801,39 @@ function calcProgress() {
     pill.style.borderColor = '#c0392b';
     pill.style.color = '#c0392b';
   }
+}
+
+// Live validation for criminal date field (cannot be future)
+const crimWhen = document.getElementById('crim_when');
+if (crimWhen) {
+  function validateCrimWhenDate() {
+    const criminalRadio = document.querySelector('input[name="criminal"]:checked');
+    if (criminalRadio && criminalRadio.value === 'yes') {
+      const dateStr = crimWhen.value;
+      const todayStr = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+      const wrap = document.getElementById('f-crim_when');
+      const errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+      if (dateStr && dateStr > todayStr) {
+        crimWhen.classList.add('err');
+        if (errSpan) {
+          errSpan.style.display = 'block';
+          errSpan.textContent = 'Date cannot be in the future.';
+        } else if (wrap) {
+          const newSpan = document.createElement('span');
+          newSpan.className = 'err-msg';
+          newSpan.style.display = 'block';
+          newSpan.textContent = 'Date cannot be in the future.';
+          wrap.appendChild(newSpan);
+        }
+      } else {
+        crimWhen.classList.remove('err');
+        if (errSpan) errSpan.style.display = 'none';
+      }
+    }
+    calcProgress();
+  }
+  crimWhen.addEventListener('change', validateCrimWhenDate);
+  crimWhen.addEventListener('input', validateCrimWhenDate);
 }
 
 // ── Auto-calculate age from DOB ──
@@ -2028,6 +2101,51 @@ function validateAndPrint() {
     }
   });
 
+  CONDITIONAL_REQUIRED.forEach(c => {
+    const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
+    if (radio && radio.value === c.radioValue) {
+      const el = document.getElementById(c.fieldId);
+      if (!el) return;
+      const val = el.value.trim();
+      let isValid = val !== '';
+      let errorMessage = c.message;
+
+      // Special validation for "crim_when" date – cannot be in the future
+      if (c.fieldId === 'crim_when' && isValid) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (val > todayStr) {
+          isValid = false;
+          errorMessage = 'Date cannot be in the future.';
+        }
+      }
+
+      if (!isValid) {
+        hasErr = true;
+        el.classList.add('err');
+        // Try to get the wrapper (f-*) or fallback to parent
+        let wrap = document.getElementById('f-' + c.fieldId);
+        if (!wrap) wrap = el.parentElement;
+        let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+        if (!errSpan && wrap) {
+          errSpan = document.createElement('span');
+          errSpan.className = 'err-msg';
+          errSpan.style.display = 'block';
+          errSpan.textContent = errorMessage;
+          wrap.appendChild(errSpan);
+        } else if (errSpan) {
+          errSpan.style.display = 'block';
+          errSpan.textContent = errorMessage;
+        }
+      } else {
+        el.classList.remove('err');
+        let wrap = document.getElementById('f-' + c.fieldId);
+        if (!wrap) wrap = el.parentElement;
+        let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+        if (errSpan) errSpan.style.display = 'none';
+      }
+    }
+  });
+
   function showFieldError(wrapElement, message) {
     clearFieldError(wrapElement);
     let errSpan = document.createElement('span');
@@ -2108,11 +2226,68 @@ document.querySelectorAll('input, select, textarea').forEach(el => {
 
 // ── Radio live ──
 document.querySelectorAll('input[type="radio"]').forEach(el => {
-  el.addEventListener('change', () => {
-    const errEl = document.getElementById(el.name + '-err');
-    const fieldEl = document.getElementById('f-' + el.name);
+  el.addEventListener('change', function(e) {
+    // Clear the radio group’s own error
+    const errEl = document.getElementById(this.name + '-err');
+    const fieldEl = document.getElementById('f-' + this.name);
     if (errEl) errEl.style.display = 'none';
     if (fieldEl) fieldEl.classList.remove('has-err');
+
+    // --- TRAVEL: clear reason when NO ---
+    if (this.name === 'travel' && this.value === 'no') {
+      const reason = document.getElementById('travel_reason');
+      if (reason) {
+        reason.value = '';
+        reason.classList.remove('err');
+        // find error span inside the same td
+        const cell = reason.closest('.input-cell');
+        if (cell) {
+          const errSpan = cell.querySelector('.err-msg');
+          if (errSpan) errSpan.style.display = 'none';
+        }
+      }
+    }
+
+    // --- PASSPORT: clear both fields when NO ---
+    if (this.name === 'passport' && this.value === 'no') {
+      ['passport_no', 'passport_validity'].forEach(id => {
+        const f = document.getElementById(id);
+        if (f) {
+          f.value = '';
+          f.classList.remove('err');
+          const cell = f.closest('.input-cell');
+          if (cell) {
+            const errSpan = cell.querySelector('.err-msg');
+            if (errSpan) errSpan.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // --- CRIMINAL: clear all three fields when NO ---
+    if (this.name === 'criminal' && this.value === 'no') {
+      ['crim_when', 'crim_where', 'crim_disp'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+          field.value = '';
+          field.classList.remove('err');
+          // try to find error span inside the wrapper or parent cell
+          const wrap = document.getElementById('f-' + id);
+          if (wrap) {
+            const errSpans = wrap.querySelectorAll('.err-msg');
+            errSpans.forEach(span => span.style.display = 'none');
+          } else {
+            const cell = field.closest('td');
+            if (cell) {
+              const errSpans = cell.querySelectorAll('.err-msg');
+              errSpans.forEach(span => span.style.display = 'none');
+            }
+          }
+        }
+      });
+    }
+
+    // Recalculate progress bar
     calcProgress();
   });
 });
