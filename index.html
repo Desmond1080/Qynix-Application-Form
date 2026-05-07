@@ -659,7 +659,27 @@ input.sig-type-input:focus {
   input, select, textarea {
     border-bottom: 1px solid #999 !important;
     background: transparent !important;
+    color: #111 !important;
   }
+
+  /* Hide all validation error messages and reset error layouts on print */
+  .err-msg { display: none !important; }
+  .has-err > input,
+  .has-err > select,
+  .has-err > textarea {
+    border-bottom: 1px solid #999 !important;
+    background: transparent !important;
+  }
+
+  /* Make placeholders light grey and clearly distinguished from typed text during print */
+  input::placeholder,
+  textarea::placeholder {
+    color: #bbb !important;
+    opacity: 0.6 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   textarea {
     height: auto !important;
     max-height: none !important;
@@ -1269,7 +1289,7 @@ input.sig-type-input:focus {
     <tr>
       <td colspan="2" class="input-cell">
         <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving <span class="req">*</span></span>
-        "emp1_reason" style="min-height:36px;margin-top:3px" placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
+        <textarea id="emp1_reason" style="min-height:36px;margin-top:3px" placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
       </td>
     </tr>
   </table>
@@ -1562,7 +1582,7 @@ input.sig-type-input:focus {
   </div>
 
   <div class="form-footer">
-    Qynix Technologies Sdn Bhd &nbsp;|&nbsp; Application for Employment &nbsp;|&nbsp; Form date: <span id="form-date"></span>
+    Qynix Technologies Sdn Bhd
   </div>
 
 </div><!-- /pg6 -->
@@ -1574,7 +1594,7 @@ input.sig-type-input:focus {
     <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
     Clear All
   </button>
-  <button class="btn btn-preview" onclick="window.print()">
+  <button class="btn btn-preview" onclick="printPreview()">
     <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
     Print Preview
   </button>
@@ -1983,6 +2003,24 @@ function validateAndPrint() {
 
   banner.style.display = 'none';
   window.print();
+}
+
+function printPreview() {
+  // Hide validation banner
+  const banner = document.getElementById('val-banner');
+  if (banner) banner.style.display = 'none';
+
+  // Temporarily remove any visible error classes and custom error elements
+  document.querySelectorAll('.err-msg').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.custom-err-msg').forEach(el => el.remove());
+  document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
+  document.querySelectorAll('.has-err').forEach(el => el.classList.remove('has-err'));
+
+  // Trigger print dialog instantly with current state
+  window.print();
+
+  // Re-calculate progress bar and live values after print starts
+  calcProgress();
 }
 
 function clearAll() {
