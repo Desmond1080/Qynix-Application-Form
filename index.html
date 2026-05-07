@@ -554,7 +554,7 @@ input.sig-type-input:focus {
   color: #111;
   padding: 6px 2px;
   outline: none;
-  height: 44px;
+  height: 24px;
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
@@ -654,7 +654,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
    PRINT — A4 portrait locked
 ══════════════════════════ */
 @media print {
-  @page { size: 210mm 297mm; margin: 14mm 12mm 14mm 12mm; }
+  @page { size: A4 portrait; margin: 14mm 12mm 14mm 12mm; }
 
   body { background: #fff !important; padding: 0 !important; width: 100% !important; min-width: 100% !important; }
 
@@ -681,9 +681,23 @@ table.form-table.show-actions .action-col { display: table-cell; }
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   input, select, textarea {
-    border-bottom: 1px solid #999 !important;
+    border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Hide native calendar icons, clear buttons, and spin arrows on mobile during print */
+  input::-webkit-calendar-picker-indicator,
+  input::-webkit-inner-spin-button,
+  input::-webkit-clear-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  select {
+    background-image: none !important; /* Hide dropdown arrows */
   }
 
   /* Hide all validation error messages and reset error layouts on print */
@@ -691,27 +705,41 @@ table.form-table.show-actions .action-col { display: table-cell; }
   .has-err > input,
   .has-err > select,
   .has-err > textarea {
-    border-bottom: 1px solid #999 !important;
+    border-bottom: none !important;
     background: transparent !important;
   }
 
-  /* Make placeholders distinct yet legible with improved contrast during print */
+  /* Hide placeholders during print */
   input::placeholder,
   textarea::placeholder {
-    color: #888 !important;
-    opacity: 0.65 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    color: transparent !important;
+    opacity: 0 !important;
+  }
+
+  /* Hide signature tabs and clear button during print */
+  .sig-tabs, .sig-clear-btn {
+    display: none !important;
+  }
+
+  #cert-date {
+    border-bottom: 1px solid #999 !important;
+    padding: 0 !important;
+    width: 100px !important;
+    max-width: 100px !important;
   }
 
   textarea {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+    border-bottom: none !important;
   }
 
   .sec-title { break-after: avoid; }
-  table.form-table { break-inside: auto; }
+  table.form-table {
+    break-inside: auto;
+    width: calc(100% - 1px) !important;
+  }
   table.form-table tr { break-inside: avoid; }
   .print-section {
     break-inside: avoid !important;
