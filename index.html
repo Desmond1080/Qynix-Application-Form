@@ -1883,10 +1883,11 @@ const CONDITIONAL_REQUIRED = [
   { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_disp', message: 'Please provide the disposition of case.' }
 ];
 
-// ── Progress tracking ──
+// ── Progress tracking (fixed) ──
 function calcProgress() {
   let filled = 0;
-  let total = REQUIRED.length + RADIO_GROUPS.length;
+  // Count standard required fields + radio groups + signature (add 1 for signature)
+  let total = REQUIRED.length + RADIO_GROUPS.length + 1;
 
   REQUIRED.forEach(f => {
     const el = document.getElementById(f.id);
@@ -1915,12 +1916,33 @@ function calcProgress() {
     }
   });
 
+  // --- Signature detection (must be after total and filled setup) ---
+  let signatureSet = false;
+  const drawWrap = document.getElementById('sig-draw-wrap');
+  const typeInput = document.getElementById('sig-type');
+  const uploadWrap = document.getElementById('sig-upload-wrap');
+  const uploadedImg = document.getElementById('sig-uploaded-img');
+
+  if (drawWrap && drawWrap.style.display !== 'none') {
+    const canvas = document.getElementById('sig-canvas');
+    if (canvas && canvas.width > 0 && canvas.height > 0) {
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      signatureSet = imageData.data.some(channel => channel !== 0);
+    }
+  } else if (typeInput && typeInput.style.display !== 'none') {
+    signatureSet = typeInput.value.trim() !== '';
+  } else if (uploadWrap && uploadWrap.style.display !== 'none') {
+    signatureSet = uploadedImg && uploadedImg.src && uploadedImg.src !== window.location.href;
+  }
+
+  if (signatureSet) filled++;
+
   const pct = Math.round((filled / total) * 100);
   document.getElementById('progress-bar').style.width = pct + '%';
   document.getElementById('pct').textContent = pct;
   document.getElementById('completion-pill').textContent = pct + '% complete';
 
-  // colour the pill
   const pill = document.getElementById('completion-pill');
   if (pct === 100) {
     pill.style.background = '#edf8eb';
@@ -1935,23 +1957,6 @@ function calcProgress() {
     pill.style.borderColor = '#c0392b';
     pill.style.color = '#c0392b';
   }
-
-  let signatureSet = false;
-  const drawMode = document.getElementById('sig-draw-wrap').style.display !== 'none';
-  const typeMode = document.getElementById('sig-type').style.display !== 'none';
-  const uploadMode = document.getElementById('sig-upload-wrap').style.display !== 'none';
-  if (drawMode) {
-    const canvas = document.getElementById('sig-canvas');
-    const ctx = canvas.getContext('2d');
-    signatureSet = !ctx.getImageData(0, 0, canvas.width, canvas.height).data.every(channel => channel === 0);
-  } else if (typeMode) {
-    signatureSet = document.getElementById('sig-type').value.trim() !== '';
-  } else if (uploadMode) {
-    signatureSet = document.getElementById('sig-uploaded-img').src !== '' && 
-                  document.getElementById('sig-uploaded-img').src !== window.location.href;
-  }
-  if (signatureSet) filled++;
-  total++;
 }
 
 function updateConditionalStars() {
@@ -2684,7 +2689,8 @@ if (sigUpload) {
   canvas.addEventListener('pointerup', e => { 
     if (drawing) {
       canvas.releasePointerCapture(e.pointerId);
-      drawing = false; 
+      drawing = false;
+      calcProgress(); 
     }
   });
 
@@ -2734,6 +2740,7 @@ window.handleSignatureUpload = function(input) {
       document.getElementById('sig-uploaded-img').src = e.target.result;
       document.getElementById('sig-upload-trigger').style.display = 'none';
       document.getElementById('sig-img-preview-wrap').style.display = 'flex';
+      calcProgress();
     };
     reader.readAsDataURL(file);
   }
@@ -2753,6 +2760,8 @@ window.clearSig = function() {
   document.getElementById('sig-uploaded-img').src = '';
   document.getElementById('sig-img-preview-wrap').style.display = 'none';
   document.getElementById('sig-upload-trigger').style.display = 'flex';
+
+  calcProgress(); 
 };
 
 // Auto-fill today's date in cert date field
@@ -2940,7 +2949,6 @@ window.addEventListener('load', function() {
   set('ref2_office', '03-22881234');
   set('ref2_occ', 'Project Manager (Tech Solutions)');
   set('sig_type', 'Tan Wei Ming');
-  set('cert-date', '2026-05-07');
   set('course3', 'N/A');
   set('course3_inst', 'N/A');
   set('course3_qual', 'N/A');
