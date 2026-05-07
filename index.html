@@ -237,6 +237,44 @@ select {
   font-weight: 600;
 }
 
+/* ── Clean styled month picker (keep dropdown, remove ugly box) ── */
+input[type="month"] {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  background: transparent;
+
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #111;
+
+  padding: 3px 24px 3px 2px; /* space for icon */
+  outline: none;
+  position: relative;
+}
+
+/* Focus style (same as your other inputs) */
+input[type="month"]:focus {
+  border-bottom-color: #3aac28;
+  background: #f3fff1;
+}
+
+/* Style the calendar icon */
+input[type="month"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+  position: absolute;
+  right: 2px;
+}
+
+/* Remove inner spin / weird UI */
+input[type="month"]::-webkit-inner-spin-button {
+  display: none;
+}
+
 /* ── Progress bar ── */
 #progress-wrap {
   max-width: 840px;
@@ -727,11 +765,12 @@ input.sig-type-input:focus {
       <td class="label-cell">Religion <span class="req">*</span></td>
       <td class="input-cell" id="f-religion">
         <select id="religion">
-          <option value="Buddhism">Buddhism</option>
-          <option value="Islam">Islam</option>
-          <option value="Hinduism">Hinduism</option>
-          <option value="Christianity">Christianity</option>
-          <option value="Others">Others</option>
+          <option value="">— Select —</option>
+          <option>Buddhism</option>
+          <option>Islam</option>
+          <option>Hinduism</option>
+          <option>Christianity</option>
+          <option>Others</option>
         </select>
         <span class="err-msg">* Religion is required.</span>
       </td>
@@ -945,17 +984,17 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="label-cell">Son(s) <span class="req">*</span></td>
-      <td class="input-cell"><textarea id="son_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="son_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea></td>
       <td class="input-cell"><textarea id="son_dob" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="son_age" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="son_occ" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="son_age" style="min-height:36px" placeholder="Age(s)"></textarea></td>
+      <td class="input-cell"><textarea id="son_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea></td>
     </tr>
     <tr>
       <td class="label-cell">Daughter(s) <span class="req">*</span></td>
-      <td class="input-cell"><textarea id="dau_names" style="min-height:36px" placeholder="Names or N/A"></textarea></td>
+      <td class="input-cell"><textarea id="dau_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea></td>
       <td class="input-cell"><textarea id="dau_dob" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="dau_age" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="dau_occ" style="min-height:36px"></textarea></td>
+      <td class="input-cell"><textarea id="dau_age" style="min-height:36px" placeholder="Age(s)"></textarea></td>
+      <td class="input-cell"><textarea id="dau_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea></td>
     </tr>
   </table>
 
@@ -1006,8 +1045,8 @@ input.sig-type-input:focus {
         <span>Secondary / High School</span>
         <input type="text" id="sec_sch" placeholder="School name, location">
       </td>
-      <td class="input-cell"><input type="text" id="sec_from" placeholder="mm/yyyy"></td>
-      <td class="input-cell"><input type="text" id="sec_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="month" id="sec_from"></td>
+      <td class="input-cell"><input type="month" id="sec_to"></td>
       <td class="input-cell"><textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results"></textarea></td>
     </tr>
     <tr>
@@ -1015,8 +1054,8 @@ input.sig-type-input:focus {
         <span>College / Polytechnic / University</span>
         <input type="text" id="uni" placeholder="Institution name, location">
       </td>
-      <td class="input-cell"><input type="text" id="uni_from" placeholder="mm/yyyy"></td>
-      <td class="input-cell"><input type="text" id="uni_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="month" id="uni_from"></td>
+      <td class="input-cell"><input type="month" id="uni_to"></td>
       <td class="input-cell"><textarea id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA etc."></textarea></td>
     </tr>
   </table>
@@ -1034,22 +1073,22 @@ input.sig-type-input:focus {
     <tr>
       <td class="input-cell"><textarea id="course1" style="min-height:36px" placeholder="Course name"></textarea></td>
       <td class="input-cell"><input type="text" id="course1_inst" placeholder="Institution"></td>
-      <td class="input-cell"><input type="text" id="course1_from" placeholder="mm/yyyy"></td>
-      <td class="input-cell"><input type="text" id="course1_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="month" id="course1_from"></td>
+      <td class="input-cell"><input type="month" id="course1_to"></td>
       <td class="input-cell"><input type="text" id="course1_qual" placeholder="Qualification"></td>
     </tr>
     <tr>
       <td class="input-cell"><textarea id="course2" style="min-height:36px" placeholder="Course name"></textarea></td>
       <td class="input-cell"><input type="text" id="course2_inst" placeholder="Institution"></td>
-      <td class="input-cell"><input type="text" id="course2_from" placeholder="mm/yyyy"></td>
-      <td class="input-cell"><input type="text" id="course2_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="month" id="course2_from"></td>
+      <td class="input-cell"><input type="month" id="course2_to"></td>
       <td class="input-cell"><input type="text" id="course2_qual" placeholder="Qualification"></td>
     </tr>
     <tr>
       <td class="input-cell"><textarea id="course3" style="min-height:36px" placeholder="Course name"></textarea></td>
       <td class="input-cell"><input type="text" id="course3_inst" placeholder="Institution"></td>
-      <td class="input-cell"><input type="text" id="course3_from" placeholder="mm/yyyy"></td>
-      <td class="input-cell"><input type="text" id="course3_to" placeholder="mm/yyyy"></td>
+      <td class="input-cell"><input type="month" id="course3_from"></td>
+      <td class="input-cell"><input type="month" id="course3_to"></td>
       <td class="input-cell"><input type="text" id="course3_qual" placeholder="Qualification"></td>
     </tr>
   </table>
@@ -1199,10 +1238,15 @@ input.sig-type-input:focus {
         </div>
       </td>
       <td class="input-cell">
-        <span class="label-cell" style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">*</span></span>
-        <div id="f-emp1_date">
-          <input type="text" id="emp1_date" placeholder="e.g. Jan 2020 – Dec 2023" style="margin-top:3px">
-          <span class="err-msg">* Employment dates are required.</span>
+        <span style="font-weight:600">From (Mth/Yr) <span class="req">*</span></span>
+        <div id="f-emp1_from">
+          <input type="month" id="emp1_from">
+          <span class="err-msg">* From date is required.</span>
+        </div>
+        <span style="font-weight:600; margin-top:6px; display:inline-block">To (Mth/Yr) <span class="req">*</span></span>
+        <div id="f-emp1_to">
+          <input type="month" id="emp1_to">
+          <span class="err-msg">* To date is required.</span>
         </div>
       </td>
     </tr>
@@ -1248,8 +1292,10 @@ input.sig-type-input:focus {
         <input type="text" id="emp2_pos" placeholder="e.g. Junior Developer" style="margin-top:3px">
       </td>
       <td class="input-cell">
-        <span class="label-cell" style="font-size:11.5px;font-weight:600">Date (From/To) <span class="req">*</span></span>
-        <input type="text" id="emp2_date" placeholder="e.g. Jan 2018 – Dec 2019" style="margin-top:3px">
+        <span style="font-weight:600">From (Mth/Yr)<span class="req">*</span></span>
+        <input type="month" id="emp2_from">
+        <span style="font-weight:600; margin-top:6px; display:inline-block">To (Mth/Yr)<span class="req">*</span></span>
+        <input type="month" id="emp2_to">
       </td>
     </tr>
     <tr>
@@ -1587,7 +1633,8 @@ const REQUIRED = [
   {id:'emp1_name',    type:'text'},
   {id:'emp1_addr',    type:'text'},
   {id:'emp1_pos',     type:'text'},
-  {id:'emp1_date',    type:'text'},
+  {id:'emp1_from', type:'month'},
+  {id:'emp1_to', type:'month'},
   {id:'exp_salary',   type:'text'},
   {id:'ref1_name',    type:'text'},
   {id:'ref1_occ',     type:'text'},
@@ -1651,7 +1698,37 @@ document.getElementById('dob').addEventListener('change', function() {
     let age = today.getFullYear() - dob.getFullYear();
     const m = today.getMonth() - dob.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-    if (age >= 0 && age <= 99) document.getElementById('age').value = age;
+    if (age >= 16 && age <= 99) {
+      document.getElementById('age').value = age;
+    } else {
+      document.getElementById('age').value = ''; // clear invalid age
+    }
+  }
+  calcProgress();
+});
+
+// ── Auto-calculate age for Father, Mother, Spouse ──
+document.getElementById('fath_dob').addEventListener('change', function() {
+  if (this.value) {
+    let age = new Date().getFullYear() - new Date(this.value).getFullYear();
+    if (age >= 16 && age <= 99) document.getElementById('fath_age').value = age;
+    else document.getElementById('fath_age').value = '';
+  }
+  calcProgress();
+});
+document.getElementById('moth_dob').addEventListener('change', function() {
+  if (this.value) {
+    let age = new Date().getFullYear() - new Date(this.value).getFullYear();
+    if (age >= 16 && age <= 99) document.getElementById('moth_age').value = age;
+    else document.getElementById('moth_age').value = '';
+  }
+  calcProgress();
+});
+document.getElementById('sp_dob').addEventListener('change', function() {
+  if (this.value) {
+    let age = new Date().getFullYear() - new Date(this.value).getFullYear();
+    if (age >= 16 && age <= 99) document.getElementById('sp_age').value = age;
+    else document.getElementById('sp_age').value = '';
   }
   calcProgress();
 });
@@ -1666,8 +1743,192 @@ function validateAndPrint() {
     const wrap = document.getElementById('f-' + f.id);
     let val = el.value.trim();
     let ok = val !== '';
-    if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    // Email format check
+    if (f.type === 'email' && ok) {
+      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
     if (f.type === 'tel' && ok) ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
+
+    // ----- DATE OF BIRTH VALIDATION -----
+    if (f.id === 'dob' && ok) {
+      const dobDate = new Date(val);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (isNaN(dobDate.getTime())) {
+        ok = false;
+        showFieldError(wrap, 'Please enter a valid date.');
+      } else if (dobDate > today) {
+        ok = false;
+        showFieldError(wrap, 'Date of birth cannot be in the future.');
+      } else {
+        let age = today.getFullYear() - dobDate.getFullYear();
+        const m = today.getMonth() - dobDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age--;
+
+        if (age < 16) {
+          ok = false;
+          showFieldError(wrap, 'Age must be at least 16 years.');
+        } else if (age > 99) {
+          ok = false;
+          showFieldError(wrap, 'Age cannot exceed 99 years.');
+        } else {
+          const ageField = document.getElementById('age');
+          if (ageField && ageField.value != age) {
+            ageField.value = age;
+            ageField.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          clearFieldError(wrap);
+        }
+      }
+    }
+
+    // ----- AGE FIELD VALIDATION (manual entry) -----
+    if (f.id === 'age' && ok) {
+      const ageVal = parseInt(val);
+      if (isNaN(ageVal) || ageVal < 16 || ageVal > 99) {
+        ok = false;
+        showFieldError(wrap, 'Age must be between 16 and 99.');
+      } else {
+        const dobEl = document.getElementById('dob');
+        if (dobEl && dobEl.value) {
+          const dobDate = new Date(dobEl.value);
+          const today = new Date();
+          let calcAge = today.getFullYear() - dobDate.getFullYear();
+          const m = today.getMonth() - dobDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) calcAge--;
+          if (calcAge !== ageVal) {
+            ok = false;
+            showFieldError(wrap, 'Age does not match Date of Birth.');
+          }
+        }
+      }
+    }
+
+    // ----- FATHER DOB & AGE VALIDATION -----
+    if (f.id === 'fath_dob' && ok) {
+      const dobDate = new Date(val);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      if (isNaN(dobDate)) {
+        ok = false; showFieldError(wrap, 'Invalid date');
+      } else if (dobDate > today) {
+        ok = false; showFieldError(wrap, 'DOB cannot be future');
+      } else {
+        let age = today.getFullYear() - dobDate.getFullYear();
+        if (age < 16) { ok = false; showFieldError(wrap, 'Age at least 16'); }
+        else if (age > 99) { ok = false; showFieldError(wrap, 'Age max 99'); }
+        else {
+          const ageField = document.getElementById('fath_age');
+          if (ageField && ageField.value != age) ageField.value = age;
+          clearFieldError(wrap);
+        }
+      }
+    }
+    if (f.id === 'fath_age' && ok) {
+      let ageVal = parseInt(val);
+      if (isNaN(ageVal) || ageVal < 16 || ageVal > 99) {
+        ok = false; showFieldError(wrap, 'Age 16-99');
+      } else {
+        const dobEl = document.getElementById('fath_dob');
+        if (dobEl && dobEl.value) {
+          let calcAge = new Date().getFullYear() - new Date(dobEl.value).getFullYear();
+          if (calcAge !== ageVal) { ok = false; showFieldError(wrap, 'Age mismatch with DOB'); }
+        }
+      }
+    }
+
+    // ----- MOTHER DOB & AGE VALIDATION -----
+    if (f.id === 'moth_dob' && ok) {
+      const dobDate = new Date(val);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      if (isNaN(dobDate)) { ok = false; showFieldError(wrap, 'Invalid date'); }
+      else if (dobDate > today) { ok = false; showFieldError(wrap, 'DOB cannot be future'); }
+      else {
+        let age = today.getFullYear() - dobDate.getFullYear();
+        if (age < 16) { ok = false; showFieldError(wrap, 'Age at least 16'); }
+        else if (age > 99) { ok = false; showFieldError(wrap, 'Age max 99'); }
+        else {
+          const ageField = document.getElementById('moth_age');
+          if (ageField && ageField.value != age) ageField.value = age;
+          clearFieldError(wrap);
+        }
+      }
+    }
+    if (f.id === 'moth_age' && ok) {
+      let ageVal = parseInt(val);
+      if (isNaN(ageVal) || ageVal < 16 || ageVal > 99) {
+        ok = false; showFieldError(wrap, 'Age 16-99');
+      } else {
+        const dobEl = document.getElementById('moth_dob');
+        if (dobEl && dobEl.value) {
+          let calcAge = new Date().getFullYear() - new Date(dobEl.value).getFullYear();
+          if (calcAge !== ageVal) { ok = false; showFieldError(wrap, 'Age mismatch with DOB'); }
+        }
+      }
+    }
+
+    // ----- SPOUSE DOB & AGE VALIDATION -----
+    if (f.id === 'sp_dob' && ok) {
+      const dobDate = new Date(val);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      if (isNaN(dobDate)) { ok = false; showFieldError(wrap, 'Invalid date'); }
+      else if (dobDate > today) { ok = false; showFieldError(wrap, 'DOB cannot be future'); }
+      else {
+        let age = today.getFullYear() - dobDate.getFullYear();
+        if (age < 16) { ok = false; showFieldError(wrap, 'Age at least 16'); }
+        else if (age > 99) { ok = false; showFieldError(wrap, 'Age max 99'); }
+        else {
+          const ageField = document.getElementById('sp_age');
+          if (ageField && ageField.value != age) ageField.value = age;
+          clearFieldError(wrap);
+        }
+      }
+    }
+    if (f.id === 'sp_age' && ok) {
+      let ageVal = parseInt(val);
+      if (isNaN(ageVal) || ageVal < 16 || ageVal > 99) {
+        ok = false; showFieldError(wrap, 'Age 16-99');
+      } else {
+        const dobEl = document.getElementById('sp_dob');
+        if (dobEl && dobEl.value) {
+          let calcAge = new Date().getFullYear() - new Date(dobEl.value).getFullYear();
+          if (calcAge !== ageVal) { ok = false; showFieldError(wrap, 'Age mismatch with DOB'); }
+        }
+      }
+    }
+
+    // ----- EMPLOYMENT FROM/TO DATE ORDER VALIDATION -----
+    if (f.id === 'emp1_to' && ok) {
+      const fromVal = document.getElementById('emp1_from').value;
+      if (fromVal) {
+        const fromDate = new Date(fromVal);
+        const toDate = new Date(val);
+        if (!isNaN(fromDate) && !isNaN(toDate) && toDate < fromDate) {
+          ok = false;
+          showFieldError(wrap, 'To date must be after From date.');
+        }
+      }
+    }
+    // ----- COURSE 2 DATE ORDER VALIDATION -----
+    if (f.id === 'course2_to' && ok) {
+      const fromVal = document.getElementById('course2_from').value;
+      if (fromVal && new Date(fromVal) > new Date(val)) {
+        ok = false;
+        showFieldError(wrap, 'To date must be after From date.');
+      }
+    }
+    // ----- COURSE 3 DATE ORDER VALIDATION -----
+    if (f.id === 'course3_to' && ok) {
+      const fromVal = document.getElementById('course3_from').value;
+      if (fromVal && new Date(fromVal) > new Date(val)) {
+        ok = false;
+        showFieldError(wrap, 'To date must be after From date.');
+      }
+    }
+
     if (!ok) {
       el.classList.add('err');
       if (wrap) wrap.classList.add('has-err');
@@ -1675,9 +1936,11 @@ function validateAndPrint() {
     } else {
       el.classList.remove('err');
       if (wrap) wrap.classList.remove('has-err');
+      clearFieldError(wrap);
     }
   });
 
+  // Radio groups validation (unchanged)
   RADIO_GROUPS.forEach(g => {
     const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
     const errEl = document.getElementById(g.errId);
@@ -1692,11 +1955,26 @@ function validateAndPrint() {
     }
   });
 
+  function showFieldError(wrapElement, message) {
+    clearFieldError(wrapElement);
+    let errSpan = document.createElement('span');
+    errSpan.className = 'err-msg custom-err-msg';
+    errSpan.style.display = 'block';
+    errSpan.textContent = message;
+    wrapElement.appendChild(errSpan);
+    wrapElement.classList.add('has-err');
+  }
+
+  function clearFieldError(wrapElement) {
+    const existing = wrapElement.querySelector('.custom-err-msg');
+    if (existing) existing.remove();
+  }
+
   const banner = document.getElementById('val-banner');
   if (hasErr) {
     banner.style.display = 'block';
-    const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select');
-    if (firstErr) firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+    const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select, .has-err');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
