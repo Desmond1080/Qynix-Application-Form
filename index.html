@@ -634,7 +634,7 @@ input.sig-type-input:focus {
    PRINT — A4 portrait locked
 ══════════════════════════ */
 @media print {
-  @page { size: A4 portrait; margin: 14mm 12mm 14mm 12mm; }
+  @page { size: 210mm 297mm; margin: 14mm 12mm 14mm 12mm; }
 
   body { background: #fff !important; padding: 0 !important; width: 100% !important; min-width: 100% !important; }
 
@@ -671,11 +671,11 @@ input.sig-type-input:focus {
     background: transparent !important;
   }
 
-  /* Make placeholders light grey and clearly distinguished from typed text during print */
+  /* Make placeholders distinct yet legible with improved contrast during print */
   input::placeholder,
   textarea::placeholder {
-    color: #bbb !important;
-    opacity: 0.6 !important;
+    color: #888 !important;
+    opacity: 0.65 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -1723,7 +1723,6 @@ input.sig-type-input:focus {
 </div>
 
 <script>
-
 // ── Required field definitions ──
 const REQUIRED = [
   {id:'position',     type:'text'},
@@ -2497,6 +2496,142 @@ window.addEventListener('load', function() {
       }
     });
   }
+
+  set('position', 'Senior Full Stack Developer');
+  set('fullname', 'TAN WEI MING');
+  set('chinese_name', '陈伟明');
+  set('age', '29');
+  set('dob', '1996-05-15');
+  set('nric_old', 'A1234567');
+  set('nric_new', '960515-08-1234');
+  set('pob', 'PENANG');
+  set('race', 'CHINESE');
+  set('citizenship', 'MALAYSIA');
+  set('religion', 'BUDDHISM');
+  set('marital', 'Married');
+  set('epf', 'EPF12345678');
+  set('socso', 'SOCSO98765');
+  set('tax', 'TAX123456');
+  set('bank_acc', '3123456789');
+  set('perm_addr', '12, Jalan Bukit Jambul, Bayan Lepas, 11900 Penang');
+  set('postal_addr', '-');
+  set('tel_home', '04-1234567');
+  set('tel_office', '04-7654321');
+  set('tel_hp', '012-3456789');
+  set('email', 'wei.tan@example.com');
+  set('fath_name', 'TAN AH KOW');
+  set('fath_dob', '1965-03-10');
+  set('fath_age', '59');
+  set('fath_occ', 'Retired Engineer');
+  set('moth_name', 'LIM SOO LING');
+  set('moth_dob', '1968-07-22');
+  set('moth_age', '56');
+  set('moth_occ', 'Housewife');
+  set('bro_names', 'Tan Wei Jie');
+  set('bro_dob', '1998-09-12');
+  set('bro_age', '26');
+  set('bro_occ', 'Accountant');
+  set('sis_names', 'N/A');
+  set('sis_dob', 'N/A');
+  set('sis_age', 'N/A');
+  set('sis_occ', 'N/A');
+  set('sp_name', 'CHONG MEI LING');
+  set('sp_dob', '1997-01-05');
+  set('sp_age', '29');
+  set('sp_occ', 'Teacher');
+  set('son_names', 'Tan Zi Hao');
+  set('son_dob', '2020-11-20');
+  set('son_age', '3');
+  set('son_occ', 'N/A');
+  set('dau_names', 'N/A');
+  set('dau_dob', 'N/A');
+  set('dau_age', 'N/A');
+  set('dau_occ', 'N/A');
+  set('emg_name', 'TAN WEI JIE');
+  set('emg_rel', 'Brother');
+  set('emg_addr', '12, Jalan Bukit Jambul, Bayan Lepas, Penang');
+  set('emg_home', '04-1234567');
+  set('emg_hp', '013-9876543');
+  set('sec_sch', 'SMK Bukit Jambul, Penang');
+  set('sec_from', '2009-01');
+  set('sec_to', '2013-12');
+  set('sec_qual', 'SPM - 8As');
+  set('uni', 'Universiti Sains Malaysia (USM), Penang');
+  set('uni_from', '2014-06');
+  set('uni_to', '2018-05');
+  set('uni_qual', 'Bachelor of Computer Science, CGPA 3.75');
+  set('course1', 'Full Stack Web Development Bootcamp');
+  set('course1_inst', 'Coding Academy');
+  set('course1_from', '2020-02');
+  set('course1_to', '2020-08');
+  set('course1_qual', 'Certificate');
+  set('course2', 'Agile Scrum Master');
+  set('course2_inst', 'Scrum Institute');
+  set('course2_from', '2022-01');
+  set('course2_to', '2022-02');
+  set('course2_qual', 'Scrum Master Certified');
+  set('course3', '');
+  set('course3_inst', '');
+  set('course3_from', '');
+  set('course3_to', '');
+  set('course3_qual', '');
+  set('prog_lang', 'JavaScript, TypeScript, Python, Java, C#');
+  set('os', 'Windows, Linux (Ubuntu), macOS');
+  set('database', 'MySQL, PostgreSQL, MongoDB, Redis');
+  set('internet_tech', 'React, Node.js, Express, REST APIs, GraphQL, HTML/CSS');
+  set('domain', 'FinTech, E-commerce, Healthcare');
+  set('skills_other', 'Docker, Kubernetes, Git, CI/CD pipelines, AWS');
+  set('lang_spoken', 'English, Bahasa Malaysia, Mandarin, Cantonese');
+  set('lang_written', 'English, Bahasa Malaysia, Simplified Chinese');
+  set('dialect', 'Hokkien, Cantonese');
+  set('height', '175');
+  set('weight', '70');
+  set('disability', 'Nil');
+  set('illness', 'Nil');
+  set('rel1_name', 'Nil');
+  set('rel1_dept', '');
+  set('rel1_rel', '');
+  set('emp1_name', 'Tech Solutions Sdn Bhd');
+  set('emp1_addr', 'Menara Axis, Level 15, Jalan Bangsar, 59200 KL');
+  set('emp1_pos', 'Software Engineer');
+  set('emp1_from', '2021-03');
+  set('emp1_to', '2025-04');
+  set('emp1_salary', '5500');
+  set('emp1_duties', 'Full-stack development using React & Node.js');
+  set('emp1_reason', 'Career growth opportunity');
+  set('emp2_name', 'Digital Solutions PLT');
+  set('emp2_addr', 'No. 88, Lebuhraya Batu Lanchang, 11600 Penang');
+  set('emp2_pos', 'Junior Programmer');
+  set('emp2_from', '2018-07');
+  set('emp2_to', '2021-02');
+  set('emp2_salary', '3200');
+  set('emp2_duties', 'Maintained legacy systems, C# desktop apps');
+  set('emp2_reason', 'Seeking better challenge');
+  set('driving', 'Class D (Car)');
+  set('travel_reason', 'Willing to travel up to 50%');
+  set('passport_no', 'A51234567');
+  set('passport_validity', '01/2025 – 01/2035');
+  set('exp_salary', 'RM 6500 per month');
+  set('crim_when', '');
+  set('crim_where', '');
+  set('crim_disp', '');
+  set('notice', '1 month notice / can start on 01/07/2025');
+  set('other_info', 'Strong team player, passionate about open-source');
+  set('ref1_name', 'Dr. Liew Chee Keong');
+  set('ref1_hp', '012-8881234');
+  set('ref1_office', '04-6532187');
+  set('ref1_occ', 'Senior Lecturer (USM)');
+  set('ref2_name', 'Ms. Chan Siew Leng');
+  set('ref2_hp', '016-5557890');
+  set('ref2_office', '03-22881234');
+  set('ref2_occ', 'Project Manager (Tech Solutions)');
+  set('sig_type', 'Tan Wei Ming');
+  set('cert-date', '2026-05-07');
+
+  // For radio groups (these don't use .value, so set them manually)
+  document.querySelector('input[name="travel"][value="yes"]').checked = true;
+  document.querySelector('input[name="passport"][value="yes"]').checked = true;
+  document.querySelector('input[name="criminal"][value="no"]').checked = true;
 });
 </script>
 
