@@ -29,7 +29,6 @@ body {
   page-break-after: always;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 /* ── Header ── */
@@ -40,6 +39,11 @@ body {
   border-bottom: 2.5px solid #3aac28;
   padding-bottom: 12px;
   margin-bottom: 18px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 100;
+  padding-top: 4px;
 }
 
 .logo-block {
@@ -655,15 +659,19 @@ input.sig-type-input:focus {
     padding: 0 0 16px !important;
     margin: 0 !important;
     min-height: unset !important;
-    max-height: 269mm !important;
-    overflow: hidden !important;
-    display: flex !important;
-    flex-direction: column !important;
+    display: block !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: visible !important;
+  }
+  .page-card:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
   .form-actions, #val-banner, #success-screen, #progress-wrap, #progress-label { display: none !important; }
 
-  .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   input, select, textarea {
     border-bottom: 1px solid #999 !important;
@@ -698,6 +706,11 @@ input.sig-type-input:focus {
   .sec-title { break-after: avoid; }
   table.form-table { break-inside: auto; }
   table.form-table tr { break-inside: avoid; }
+  .print-section {
+    break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
 }
 </style>
 </head>
@@ -733,6 +746,7 @@ input.sig-type-input:focus {
     </div>
   </div>
 
+<div class="print-section" data-min-page="1">
   <!-- Personal Details -->
   <div class="sec-title">Personal Details <em style="font-weight:400;text-transform:none;font-size:11px">(In capital letters)</em></div>
 
@@ -896,7 +910,9 @@ input.sig-type-input:focus {
     </tr>
   </table>
   <p style="font-size:10.5px;font-style:italic;color:#555;margin-bottom:10px">*Strikethrough whichever is not applicable.</p>
+</div>
 
+<div class="print-section" data-min-page="2">
   <!-- Family Details -->
   <div class="sec-title">Family Details</div>
   <table class="form-table">
@@ -983,30 +999,6 @@ input.sig-type-input:focus {
         <span class="err-msg">* Sister(s) occupation or N/A is required.</span>
       </td>
     </tr>
-  </table>
-
-</div><!-- /pg1 -->
-
-<!-- ══════════════════════════════════════
-     PAGE 2 — Family cont. / Education
-══════════════════════════════════════ -->
-<div class="page-card" id="pg2">
-
-  <div class="form-header">
-    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
-    <div style="flex:1"></div>
-    <div class="page-num">- 2 -</div>
-  </div>
-
-  <!-- Family cont -->
-  <table class="form-table" style="margin-top:4px">
-    <tr>
-      <th style="width:14%">&nbsp;</th>
-      <th style="width:32%">Name</th>
-      <th style="width:20%">Date of Birth</th>
-      <th style="width:10%">Age</th>
-      <th>Occupation</th>
-    </tr>
     <tr>
       <td class="label-cell">Spouse <span class="req">*</span></td>
       <td class="input-cell" id="f-sp_name">
@@ -1064,7 +1056,22 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+</div><!-- /pg1 -->
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — Family cont. / Education
+══════════════════════════════════════ -->
+<div class="page-card" id="pg2">
+
+  <div class="form-header">
+    <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+    <div style="flex:1"></div>
+    <div class="page-num">- 2 -</div>
+  </div>
+
+<div class="print-section">
   <!-- Emergency Contacts -->
   <div class="sec-title">Emergency Contacts</div>
   <table class="form-table">
@@ -1100,7 +1107,9 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+<div class="print-section" data-min-page="3">
   <!-- Educational Data -->
   <div class="sec-title">Educational Data</div>
   <table class="form-table">
@@ -1197,6 +1206,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
 </div><!-- /pg2 -->
 
@@ -1211,6 +1221,7 @@ input.sig-type-input:focus {
     <div class="page-num">- 3 -</div>
   </div>
 
+<div class="print-section">
   <!-- Skill Sets -->
   <div class="sec-title">Skill Sets Knowledge &amp; Experience</div>
   <table class="form-table">
@@ -1278,7 +1289,9 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+<div class="print-section">
   <!-- Health -->
   <div class="sec-title">Health</div>
   <table class="form-table">
@@ -1310,7 +1323,9 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+<div class="print-section">
   <!-- Friends/Relatives in Qynix -->
   <div class="sec-title">Details Of Friends/Relatives Working In Qynix Technologies (if any)</div>
   <table class="form-table">
@@ -1334,6 +1349,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
 </div><!-- /pg3 -->
 
@@ -1348,6 +1364,7 @@ input.sig-type-input:focus {
     <div class="page-num">- 4 -</div>
   </div>
 
+<div class="print-section" data-min-page="4">
   <!-- Employment Data — Current/Most Recent -->
   <div class="sec-title">Employment Data (Present / Most Recent Employer)</div>
   <table class="form-table" style="margin-bottom: 24px;">
@@ -1413,7 +1430,9 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+<div class="print-section">
   <!-- Previous Employer -->
   <div class="sec-title">Previous Employer</div>
   <table class="form-table">
@@ -1467,6 +1486,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
 </div><!-- /pg4 -->
 
@@ -1481,6 +1501,7 @@ input.sig-type-input:focus {
     <div class="page-num">- 5 -</div>
   </div>
 
+<div class="print-section" data-min-page="6">
   <div class="sec-title">Further Information</div>
   <table class="form-table">
     <tr>
@@ -1604,7 +1625,9 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
+<div class="print-section" data-min-page="7">
   <!-- References -->
   <div class="sec-title">References</div>
   <p style="font-size:11px;font-style:italic;margin-bottom:8px;color:#555">List <strong>two references</strong> whom Qynix Technologies may approach for testimonials. Referees should not be family members and should be competent to comment on your education/work experience.</p>
@@ -1643,6 +1666,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
   </table>
+</div>
 
 </div><!-- /pg5 -->
 
@@ -1657,6 +1681,7 @@ input.sig-type-input:focus {
     <div class="page-num">- 6 -</div>
   </div>
 
+<div class="print-section">
   <!-- Applicant Certification -->
   <div class="sec-title">
     <div class="input-cell">
@@ -1716,9 +1741,10 @@ input.sig-type-input:focus {
       </div>
     </div>
   </div>
-
   <hr style="border:none;border-top:2px solid #333;margin:24px 0 16px">
+</div>
 
+<div class="print-section">
   <!-- For Office Use Only -->
   <div class="office-box">
     <div class="office-hdr">For Office Use Only</div>
@@ -1734,11 +1760,7 @@ input.sig-type-input:focus {
       <textarea id="interviewer_notes" style="width:100%;min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;font-family:inherit;font-size:12px;resize:vertical" placeholder="Interviewer's notes and comments..."></textarea>
     </div>
   </div>
-
-  <div class="form-footer">
-    Qynix Technologies Sdn Bhd
-  </div>
-
+</div>
 </div><!-- /pg6 -->
 
 <!-- ── Action buttons ── -->
@@ -2952,6 +2974,151 @@ window.addEventListener('load', function() {
   document.querySelector('input[name="passport"][value="yes"]').checked = true;
   document.querySelector('input[name="criminal"][value="no"]').checked = true;
 });
+
+// ── Live Repagination Engine for On-Screen & Filling ──
+let originalSections = [];
+
+function initRepagination() {
+  originalSections = Array.from(document.querySelectorAll('.print-section'));
+  repaginateForm();
+}
+
+function repaginateForm() {
+  if (originalSections.length === 0) return;
+
+  const activeEl = document.activeElement;
+  const activeId = activeEl ? activeEl.id : null;
+  const selStart = activeEl && ('selectionStart' in activeEl) ? activeEl.selectionStart : null;
+  const selEnd = activeEl && ('selectionEnd' in activeEl) ? activeEl.selectionEnd : null;
+
+  const cards = [
+    document.getElementById('pg1'),
+    document.getElementById('pg2'),
+    document.getElementById('pg3'),
+    document.getElementById('pg4'),
+    document.getElementById('pg5'),
+    document.getElementById('pg6')
+  ];
+
+  let dynamicIndex = 7;
+  while (document.getElementById('pg' + dynamicIndex)) {
+    cards.push(document.getElementById('pg' + dynamicIndex));
+    dynamicIndex++;
+  }
+
+  cards.forEach(card => {
+    if (!card) return;
+    Array.from(card.children).forEach(child => {
+      if (child.classList.contains('print-section')) {
+        child.remove();
+      }
+    });
+  });
+
+  let currentCardIndex = 0;
+
+  originalSections.forEach(sec => {
+    const minPage = parseInt(sec.getAttribute('data-min-page') || '1', 10) - 1;
+
+    // Dynamically create pages if minPage exceeds our current cards list!
+    while (minPage >= cards.length) {
+      const nextPageIndex = cards.length + 1;
+      const newCard = document.createElement('div');
+      newCard.className = 'page-card';
+      newCard.id = 'pg' + nextPageIndex;
+      newCard.innerHTML = `
+        <div class="form-header">
+          <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+          <div style="flex:1"></div>
+          <div class="page-num">- ${nextPageIndex} -</div>
+        </div>
+        <div class="form-footer">
+          Qynix Technologies Sdn Bhd
+        </div>
+      `;
+      const actionButtons = document.getElementById('action-buttons');
+      document.body.insertBefore(newCard, actionButtons);
+      cards.push(newCard);
+    }
+
+    if (currentCardIndex < minPage) {
+      currentCardIndex = minPage;
+    }
+
+    let card = cards[currentCardIndex];
+    if (!card) return;
+
+    const footer = card.querySelector('.form-footer');
+    if (footer) {
+      card.insertBefore(sec, footer);
+    } else {
+      card.appendChild(sec);
+    }
+
+    if (card.scrollHeight > 1130) {
+      if (currentCardIndex === cards.length - 1) {
+        // Dynamically create a new card past pg6
+        const nextPageIndex = cards.length + 1;
+        const newCard = document.createElement('div');
+        newCard.className = 'page-card';
+        newCard.id = 'pg' + nextPageIndex;
+        newCard.innerHTML = `
+          <div class="form-header">
+            <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
+            <div style="flex:1"></div>
+            <div class="page-num">- ${nextPageIndex} -</div>
+          </div>
+          <div class="form-footer">
+            Qynix Technologies Sdn Bhd
+          </div>
+        `;
+        const actionButtons = document.getElementById('action-buttons');
+        document.body.insertBefore(newCard, actionButtons);
+        cards.push(newCard);
+      }
+
+      currentCardIndex++;
+      card = cards[currentCardIndex];
+      if (card) {
+        const footer = card.querySelector('.form-footer');
+        if (footer) {
+          card.insertBefore(sec, footer);
+        } else {
+          card.appendChild(sec);
+        }
+      }
+    }
+  });
+
+  // Clean up trailing empty cards (pg7 and above) from the end
+  for (let i = cards.length - 1; i >= 6; i--) {
+    const card = cards[i];
+    if (card) {
+      const sections = card.querySelectorAll('.print-section');
+      if (sections.length === 0) {
+        card.remove();
+      } else {
+        break;
+      }
+    }
+  }
+
+  if (activeId) {
+    const el = document.getElementById(activeId);
+    if (el) {
+      el.focus();
+      if (selStart !== null && selEnd !== null && ('setSelectionRange' in el)) {
+        el.setSelectionRange(selStart, selEnd);
+      }
+    }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(initRepagination, 150);
+});
+document.addEventListener('input', repaginateForm);
+document.addEventListener('change', repaginateForm);
 </script>
 
 </body>
