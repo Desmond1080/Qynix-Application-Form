@@ -131,6 +131,15 @@ table.form-table th {
 
 .input-cell .req { color: #c0392b; font-weight: 900; }
 
+.req-cond {
+  color: #c0392b;
+  font-weight: 900;
+  display: none;
+}
+.req-cond.show {
+  display: inline;
+}
+
 /* ── Inputs ── */
 input[type="text"],
 input[type="email"],
@@ -1530,8 +1539,9 @@ table.form-table.show-actions .action-col { display: table-cell; }
         </div>
       </td>
       <td class="input-cell">
-        <span style="font-size:11.5px;font-weight:600">If YES, please state reason: <span class="req" id="travel-reason-star" style="display:none"></span></span>
-        <div id="f-travel_reason"><textarea id="travel_reason" style="min-height:50px;margin-top:4px" placeholder="State reason if YES (required if YES selected)"></textarea><span class="err-msg">* Reason is required when YES is selected.</span></div>
+        <span style="font-size:11.5px;font-weight:600">If YES, please state reason:<span id="travel-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></span>
+        <textarea id="travel_reason" style="min-height:50px;margin-top:4px" placeholder="State reason if YES"></textarea>
+        <span class="err-msg"></span>
       </td>
     </tr>
     <tr>
@@ -1549,10 +1559,19 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="input-cell">
         <span style="font-size:11.5px;font-weight:600">If YES:</span>
         <div style="margin-top:5px;display:flex;flex-direction:column;gap:5px">
-          <div>Passport Number:</div>
+          <div>Passport Number:<span id="passport-no-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
           <input type="text" id="passport_no" placeholder="e.g. A12345678" style="border-bottom:1.5px solid #bbb">
-          <div>Date of Validity (from/to):</div>
-          <input type="text" id="passport_validity" placeholder="e.g. 01/2020 – 01/2030" style="border-bottom:1.5px solid #bbb">
+          <span class="err-msg"></span>
+          <div>Date of Validity <span id="passport-valid-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1">
+              From: <input type="date" id="passport_validity_from" style="border-bottom:1.5px solid #bbb">
+            </div>
+            <div style="flex:1">
+              To: <input type="date" id="passport_validity_to" style="border-bottom:1.5px solid #bbb">
+            </div>
+          </div>
+          <span class="err-msg"></span>
         </div>
       </td>
     </tr>
@@ -1580,14 +1599,29 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="input-cell">
         <table style="width:100%;border-collapse:collapse">
           <tr>
-            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">When</th>
-            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Where</th>
-            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Disposition of Case</th>
+            <th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">When<span id="crim-when-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></th>
+<th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Where<span id="crim-where-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></th>
+<th style="border:1px solid #ccc;padding:4px;font-size:11px;background:#f5f5f5">Disposition of Case<span id="crim-disp-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></th>
           </tr>
           <tr>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_when" placeholder="Date"></td>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_where" placeholder="Location"></td>
-            <td style="border:1px solid #ccc;padding:3px"><input type="text" id="crim_disp" placeholder="Outcome"></td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_when">
+                <input type="date" id="crim_when">
+                <span class="err-msg"></span>
+              </div>
+            </td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_where">
+                <input type="text" id="crim_where" placeholder="Location">
+                <span class="err-msg"></span>
+              </div>
+            </td>
+            <td style="border:1px solid #ccc;padding:3px">
+              <div id="f-crim_disp">
+                <input type="text" id="crim_disp" placeholder="Outcome">
+                <span class="err-msg"></span>
+              </div>
+            </td>
           </tr>
         </table>
       </td>
@@ -1704,6 +1738,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div class="sig-lbl">Signature</div>
+          <span id="signature-err" class="err-msg" style="display:none;"></span>
           <button type="button" class="sig-clear-btn" onclick="clearSig()">
             <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             Clear
@@ -1713,6 +1748,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <!-- Date slot -->
       <div class="sig-slot" style="max-width:200px">
         <input type="date" id="cert-date">
+        <span class="err-msg" id="cert-date-err"></span>
         <div class="sig-lbl">Date</div>
       </div>
     </div>
@@ -2063,11 +2099,15 @@ const REQUIRED = [
   {id:'emp2_duties',   type:'text'},
   {id:'emp2_reason',   type:'text'},
   {id:'exp_salary',   type:'text'},
+  {id:'driving',      type:'text'},
+  {id:'notice',       type:'text'}, 
+  {id:'other_info',   type:'text'},
   {id:'ref1_name',    type:'text'},
   {id:'ref1_occ',     type:'text'},
   {id:'ref2_name',    type:'text'},
   {id:'ref2_occ',     type:'text'},
   {id:'religion',      type:'select'},
+  {id:'cert-date', type:'date'},
 ];
 
 const RADIO_GROUPS = [
@@ -2076,48 +2116,20 @@ const RADIO_GROUPS = [
   {name:'criminal', errId:'criminal-err', fieldId:'f-criminal'},
 ];
 
-// conditional required: if yes selected, then reason field becomes required
 const CONDITIONAL_REQUIRED = [
-  {
-    radioName: 'travel',
-    triggerValue: 'yes',
-    fields: ['travel_reason'],
-    starId: 'travel-reason-star',
-  }
-
-]
-
-// Show/hide conditional stars and placeholders dynamically
-function updateConditionalUI() {
-  CONDITIONAL_REQUIRED.forEach(c => {
-    const selected = [...document.querySelectorAll(`input[name="${c.radioName}"]`)].find(r => r.checked);
-    const isYes = selected && selected.value === c.triggerValue;
-    if (c.starId) {
-      const star = document.getElementById(c.starId);
-      if (star) star.style.display = isYes ? 'inline' : 'none';
-    }
-    c.fields.forEach(fid => {
-      const wrap = document.getElementById('f-' + fid);
-      if (wrap) {
-        const inp = document.getElementById(fid);
-        if (inp) {
-          if (isYes) {
-            inp.style.borderBottomColor = '';
-          } else {
-            // clear error if switching to No
-            inp.classList.remove('err');
-            if (wrap) wrap.classList.remove('has-err');
-          }
-        }
-      }
-    });
-  });
-}
+  { radioName: 'travel', radioValue: 'yes', fieldId: 'travel_reason', message: 'Please state reason for travel.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_no', message: 'Passport number is required.' },    
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity_from', message: 'Validity from date is required.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity_to', message: 'Validity to date is required.' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_when', message: 'Please provide the date (When).' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_where', message: 'Please provide the location (Where).' },
+  { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_disp', message: 'Please provide the disposition of case.' }
+];
 
 // ── Progress tracking ──
 function calcProgress() {
   let filled = 0;
-  const total = REQUIRED.length + RADIO_GROUPS.length;
+  let total = REQUIRED.length + RADIO_GROUPS.length;
 
   REQUIRED.forEach(f => {
     const el = document.getElementById(f.id);
@@ -2131,6 +2143,19 @@ function calcProgress() {
   RADIO_GROUPS.forEach(g => {
     const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
     if (checked) filled++;
+  });
+
+  // Conditional required fields (only count if radio is YES)
+  CONDITIONAL_REQUIRED.forEach(c => {
+    total++; // always count toward total
+    const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
+    if (radio && radio.value === c.radioValue) {
+      const el = document.getElementById(c.fieldId);
+      if (el && el.value.trim() !== '') filled++;
+    } else {
+      // not applicable → automatically considered filled
+      filled++;
+    }
   });
 
   const pct = Math.round((filled / total) * 100);
@@ -2153,6 +2178,79 @@ function calcProgress() {
     pill.style.borderColor = '#c0392b';
     pill.style.color = '#c0392b';
   }
+
+  let signatureSet = false;
+  const drawMode = document.getElementById('sig-draw-wrap').style.display !== 'none';
+  const typeMode = document.getElementById('sig-type').style.display !== 'none';
+  const uploadMode = document.getElementById('sig-upload-wrap').style.display !== 'none';
+  if (drawMode) {
+    const canvas = document.getElementById('sig-canvas');
+    const ctx = canvas.getContext('2d');
+    signatureSet = !ctx.getImageData(0, 0, canvas.width, canvas.height).data.every(channel => channel === 0);
+  } else if (typeMode) {
+    signatureSet = document.getElementById('sig-type').value.trim() !== '';
+  } else if (uploadMode) {
+    signatureSet = document.getElementById('sig-uploaded-img').src !== '' && 
+                  document.getElementById('sig-uploaded-img').src !== window.location.href;
+  }
+  if (signatureSet) filled++;
+  total++;
+}
+
+function updateConditionalStars() {
+  // Travel
+  const travelYes = document.querySelector('input[name="travel"]:checked')?.value === 'yes';
+  const travelStar = document.getElementById('travel-star');
+  if (travelStar) travelStar.style.display = travelYes ? 'inline' : 'none';
+
+  // Passport
+  const passportYes = document.querySelector('input[name="passport"]:checked')?.value === 'yes';
+  const passportNoStar = document.getElementById('passport-no-star');
+  const passportValidStar = document.getElementById('passport-valid-star');
+  if (passportNoStar) passportNoStar.style.display = passportYes ? 'inline' : 'none';
+  if (passportValidStar) passportValidStar.style.display = passportYes ? 'inline' : 'none';
+
+  // Criminal
+  const criminalYes = document.querySelector('input[name="criminal"]:checked')?.value === 'yes';
+  const crimWhenStar = document.getElementById('crim-when-star');
+  const crimWhereStar = document.getElementById('crim-where-star');
+  const crimDispStar = document.getElementById('crim-disp-star');
+  if (crimWhenStar) crimWhenStar.style.display = criminalYes ? 'inline' : 'none';
+  if (crimWhereStar) crimWhereStar.style.display = criminalYes ? 'inline' : 'none';
+  if (crimDispStar) crimDispStar.style.display = criminalYes ? 'inline' : 'none';
+}
+
+// Live validation for criminal date field (cannot be future)
+const crimWhen = document.getElementById('crim_when');
+if (crimWhen) {
+  function validateCrimWhenDate() {
+    const criminalRadio = document.querySelector('input[name="criminal"]:checked');
+    if (criminalRadio && criminalRadio.value === 'yes') {
+      const dateStr = crimWhen.value;
+      const todayStr = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+      const wrap = document.getElementById('f-crim_when');
+      const errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+      if (dateStr && dateStr > todayStr) {
+        crimWhen.classList.add('err');
+        if (errSpan) {
+          errSpan.style.display = 'block';
+          errSpan.textContent = 'Date cannot be in the future.';
+        } else if (wrap) {
+          const newSpan = document.createElement('span');
+          newSpan.className = 'err-msg';
+          newSpan.style.display = 'block';
+          newSpan.textContent = 'Date cannot be in the future.';
+          wrap.appendChild(newSpan);
+        }
+      } else {
+        crimWhen.classList.remove('err');
+        if (errSpan) errSpan.style.display = 'none';
+      }
+    }
+    calcProgress();
+  }
+  crimWhen.addEventListener('change', validateCrimWhenDate);
+  crimWhen.addEventListener('input', validateCrimWhenDate);
 }
 
 // ── Auto-calculate age from DOB ──
@@ -2500,32 +2598,88 @@ function validateAndPrint() {
     }
   });
 
-  // Conditional required: if YES is selected, linked reason/details fields must be filled
   CONDITIONAL_REQUIRED.forEach(c => {
-    const selected = [...document.querySelectorAll(`input[name="${c.radioName}"]`)].find(r => r.checked);
-    const isTriggered = selected && selected.value === c.triggerValue;
-
-    c.fields.forEach(fid => {
-      const el = document.getElementById(fid);
+    const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
+    if (radio && radio.value === c.radioValue) {
+      const el = document.getElementById(c.fieldId);
       if (!el) return;
-      const wrap = document.getElementById('f-' + fid);
+      const val = el.value.trim();
+      let isValid = val !== '';
+      let errorMessage = c.message;
 
-      if (isTriggered && !el.value.trim()) {
-        el.classList.add('err');
-        if (wrap) {
-          wrap.classList.add('has-err');
-          showFieldError(wrap, 'Reason is required when YES is selected.');
-        }
-        hasErr = true;
-      } else {
-        el.classList.remove('err');
-        if (wrap) {
-          wrap.classList.remove('has-err');
-          clearFieldError(wrap);
+      // Special validation for "crim_when" date – cannot be in the future
+      if (c.fieldId === 'crim_when' && isValid) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (val > todayStr) {
+          isValid = false;
+          errorMessage = 'Date cannot be in the future.';
         }
       }
-    });
+
+      if (!isValid) {
+        hasErr = true;
+        el.classList.add('err');
+        // Try to get the wrapper (f-*) or fallback to parent
+        let wrap = document.getElementById('f-' + c.fieldId);
+        if (!wrap) wrap = el.parentElement;
+        let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+        if (!errSpan && wrap) {
+          errSpan = document.createElement('span');
+          errSpan.className = 'err-msg';
+          errSpan.style.display = 'block';
+          errSpan.textContent = errorMessage;
+          wrap.appendChild(errSpan);
+        } else if (errSpan) {
+          errSpan.style.display = 'block';
+          errSpan.textContent = errorMessage;
+        }
+      } else {
+        el.classList.remove('err');
+        let wrap = document.getElementById('f-' + c.fieldId);
+        if (!wrap) wrap = el.parentElement;
+        let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+        if (errSpan) errSpan.style.display = 'none';
+      }
+    }
   });
+
+  const passportYes = document.querySelector('input[name="passport"]:checked')?.value === 'yes';
+  if (passportYes) {
+    const fromField = document.getElementById('passport_validity_from');
+    const toField = document.getElementById('passport_validity_to');
+    if (fromField && toField) {
+      const fromVal = fromField.value.trim();
+      const toVal = toField.value.trim();
+      if (fromVal !== '' && toVal !== '') {
+        const fromDate = new Date(fromVal);
+        const toDate = new Date(toVal);
+        if (toDate <= fromDate) {
+          hasErr = true;
+          toField.classList.add('err');
+          // Add or show error message
+          let wrap = document.getElementById('f-passport_validity_to');
+          if (!wrap) wrap = toField.parentElement;
+          let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+          if (!errSpan && wrap) {
+            errSpan = document.createElement('span');
+            errSpan.className = 'err-msg';
+            errSpan.style.display = 'block';
+            errSpan.textContent = '“To” date must be after “From” date.';
+            wrap.appendChild(errSpan);
+          } else if (errSpan) {
+            errSpan.style.display = 'block';
+            errSpan.textContent = '“To” date must be after “From” date.';
+          }
+        } else {
+          toField.classList.remove('err');
+          let wrap = document.getElementById('f-passport_validity_to');
+          if (!wrap) wrap = toField.parentElement;
+          let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+          if (errSpan) errSpan.style.display = 'none';
+        }
+      }
+    }
+  }
 
   function showFieldError(wrapElement, message) {
     clearFieldError(wrapElement);
@@ -2544,6 +2698,75 @@ function validateAndPrint() {
   }
 
   const banner = document.getElementById('val-banner');
+  if (hasErr) {
+    banner.style.display = 'block';
+    const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select, .has-err');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // --- Certification date validation (required) ---
+  const certDateField = document.getElementById('cert-date');
+  const certDateValue = certDateField ? certDateField.value.trim() : '';
+  const certDateErrSpan = document.getElementById('cert-date-err');
+
+  if (!certDateValue) {
+    hasErr = true;
+    certDateField?.classList.add('err');
+    if (certDateErrSpan) {
+      certDateErrSpan.style.display = 'block';
+      certDateErrSpan.textContent = 'Certification date is required.';
+    }
+  } else {
+    certDateField?.classList.remove('err');
+    if (certDateErrSpan) certDateErrSpan.style.display = 'none';
+  }
+
+  // Optional: prevent future dates
+  if (certDateValue) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (certDateValue > todayStr) {
+      hasErr = true;
+      const errSpan = document.getElementById('cert-date-err');
+      if (errSpan) {
+        errSpan.style.display = 'block';
+        errSpan.textContent = 'Certification date cannot be in the future.';
+      }
+      certDateField.classList.add('err');
+    }
+  }
+
+  banner.style.display = 'none';
+  // --- Signature validation (required) ---
+  let signatureValid = false;
+  const drawMode = document.getElementById('sig-draw-wrap').style.display !== 'none';
+  const typeMode = document.getElementById('sig-type').style.display !== 'none';
+  const uploadMode = document.getElementById('sig-upload-wrap').style.display !== 'none';
+
+  if (drawMode) {
+    const canvas = document.getElementById('sig-canvas');
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    signatureValid = imageData.data.some(channel => channel !== 0);
+  } else if (typeMode) {
+    signatureValid = document.getElementById('sig-type').value.trim() !== '';
+  } else if (uploadMode) {
+    const uploadedImg = document.getElementById('sig-uploaded-img');
+    signatureValid = uploadedImg.src !== '' && uploadedImg.src !== window.location.href;
+  }
+
+  if (!signatureValid) {
+    hasErr = true;
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) {
+      errSpan.style.display = 'block';
+      errSpan.textContent = 'Please provide your signature (draw, type, or upload).';
+      errSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });   // scroll to error message
+    }
+  }
+
+  // --- Final error handling and printing (reuse existing banner variable) ---
+  // banner was already declared earlier: const banner = document.getElementById('val-banner');
   if (hasErr) {
     banner.style.display = 'block';
     const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select, .has-err');
@@ -2652,19 +2875,109 @@ document.querySelectorAll('input, select, textarea').forEach(el => {
 
 // ── Radio live ──
 document.querySelectorAll('input[type="radio"]').forEach(el => {
-  el.addEventListener('change', () => {
-    const errEl = document.getElementById(el.name + '-err');
-    const fieldEl = document.getElementById('f-' + el.name);
+  el.addEventListener('change', function(e) {
+    // Clear the radio group’s own error
+    const errEl = document.getElementById(this.name + '-err');
+    const fieldEl = document.getElementById('f-' + this.name);
     if (errEl) errEl.style.display = 'none';
     if (fieldEl) fieldEl.classList.remove('has-err');
-    updateConditionalUI();
+
+    // --- TRAVEL: clear reason when NO ---
+    if (this.name === 'travel' && this.value === 'no') {
+      const reason = document.getElementById('travel_reason');
+      if (reason) {
+        reason.value = '';
+        reason.classList.remove('err');
+        // find error span inside the same td
+        const cell = reason.closest('.input-cell');
+        if (cell) {
+          const errSpan = cell.querySelector('.err-msg');
+          if (errSpan) errSpan.style.display = 'none';
+        }
+      }
+    }
+
+    // --- PASSPORT: clear both fields when NO ---
+    if (this.name === 'passport' && this.value === 'no') {
+      ['passport_no', 'passport_validity_from', 'passport_validity_to'].forEach(id => {
+        const f = document.getElementById(id);
+        if (f) {
+          f.value = '';
+          f.classList.remove('err');
+          const cell = f.closest('.input-cell');
+          if (cell) {
+            const errSpan = cell.querySelector('.err-msg');
+            if (errSpan) errSpan.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // --- CRIMINAL: clear all three fields when NO ---
+    if (this.name === 'criminal' && this.value === 'no') {
+      ['crim_when', 'crim_where', 'crim_disp'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+          field.value = '';
+          field.classList.remove('err');
+          // try to find error span inside the wrapper or parent cell
+          const wrap = document.getElementById('f-' + id);
+          if (wrap) {
+            const errSpans = wrap.querySelectorAll('.err-msg');
+            errSpans.forEach(span => span.style.display = 'none');
+          } else {
+            const cell = field.closest('td');
+            if (cell) {
+              const errSpans = cell.querySelectorAll('.err-msg');
+              errSpans.forEach(span => span.style.display = 'none');
+            }
+          }
+        }
+      });
+    }
+
+    updateConditionalStars();
+    // Recalculate progress bar
     calcProgress();
   });
 });
 
 // Initial progress
-updateConditionalUI();
+updateConditionalStars();
 calcProgress();
+
+// Clear signature error when user provides input
+const sigType = document.getElementById('sig-type');
+const sigCanvas = document.getElementById('sig-canvas');
+const sigUpload = document.getElementById('sig-file');
+
+if (sigType) {
+  sigType.addEventListener('input', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+}
+if (sigCanvas) {
+  // Hide error when drawing finishes (pointer up)
+  sigCanvas.addEventListener('pointerup', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+  // Also clear when canvas is cleared manually (optional)
+  const clearBtn = document.querySelector('.sig-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      const errSpan = document.getElementById('signature-err');
+      if (errSpan) errSpan.style.display = 'none';
+    });
+  }
+}
+if (sigUpload) {
+  sigUpload.addEventListener('change', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+}
 
 // ── Signature pad ──
 (function(){
@@ -2873,9 +3186,9 @@ window.addEventListener('load', function() {
   set('nric_old', 'A1234567');
   set('nric_new', '960515-08-1234');
   set('pob', 'PENANG');
-  set('race', 'CHINESE');
+  set('race', 'Chinese');
   set('citizenship', 'MALAYSIA');
-  set('religion', 'BUDDHISM');
+  set('religion', 'Buddhism');
   set('marital', 'Married');
   set('epf', 'EPF12345678');
   set('socso', 'SOCSO98765');
@@ -2978,7 +3291,8 @@ window.addEventListener('load', function() {
   set('driving', 'Class D (Car)');
   set('travel_reason', 'Willing to travel up to 50%');
   set('passport_no', 'A51234567');
-  set('passport_validity', '01/2025 – 01/2035');
+  set('passport_validity_from', '2025-01-01');
+  set('passport_validity_to', '2035-01-01');
   set('exp_salary', 'RM 6500 per month');
   set('crim_when', '');
   set('crim_where', '');
@@ -2995,6 +3309,11 @@ window.addEventListener('load', function() {
   set('ref2_occ', 'Project Manager (Tech Solutions)');
   set('sig_type', 'Tan Wei Ming');
   set('cert-date', '2026-05-07');
+  set('course3', 'N/A');
+  set('course3_inst', 'N/A');
+  set('course3_qual', 'N/A');
+  set('rel1_dept', 'Nil');
+  set('rel1_rel', 'Nil');
 
   // For radio groups (these don't use .value, so set them manually)
   document.querySelector('input[name="travel"][value="yes"]').checked = true;
