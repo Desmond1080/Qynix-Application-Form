@@ -554,7 +554,7 @@ input.sig-type-input:focus {
   color: #111;
   padding: 6px 2px;
   outline: none;
-  height: 44px;
+  height: 24px;
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
@@ -681,7 +681,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   input, select, textarea {
-    border-bottom: 1px solid #999 !important;
+    border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
   }
@@ -691,23 +691,34 @@ table.form-table.show-actions .action-col { display: table-cell; }
   .has-err > input,
   .has-err > select,
   .has-err > textarea {
-    border-bottom: 1px solid #999 !important;
+    border-bottom: none !important;
     background: transparent !important;
   }
 
-  /* Make placeholders distinct yet legible with improved contrast during print */
+  /* Hide placeholders during print */
   input::placeholder,
   textarea::placeholder {
-    color: #888 !important;
-    opacity: 0.65 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    color: transparent !important;
+    opacity: 0 !important;
+  }
+
+  /* Hide signature tabs and clear button during print */
+  .sig-tabs, .sig-clear-btn {
+    display: none !important;
+  }
+
+  #cert-date {
+    border-bottom: 1px solid #999 !important;
+    padding: 0 !important;
+    width: 100px !important;
+    max-width: 100px !important;
   }
 
   textarea {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+    border-bottom: none !important;
   }
 
   .sec-title { break-after: avoid; }
