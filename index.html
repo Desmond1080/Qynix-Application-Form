@@ -722,7 +722,10 @@ table.form-table.show-actions .action-col { display: table-cell; }
   }
 
   .sec-title { break-after: avoid; }
-  table.form-table { break-inside: auto; }
+  table.form-table {
+    break-inside: auto;
+    width: calc(100% - 1px) !important;
+  }
   table.form-table tr { break-inside: avoid; }
   .print-section {
     break-inside: avoid !important;
