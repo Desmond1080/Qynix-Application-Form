@@ -116,6 +116,10 @@ table.form-table th {
   font-size: 11.5px;
 }
 
+table.textarea-table textarea{
+  max-height: 3lh;
+}
+
 .label-cell {
   background: #fafafa;
   font-weight: 600;
@@ -168,7 +172,6 @@ textarea.err {
 textarea {
   resize: none;
   overflow-y: hidden;
-  min-height: 34px;
 }
 
 select {
@@ -1072,22 +1075,22 @@ input.sig-type-input:focus {
       </td>
     </tr>
     <tr>
-      <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
-      <td class="input-cell" id="f-emg_addr">
-        <textarea id="emg_addr" style="min-height:60px" placeholder="Emergency contact address"></textarea>
-        <span class="err-msg">* Emergency contact address is required.</span>
-      </td>
-      <td class="label-cell" style="vertical-align:top">
-        Telephone (Home) <span class="req">*</span><br>
-        <div id="f-emg_home">
-          <input type="tel" id="emg_home" placeholder="Home number or (Nil)" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+      <td class="label-cell" style="vertical-align:top">Telephone (Home) <span class="req">*</span></td>
+      <td class="input-cell">
+        <input type="tel" id="emg_home" placeholder="Home number or (Nil)" style="border-bottom:1.5px solid #bbb;margin:4px 0">
           <span class="err-msg">* Valid home number or (Nil) is required.</span>
-        </div>
-        <br>(Handphone) <span class="req">*</span>
-        <div id="f-emg_hp">
-          <input type="tel" id="emg_hp" placeholder="Handphone number" style="border-bottom:1.5px solid #bbb;margin-top:3px">
-          <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
-        </div>
+      </td>
+      <td class="label-cell" style="vertical-align:top">(Handphone) <span class="req">*</span></td>
+      <td class="input-cell" id="f-emg_hp">
+        <input type="tel" id="emg_hp" placeholder="Handphone number" style="border-bottom:1.5px solid #bbb;margin-top:3px">
+        <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
+      <td class="input-cell" id="f-emg_addr" style="width:100%" colspan="3">
+        <textarea id="emg_addr" style="min-height: 0lh"placeholder="Emergency contact address"></textarea>
+        <span class="err-msg">* Emergencmy contact address is required.</span>
       </td>
     </tr>
   </table>
@@ -1204,67 +1207,67 @@ input.sig-type-input:focus {
 
   <!-- Skill Sets -->
   <div class="sec-title">Skill Sets Knowledge &amp; Experience</div>
-  <table class="form-table">
+  <table class="form-table textarea-table">
     <tr>
       <td class="label-cell">Programming Language <span class="req">*</span></td>
       <td class="input-cell" id="f-prog_lang">
-        <textarea id="prog_lang" style="min-height:44px" placeholder="e.g. Java, Python, C++, JavaScript..."></textarea>
+        <textarea id="prog_lang" style="min-height: 0lh" placeholder="e.g. Java, Python, C++, JavaScript..."></textarea>
         <span class="err-msg">* Please list your programming languages (or state N/A).</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Operating System <span class="req">*</span></td>
       <td class="input-cell" id="f-os">
-        <textarea id="os" style="min-height:36px" placeholder="e.g. Windows, Linux, macOS"></textarea>
+        <textarea id="os" style="min-height: 01h" placeholder="e.g. Windows, Linux, macOS"></textarea>
         <span class="err-msg">* Operating system field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Database <span class="req">*</span></td>
       <td class="input-cell" id="f-database">
-        <textarea id="database" style="min-height:36px" placeholder="e.g. MySQL, Oracle, MongoDB"></textarea>
+        <textarea id="database" style="min-height: 01h" placeholder="e.g. MySQL, Oracle, MongoDB"></textarea>
         <span class="err-msg">* Database field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Internet Technologies <span class="req">*</span></td>
       <td class="input-cell" id="f-internet_tech">
-        <textarea id="internet_tech" style="min-height:36px" placeholder="e.g. HTML/CSS, REST APIs, React"></textarea>
+        <textarea id="internet_tech" style="min-height: 0lh" placeholder="e.g. HTML/CSS, REST APIs, React"></textarea>
         <span class="err-msg">* Internet technologies field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Domain Knowledge <span class="req">*</span></td>
       <td class="input-cell" id="f-domain">
-        <textarea id="domain" style="min-height:36px" placeholder="e.g. Banking, Telecoms, Healthcare"></textarea>
+        <textarea id="domain" style="min-height: 0lh" placeholder="e.g. Banking, Telecoms, Healthcare"></textarea>
         <span class="err-msg">* Domain knowledge field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Others <span class="req">*</span></td>
       <td class="input-cell" id="f-skills_other">
-        <textarea id="skills_other" style="min-height:36px" placeholder="Any other skills not listed above"></textarea>
+        <textarea id="skills_other" style="min-height: 0lh" placeholder="Any other skills not listed above"></textarea>
         <span class="err-msg">* Other skills field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Languages Spoken <span class="req">*</span></td>
       <td class="input-cell" id="f-lang_spoken">
-        <input type="text" id="lang_spoken" placeholder="e.g. English, Bahasa Malaysia, Mandarin">
+        <textarea id="lang_spoken" style="min-height: 0lh" placeholder="e.g. English, Bahasa Malaysia, Mandarin"></textarea>
         <span class="err-msg">* Languages spoken field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Languages Written <span class="req">*</span></td>
       <td class="input-cell" id="f-lang_written">
-        <input type="text" id="lang_written" placeholder="e.g. English, Bahasa Malaysia">
+        <textarea id="lang_written" style="min-height: 0lh" placeholder="e.g. English, Bahasa Malaysia"></textarea>
         <span class="err-msg">* Languages written field is required.</span>
       </td>
     </tr>
     <tr>
       <td class="label-cell">Dialects Spoken <span class="req">*</span></td>
       <td class="input-cell" id="f-dialect">
-        <input type="text" id="dialect" placeholder="e.g. Hokkien, Cantonese (optional)">
+        <textarea id="dialect" style="min-height: 0lh" placeholder="e.g. Hokkien, Cantonese (optional)"></textarea>
         <span class="err-msg">* Dialects spoken field is required.</span>
       </td>
     </tr>
@@ -1272,11 +1275,11 @@ input.sig-type-input:focus {
 
   <!-- Health -->
   <div class="sec-title">Health</div>
-  <table class="form-table">
+  <table class="form-table textarea-table">
     <tr>
       <td class="label-cell" style="width:200px">Height (cm) <span class="req">*</span></td>
       <td class="input-cell" id="f-height">
-        <input type="number" id="height" min="100" max="250" placeholder="e.g. 170">
+        <input type="number" id="height" min="100" max="250" placeholder="e.g. 170" min="0">
         <span class="err-msg">* Height is required.</span>
       </td>
       <td class="label-cell">Weight (kg) <span class="req">*</span></td>
@@ -1289,14 +1292,14 @@ input.sig-type-input:focus {
       <td colspan="4" class="input-cell" id="f-disability">
         <span class="label-cell" style="font-size:11.5px;font-weight:600">Physical disabilities or handicap, if any <span class="req">*</span></span>
         <span class="field-hint">(sight, hearing, speech, colour-blindness, heart condition, mental health, or any illness that may affect job performance)</span>
-        <textarea id="disability" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
+        <textarea id="disability" style="min-height: 0lh;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
         <span class="err-msg">* Physical disabilities, handicap information or Nil is required.</span>
       </td>
     </tr>
     <tr>
       <td colspan="4" class="input-cell" id="f-illness">
         <span class="label-cell" style="font-size:11.5px;font-weight:600">Major illness or accident, if any, suffered since birth (with approximate dates) <span class="req">*</span></span>
-        <textarea id="illness" style="min-height:50px;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
+        <textarea id="illness" style="min-height: 0lh;margin-top:4px" placeholder="State 'Nil' if none"></textarea>
         <span class="err-msg">* Major illness, accident information or Nil is required.</span>
       </td>
     </tr>
@@ -1312,15 +1315,15 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="input-cell" id="f-rel1_name">
-        <input type="text" id="rel1_name" placeholder="Name (or Nil)">
+        <textarea type="text" id="rel1_name" placeholder="Name (or Nil)" style="min-height: 0lh; max-height: 2lh"></textarea>
         <span class="err-msg">* Name of friend/relative or Nil is required.</span>
       </td>
       <td class="input-cell" id="f-rel1_dept">
-        <input type="text" id="rel1_dept" placeholder="Department (or Nil)">
+        <textarea type="text" id="rel1_dept" placeholder="Department (or Nil)" style="min-height: 0lh; max-height: 2lh"></textarea>
         <span class="err-msg">* Department or Nil is required.</span>
       </td>
       <td class="input-cell" id="f-rel1_rel">
-        <input type="text" id="rel1_rel" placeholder="Relationship (or Nil)">
+        <textarea type="text" id="rel1_rel" placeholder="Relationship (or Nil)" style="min-height: 0lh; max-height: 2lh"></textarea>
         <span class="err-msg">* Relationship or Nil is required.</span>
       </td>
     </tr>
@@ -2162,6 +2165,50 @@ function validateAndPrint() {
     }
   });
 
+  // ─── HEIGHT & WEIGHT VALIDATION (prevent negative or out-of-range) ───
+  const heightEl = document.getElementById('height');
+  const weightEl = document.getElementById('weight');
+  const heightWrap = document.getElementById('f-height');
+  const weightWrap = document.getElementById('f-weight');
+
+  if (heightEl && heightEl.value) {
+    const heightVal = parseInt(heightEl.value);
+    if (isNaN(heightVal) || heightVal < 0) {
+      heightEl.classList.add('err');
+      if (heightWrap) heightWrap.classList.add('has-err');
+      showFieldError(heightWrap, 'Height must be a positive number (0 or greater).');
+      hasErr = true;
+    } else if (isNaN(heightVal) || heightVal > 350){
+      heightEl.classList.add('err');
+      if (heightWrap) heightWrap.classList.add('has-err');
+      showFieldError(heightWrap, 'Height must be 350 cm or less.');
+      hasErr = true;
+    } else {
+      heightEl.classList.remove('err');
+      if (heightWrap) heightWrap.classList.remove('has-err');
+      clearFieldError(heightWrap);
+    }
+  }
+
+  if (weightEl && weightEl.value) {
+    const weightVal = parseInt(weightEl.value);
+    if (isNaN(weightVal) || weightVal < 0) {
+      weightEl.classList.add('err');
+      if (weightWrap) weightWrap.classList.add('has-err');
+      showFieldError(weightWrap, 'Weight must be a positive number (0 or greater).');
+      hasErr = true;
+    } else if (weightVal > 500) {
+      weightEl.classList.add('err');
+      if (weightWrap) weightWrap.classList.add('has-err');
+      showFieldError(weightWrap, 'Weight must be 300 kg or less.');
+      hasErr = true;
+    } else {
+      weightEl.classList.remove('err');
+      if (weightWrap) weightWrap.classList.remove('has-err');
+      clearFieldError(weightWrap);
+    }
+  }
+
   // Radio groups validation (unchanged)
   RADIO_GROUPS.forEach(g => {
     const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
@@ -2445,22 +2492,217 @@ window.clearSig = function() {
 // Auto-fill today's date in cert date field
 document.getElementById('cert-date').valueAsDate = new Date();
 
+// textareas configuration - maximum 3 lines only
+const TextareaIds = ['prog_lang', 'os', 'database', 'internet_tech', 'domain', 'skills_other', 'lang_spoken', 'lang_written', 'dialect','disability', 'illness'];
+const MAX_LINES = 3;
+const LINE_HEIGHT_PX = 18; // Approximate line height in pixels
+const SKILL_MAX_HEIGHT = MAX_LINES * LINE_HEIGHT_PX; // ~54px for 3 lines
+const SKILL_LIMIT_MESSAGE = '* Maximum lines required is 3.';
+
+function getSkillErrorEl(textarea) {
+  const wrap = textarea.closest('.input-cell');
+  return wrap ? wrap.querySelector('.err-msg') : null;
+}
+
+function showSkillLimitError(textarea) {
+  const errorEl = getSkillErrorEl(textarea);
+  if (errorEl) {
+    if (!errorEl.dataset.defaultMessage) {
+      errorEl.dataset.defaultMessage = errorEl.textContent;
+    }
+    errorEl.textContent = SKILL_LIMIT_MESSAGE;
+  }
+
+  const wrap = textarea.closest('.input-cell');
+  if (wrap) wrap.classList.add('has-err');
+  textarea.classList.add('err');
+  textarea.dataset.skillLimitError = '1';
+}
+
+function clearSkillLimitError(textarea) {
+  if (textarea.dataset.skillLimitError !== '1') return;
+
+  const errorEl = getSkillErrorEl(textarea);
+  if (errorEl && errorEl.dataset.defaultMessage) {
+    errorEl.textContent = errorEl.dataset.defaultMessage;
+  }
+
+  const wrap = textarea.closest('.input-cell');
+  if (wrap) wrap.classList.remove('has-err');
+  textarea.classList.remove('err');
+  delete textarea.dataset.skillLimitError;
+}
+
+function getTextareaLineCount(value) {
+  if (!value) return 1;
+  return value.split(/\r\n|\r|\n/).length;
+}
+
+function updateSkillTextareaHeight(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = Math.min(textarea.scrollHeight, SKILL_MAX_HEIGHT) + 'px';
+}
+
+function saveSkillTextareaValue(textarea) {
+  textarea.dataset.lastValidValue = textarea.value;
+}
+
+function isSkillTextareaOverflowing(textarea) {
+  return getTextareaLineCount(textarea.value) > MAX_LINES || textarea.scrollHeight > SKILL_MAX_HEIGHT + 1;
+}
+
 // Auto-resize textareas to perfectly fit content height
 function autoResizeTextareas() {
   document.querySelectorAll('textarea').forEach(tx => {
-    tx.style.height = 'auto';
-    tx.style.height = tx.scrollHeight + 'px';
+    const isSkillTextarea = TextareaIds.includes(tx.id);
+    
+    if (isSkillTextarea) {
+      // For skill textareas: enforce 3-line maximum
+      tx.style.height = 'auto';
+      const newHeight = Math.min(tx.scrollHeight, SKILL_MAX_HEIGHT);
+      tx.style.height = newHeight + 'px';
+      tx.style.height = relativeHeight + 'px';
+    } else {
+      // For other textareas: resize normally
+      tx.style.height = 'auto';
+      tx.style.height = tx.scrollHeight + 'px';
+    }
   });
 }
+
 document.querySelectorAll('textarea').forEach(tx => {
-  tx.addEventListener('input', () => {
-    tx.style.height = 'auto';
-    tx.style.height = tx.scrollHeight + 'px';
+  const isSkillTextarea = TextareaIds.includes(tx.id);
+  
+  if (isSkillTextarea) {
+    // Set max-height and hide overflow for skill textareas
+    tx.style.maxHeight = SKILL_MAX_HEIGHT + 'px';
+    tx.style.overflow = 'hidden';
+    tx.style.resize = 'none';
+    tx.dataset.lastValidValue = tx.value || '';
+  }
+  
+  tx.addEventListener('beforeinput', function(e) {
+    if (!isSkillTextarea) return;
+
+    const inputType = e.inputType || '';
+    if (!inputType.startsWith('insert')) return;
+
+    if (inputType === 'insertLineBreak') {
+      const nextLineCount = getTextareaLineCount(this.value) + 1;
+      if (nextLineCount > MAX_LINES) {
+        e.preventDefault();
+        showSkillLimitError(this);
+      }
+      return;
+    }
+
+    const selectionStart = typeof this.selectionStart === 'number' ? this.selectionStart : this.value.length;
+    const selectionEnd = typeof this.selectionEnd === 'number' ? this.selectionEnd : this.value.length;
+    const insertedText = typeof e.data === 'string' ? e.data : '';
+    const nextValue = this.value.slice(0, selectionStart) + insertedText + this.value.slice(selectionEnd);
+
+    if (getTextareaLineCount(nextValue) > MAX_LINES) {
+      e.preventDefault();
+      showSkillLimitError(this);
+    } else if (getTextareaLineCount(nextValue) > MAX_RELATIVE_LINES) {
+      e.preventDefault();
+      showSkillLimitError(this);
+    }
+  });
+
+  // Validate input to prevent exceeding 3 lines
+  tx.addEventListener('input', function() {
+    if (isSkillTextarea) {
+      if (isSkillTextareaOverflowing(this)) {
+        this.value = this.dataset.lastValidValue || '';
+        showSkillLimitError(this);
+        this.style.borderBottomColor = '#c0392b';
+        setTimeout(() => {
+          if (this.dataset.skillLimitError === '1') {
+            this.style.borderBottomColor = '';
+          }
+        }, 200);
+      } else {
+        saveSkillTextareaValue(this);
+        clearSkillLimitError(this);
+      }
+      
+      // Update height
+      updateSkillTextareaHeight(this);
+    } else {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    }
+  });
+  
+  // Block paste and drop when they would exceed the 3-line limit
+  tx.addEventListener('paste', function(e) {
+    if (isSkillTextarea) {
+      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+      const selectionStart = typeof this.selectionStart === 'number' ? this.selectionStart : this.value.length;
+      const selectionEnd = typeof this.selectionEnd === 'number' ? this.selectionEnd : this.value.length;
+      const nextValue = this.value.slice(0, selectionStart) + pastedText + this.value.slice(selectionEnd);
+
+      if (getTextareaLineCount(nextValue) > MAX_LINES) {
+        e.preventDefault();
+        showSkillLimitError(this);
+        this.style.borderBottomColor = '#ff6b6b';
+        setTimeout(() => {
+          if (this.dataset.skillLimitError === '1') {
+            this.style.borderBottomColor = '';
+          }
+        }, 200);
+      }
+    }
+  });
+
+  tx.addEventListener('drop', function(e) {
+    if (isSkillTextarea) {
+      const droppedText = e.dataTransfer ? e.dataTransfer.getData('text') : '';
+      const selectionStart = typeof this.selectionStart === 'number' ? this.selectionStart : this.value.length;
+      const selectionEnd = typeof this.selectionEnd === 'number' ? this.selectionEnd : this.value.length;
+      const nextValue = this.value.slice(0, selectionStart) + droppedText + this.value.slice(selectionEnd);
+
+      if (getTextareaLineCount(nextValue) > MAX_LINES) {
+        e.preventDefault();
+        showSkillLimitError(this);
+        this.style.borderBottomColor = '#ff6b6b';
+        setTimeout(() => {
+          if (this.dataset.skillLimitError === '1') {
+            this.style.borderBottomColor = '';
+          }
+        }, 200);
+      }
+    }
   });
 });
+
 window.addEventListener('resize', autoResizeTextareas);
 window.addEventListener('load', autoResizeTextareas);
 setTimeout(autoResizeTextareas, 200);
+
+// ── Block Enter key when reaching maximum 3 lines ──
+TextareaIds.forEach(id => {
+  const textarea = document.getElementById(id);
+  if (textarea) {
+    textarea.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        // Count current lines by splitting on newline
+        const currentLines = this.value.split('\n').length;
+        
+        // If already 3 lines, prevent adding more
+        if (currentLines >= MAX_LINES) {
+          e.preventDefault();
+          // Visual feedback - flash red border
+          this.style.borderBottomColor = '#ff6b6b';
+          setTimeout(() => {
+            this.style.borderBottomColor = '';
+          }, 200);
+        }
+      }
+    });
+  }
+});
 </script>
 
 <script>
