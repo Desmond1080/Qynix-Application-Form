@@ -568,6 +568,10 @@ input.sig-type-input:focus {
   padding: 12px;
 }
 
+/* ── Dynamic Action Columns ── */
+table.form-table .action-col { display: none; }
+table.form-table.show-actions .action-col { display: table-cell; }
+
 /* ── Action buttons ── */
 .form-actions {
   max-width: 840px;
@@ -652,7 +656,7 @@ input.sig-type-input:focus {
     flex-direction: column !important;
   }
 
-  .form-actions, #val-banner, #success-screen, #progress-wrap, #progress-label { display: none !important; }
+  .form-actions, #val-banner, #success-screen, #progress-wrap, #progress-label, .no-print, .action-col { display: none !important; }
 
   .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
@@ -731,7 +735,7 @@ input.sig-type-input:focus {
     <tr>
       <td class="label-cell">Name (Mr/Mrs/Miss/Mdm/Dr*) <span class="req">*</span></td>
       <td class="input-cell" id="f-fullname">
-        <textarea type="text" id="fullname" style="min-height: 0px;"placeholder="Full name as per IC / Passport" style="text-transform:uppercase"></textarea>
+        <textarea id="fullname" placeholder="Full name as per IC / Passport" style="min-height:34px; text-transform:uppercase" oninput="enforceNameChars(this)"></textarea>
         <span class="err-msg">* Full name is required.</span>
       </td>
       <td class="label-cell">Chinese Name</td>
@@ -897,11 +901,12 @@ input.sig-type-input:focus {
       <th style="width:20%">Date of Birth</th>
       <th style="width:10%">Age</th>
       <th>Occupation</th>
+      <th class="action-col no-print" style="width:6%">Actions</th>
     </tr>
     <tr>
       <td class="label-cell">Father <span class="req">*</span></td>
       <td class="input-cell" id="f-fath_name">
-          <input type="text" id="fath_name" placeholder="Father's name">
+          <textarea rows="1" id="fath_name" placeholder="Father's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
           <span class="err-msg">* Father's name is required.</span>
       </td> 
       <td class="input-cell" id="f-fath_dob">
@@ -913,14 +918,15 @@ input.sig-type-input:focus {
         <span class="err-msg">* Father's age is required.</span>
       </td>
       <td class="input-cell" id="f-fath_occ">
-        <input type="text" id="fath_occ" placeholder="Occupation">
+        <textarea rows="1" id="fath_occ" placeholder="Occupation" maxlength="100" style="min-height:34px"></textarea>
         <span class="err-msg">* Father's occupation is required.</span>
       </td>
+      <td class="action-col no-print"></td>
     </tr>
     <tr>
       <td class="label-cell">Mother <span class="req">*</span></td>
       <td class="input-cell" id="f-moth_name">
-        <input type="text" id="moth_name" placeholder="Mother's name">
+        <textarea rows="1" id="moth_name" placeholder="Mother's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
         <span class="err-msg">* Mother's name is required.</span>
       </td>
       <td class="input-cell" id="f-moth_dob">
@@ -932,46 +938,61 @@ input.sig-type-input:focus {
         <span class="err-msg">* Mother's age is required.</span>
       </td>
       <td class="input-cell" id="f-moth_occ">
-        <input type="text" id="moth_occ" placeholder="Occupation">
+        <textarea rows="1" id="moth_occ" placeholder="Occupation" maxlength="100" style="min-height:34px"></textarea>
         <span class="err-msg">* Mother's occupation is required.</span>
       </td>
+      <td class="action-col no-print"></td>
     </tr>
-    <tr>
-      <td class="label-cell">Brother(s) <span class="req">*</span></td>
-      <td class="input-cell">
-        <textarea type="text" id="bro_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea>
+    <tr class="family-row-brother">
+      <td class="label-cell" id="label-brother" rowspan="1">
+        Brother(s) <span class="req">*</span><br>
+        <button type="button" class="btn btn-clear no-print" style="padding: 4px 8px; font-size: 10px; margin-top: 4px;" onclick="addFamilyRow('brother', 'Brother')">+ Add Brother</button>
+        <div class="err-msg no-print" id="err-brother-add" style="color: #c0392b; font-size: 10px; margin-top: 4px; display: none; white-space: normal;"></div>
+      </td>
+      <td class="input-cell" id="f-bro_names">
+        <textarea rows="1" id="bro_names" name="brother_names[]" class="brother-name" placeholder="Name or N/A" maxlength=100 style="min-height:20px;" oninput="handleFamilyNA(this, 'brother')"></textarea>
         <span class="err-msg">* Brother(s) name or N/A is required.</span>
       </td>
-      <td class="input-cell">
-        <textarea type="date" id="bro_dob" style="min-height:40px" placeholder="DOB(s)"></textarea>
+      <td class="input-cell" id="f-bro_dob">
+        <input type="date" id="bro_dob" name="brother_dob[]" class="brother-dob" onchange="calcFamilyAge(this, 'brother')">
         <span class="err-msg">* Brother(s) date of birth or N/A is required.</span>
       </td>
-      <td class="input-cell">
-        <textarea type="number" id="bro_age" style="min-height:40px" placeholder="Age(s)"></textarea>
+      <td class="input-cell" id="f-bro_age">
+        <input type="number" id="bro_age" name="brother_age[]" class="brother-age" min="0" max="120" placeholder="Age">
         <span class="err-msg">* Brother(s) age or N/A is required.</span>
       </td>
-      <td class="input-cell">
-        <textarea type="text" id="bro_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea>
+      <td class="input-cell" id="f-bro_occ">
+        <textarea rows="1" id="bro_occ" name="brother_occ[]" class="brother-occ" placeholder="Occupation or N/A" maxlength=100 style="min-height:20px;"></textarea>
         <span class="err-msg">* Brother(s) occupation or N/A is required.</span>
       </td>
+      <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
+        <button type="button" class="btn btn-clear action-btn no-print" style="padding: 2px 6px; font-size: 10px; color: #c0392b; border-color: #c0392b; min-width: auto; height: auto; display: none;" onclick="removeFamilyRow(this, 'brother')">X</button>
+      </td>
     </tr>
-    <tr>
-      <td class="label-cell">Sister(s) <span class="req">*</span></td>
+    <tr class="family-row-sister">
+      <td class="label-cell" id="label-sister" rowspan="1">
+        Sister(s) <span class="req">*</span><br>
+        <button type="button" class="btn btn-clear no-print" style="padding: 4px 8px; font-size: 10px; margin-top: 4px;" onclick="addFamilyRow('sister', 'Sister')">+ Add Sister</button>
+        <div class="err-msg no-print" id="err-sister-add" style="color: #c0392b; font-size: 10px; margin-top: 4px; display: none; white-space: normal;"></div>
+      </td>
       <td class="input-cell" id="f-sis_names">
-        <textarea type="text" id="sis_names" style="min-height:40px" placeholder="Names (one per line) or N/A"></textarea>
+        <textarea rows="1" id="sis_names" name="sister_names[]" class="sister-name" placeholder="Name or N/A" maxlength=100 style="min-height:20px;" oninput="handleFamilyNA(this, 'sister')"></textarea>
         <span class="err-msg">* Sister(s) name or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-sis_dob">
-        <textarea type="date" id="sis_dob" style="min-height:40px" placeholder="DOB(s)"></textarea>
+        <input type="date" id="sis_dob" name="sister_dob[]" class="sister-dob" onchange="calcFamilyAge(this, 'sister')">
         <span class="err-msg">* Sister(s) date of birth or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-sis_age">
-        <textarea type="number" id="sis_age" style="min-height:40px" placeholder="Age(s)"></textarea>
+        <input type="number" id="sis_age" name="sister_age[]" class="sister-age" min="0" max="120" placeholder="Age">
         <span class="err-msg">* Sister(s) age or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-sis_occ">
-        <textarea type="text" id="sis_occ" style="min-height:40px" placeholder="Occupation(s)"></textarea>
+        <textarea rows="1" id="sis_occ" name="sister_occ[]" class="sister-occ" placeholder="Occupation or N/A" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg">* Sister(s) occupation or N/A is required.</span>
+      </td>
+      <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
+        <button type="button" class="btn btn-clear action-btn no-print" style="padding: 2px 6px; font-size: 10px; color: #c0392b; border-color: #c0392b; min-width: auto; height: auto; display: none;" onclick="removeFamilyRow(this, 'sister')">X</button>
       </td>
     </tr>
   </table>
@@ -997,11 +1018,12 @@ input.sig-type-input:focus {
       <th style="width:20%">Date of Birth</th>
       <th style="width:10%">Age</th>
       <th>Occupation</th>
+      <th class="action-col no-print" style="width:6%">Actions</th>
     </tr>
     <tr>
       <td class="label-cell">Spouse <span class="req">*</span></td>
       <td class="input-cell" id="f-sp_name">
-        <input type="text" id="sp_name" placeholder="Spouse name">
+        <textarea rows="1" id="sp_name" placeholder="Spouse name or N/A" maxlength="100" style="min-height:34px" oninput="handleSpouseNA(this)"></textarea>
         <span class="err-msg">* Spouse name or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-sp_dob">
@@ -1012,46 +1034,61 @@ input.sig-type-input:focus {
         <span class="err-msg">* Spouse age or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-sp_occ">
-        <input type="text" id="sp_occ" placeholder="Occupation">
+        <textarea rows="1" id="sp_occ" placeholder="Occupation" maxlength="100" style="min-height:34px"></textarea>
         <span class="err-msg">* Spouse occupation or N/A is required.</span>
       </td>
+      <td class="action-col no-print"></td>
     </tr>
-    <tr>
-      <td class="label-cell">Son(s) <span class="req">*</span></td>
+    <tr class="family-row-son">
+      <td class="label-cell" id="label-son" rowspan="1">
+        Son(s) <span class="req">*</span><br>
+        <button type="button" class="btn btn-clear no-print" style="padding: 4px 8px; font-size: 10px; margin-top: 4px;" onclick="addFamilyRow('son', 'Son')">+ Add Son</button>
+        <div class="err-msg no-print" id="err-son-add" style="color: #c0392b; font-size: 10px; margin-top: 4px; display: none; white-space: normal;"></div>
+      </td>
       <td class="input-cell" id="f-son_names">
-        <textarea id="son_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea>
+        <textarea rows="1" id="son_names" name="son_names[]" class="son-name" placeholder="Name or N/A" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, 'son')"></textarea>
         <span class="err-msg">* Son(s) name or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-son_dob">
-        <textarea id="son_dob" style="min-height:36px" placeholder="DOB(s)"></textarea>
+        <input type="date" id="son_dob" name="son_dob[]" class="son-dob" onchange="calcFamilyAge(this, 'son')">
         <span class="err-msg">* Son(s) date of birth or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-son_age">
-        <textarea id="son_age" style="min-height:36px" placeholder="Age(s)"></textarea>
+        <input type="number" id="son_age" name="son_age[]" class="son-age" min="0" max="120" placeholder="Age">
         <span class="err-msg">* Son(s) age or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-son_occ">
-        <textarea id="son_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea>
+        <textarea rows="1" id="son_occ" name="son_occ[]" class="son-occ" placeholder="Occupation or N/A" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg">* Son(s) occupation or N/A is required.</span>
       </td>
+      <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
+        <button type="button" class="btn btn-clear action-btn no-print" style="padding: 2px 6px; font-size: 10px; color: #c0392b; border-color: #c0392b; min-width: auto; height: auto; display: none;" onclick="removeFamilyRow(this, 'son')">X</button>
+      </td>
     </tr>
-    <tr>
-      <td class="label-cell">Daughter(s) <span class="req">*</span></td>
+    <tr class="family-row-daughter">
+      <td class="label-cell" id="label-daughter" rowspan="1">
+        Daughter(s) <span class="req">*</span><br>
+        <button type="button" class="btn btn-clear no-print" style="padding: 4px 8px; font-size: 10px; margin-top: 4px;" onclick="addFamilyRow('daughter', 'Daughter')">+ Add Daughter</button>
+        <div class="err-msg no-print" id="err-daughter-add" style="color: #c0392b; font-size: 10px; margin-top: 4px; display: none; white-space: normal;"></div>
+      </td>
       <td class="input-cell" id="f-dau_names">
-        <textarea id="dau_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea>
+        <textarea rows="1" id="dau_names" name="daughter_names[]" class="daughter-name" placeholder="Name or N/A" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, 'daughter')"></textarea>
         <span class="err-msg">* Daughter(s) name or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-dau_dob">
-        <textarea id="dau_dob" style="min-height:36px" placeholder="DOB(s)"></textarea>
+        <input type="date" id="dau_dob" name="daughter_dob[]" class="daughter-dob" onchange="calcFamilyAge(this, 'daughter')">
         <span class="err-msg">* Daughter(s) date of birth or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-dau_age">
-        <textarea id="dau_age" style="min-height:36px" placeholder="Age(s)"></textarea>
+        <input type="number" id="dau_age" name="daughter_age[]" class="daughter-age" min="0" max="120" placeholder="Age">
         <span class="err-msg">* Daughter(s) age or N/A is required.</span>
       </td>
       <td class="input-cell" id="f-dau_occ">
-        <textarea id="dau_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea>
+        <textarea rows="1" id="dau_occ" name="daughter_occ[]" class="daughter-occ" placeholder="Occupation or N/A" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg">* Daughter(s) occupation or N/A is required.</span>
+      </td>
+      <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
+        <button type="button" class="btn btn-clear action-btn no-print" style="padding: 2px 6px; font-size: 10px; color: #c0392b; border-color: #c0392b; min-width: auto; height: auto; display: none;" onclick="removeFamilyRow(this, 'daughter')">X</button>
       </td>
     </tr>
   </table>
@@ -1062,7 +1099,7 @@ input.sig-type-input:focus {
     <tr>
       <td class="label-cell" style="vertical-align:top">Name <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_name">
-        <input type="text" id="emg_name" placeholder="Emergency contact full name">
+        <textarea rows="1" id="emg_name" placeholder="Emergency contact full name" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
         <span class="err-msg">* Emergency contact name is required.</span>
       </td>
       <td class="label-cell" style="vertical-align:top">Relationship <span class="req">*</span></td>
@@ -1723,6 +1760,228 @@ input.sig-type-input:focus {
 </div>
 
 <script>
+// Regex function to strictly allow valid name characters
+function enforceNameChars(input) {
+  const origVal = input.value;
+  const newVal = origVal.replace(/[^a-zA-Z\s/'\-\.]/g, '');
+  if (origVal !== newVal) {
+    input.value = newVal;
+  }
+}
+
+function handleSpouseNA(nameInput) {
+  enforceNameChars(nameInput);
+  const dobInput = document.getElementById('sp_dob');
+  const ageInput = document.getElementById('sp_age');
+  const occInput = document.getElementById('sp_occ');
+  
+  const val = nameInput.value.trim().toUpperCase();
+  const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
+
+  if (isNA) {
+    if (dobInput) { dobInput.value = ''; dobInput.disabled = true; dobInput.classList.remove('err'); }
+    if (ageInput) { ageInput.value = ''; ageInput.disabled = true; ageInput.classList.remove('err'); }
+    if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
+    
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+    
+    const wrapDob = document.getElementById('f-sp_dob'); if (wrapDob) wrapDob.classList.remove('has-err');
+    const wrapAge = document.getElementById('f-sp_age'); if (wrapAge) wrapAge.classList.remove('has-err');
+    const wrapOcc = document.getElementById('f-sp_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
+  } else {
+    if (dobInput) dobInput.disabled = false;
+    if (ageInput) ageInput.disabled = false;
+    if (occInput) { 
+      occInput.disabled = false; 
+      if (occInput.value === 'N/A') occInput.value = ''; 
+    }
+  }
+}
+
+function handleFamilyNA(nameInput, type) {
+  enforceNameChars(nameInput);
+  const row = nameInput.closest('tr');
+  const allRows = Array.from(document.querySelectorAll('.family-row-' + type));
+  const idx = allRows.indexOf(row);
+  
+  const dobInput = row.querySelector('.' + type + '-dob');
+  const ageInput = row.querySelector('.' + type + '-age');
+  const occInput = row.querySelector('.' + type + '-occ');
+  
+  const val = nameInput.value.trim().toUpperCase();
+  const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
+  
+  let errSpan = row.querySelector('.input-cell .err-msg');
+  const addBtn = document.querySelector(`button[onclick^="addFamilyRow('${type}'"]`);
+
+  if (isNA) {
+    if (idx > 0) {
+      nameInput.classList.add('err');
+      const wrap = nameInput.closest('.input-cell');
+      if (wrap) wrap.classList.add('has-err');
+      if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
+      
+      if (dobInput) dobInput.disabled = false;
+      if (ageInput) ageInput.disabled = false;
+      if (occInput) occInput.disabled = false;
+    } else {
+      if (dobInput) { dobInput.value = ''; dobInput.disabled = true; }
+      if (ageInput) { ageInput.value = ''; ageInput.disabled = true; }
+      if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; }
+      
+      nameInput.classList.remove('err');
+      const wrap = nameInput.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+      
+      if (addBtn) addBtn.style.display = 'none';
+    }
+  } else {
+    if (dobInput) dobInput.disabled = false;
+    if (ageInput) ageInput.disabled = false;
+    if (occInput) { 
+      occInput.disabled = false; 
+      if (occInput.value === 'N/A') occInput.value = ''; 
+    }
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+    if (errSpan && idx > 0) errSpan.innerText = `* ${type.charAt(0).toUpperCase() + type.slice(1)}(s) name is required.`;
+    
+    if (idx === 0 && addBtn) addBtn.style.display = 'inline-block';
+  }
+}
+
+function calcFamilyAge(dateInput, type) {
+  if (dateInput.value) {
+    let age = new Date().getFullYear() - new Date(dateInput.value).getFullYear();
+    if (age >= 0 && age <= 120) {
+      let tr = dateInput.closest('tr');
+      let ageInput = tr.querySelector('.' + type + '-age');
+      if (ageInput) ageInput.value = age;
+    }
+  }
+}
+
+function addFamilyRow(type, label) {
+  const rows = document.querySelectorAll('.family-row-' + type);
+  if (rows.length >= 6) {
+    alert('Maximum 6 rows allowed for ' + label + '.');
+    return;
+  }
+  
+  const firstRow = rows[0];
+  const firstNameInput = firstRow.querySelector('.' + type + '-name');
+  const firstVal = firstNameInput ? firstNameInput.value.trim().toUpperCase() : '';
+  if (firstVal === 'N/A' || firstVal === 'NA' || firstVal === 'NIL' || firstVal === '-') {
+    const errAdd = document.getElementById('err-' + type + '-add');
+    if (errAdd) {
+      errAdd.style.display = 'block';
+      errAdd.innerText = `No way, you just said you had N/A ${label.toLowerCase()}s.`;
+      setTimeout(() => errAdd.style.display = 'none', 4000);
+    }
+    return;
+  }
+
+  const lastRow = rows[rows.length - 1];
+  const nameInput = lastRow.querySelector('.' + type + '-name');
+  const dobInput = lastRow.querySelector('.' + type + '-dob');
+  const ageInput = lastRow.querySelector('.' + type + '-age');
+  const occInput = lastRow.querySelector('.' + type + '-occ');
+  
+  const isFilled = (nameInput && nameInput.value.trim() !== '') &&
+                   (dobInput && dobInput.value !== '') &&
+                   (ageInput && ageInput.value !== '') &&
+                   (occInput && occInput.value.trim() !== '');
+  
+  if (!isFilled) {
+    const errAdd = document.getElementById('err-' + type + '-add');
+    if (errAdd) {
+      errAdd.style.display = 'block';
+      errAdd.innerText = 'Please complete all fields (Name, DOB, Age, Occupation) in the current row before adding another.';
+      setTimeout(() => errAdd.style.display = 'none', 4000);
+    } else {
+      alert('Please complete all fields in the current row before adding another.');
+    }
+    return;
+  }
+
+  const newRowHTML = `
+    <tr class="family-row-${type}">
+      <td class="input-cell">
+        <textarea rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
+        <span class="err-msg" style="white-space: normal;">* ${label}(s) name is required.</span>
+      </td>
+      <td class="input-cell">
+        <input type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
+        <span class="err-msg" style="white-space: normal;">* ${label}(s) date of birth is required.</span>
+      </td>
+      <td class="input-cell">
+        <input type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
+        <span class="err-msg" style="white-space: normal;">* ${label}(s) age is required.</span>
+      </td>
+      <td class="input-cell">
+        <textarea rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
+        <span class="err-msg" style="white-space: normal;">* ${label}(s) occupation is required.</span>
+      </td>
+      <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
+        <button type="button" class="btn btn-clear action-btn no-print" style="padding: 2px 6px; font-size: 10px; color: #c0392b; border-color: #c0392b; min-width: auto; height: auto; display: inline-flex;" onclick="removeFamilyRow(this, '${type}')">X</button>
+      </td>
+    </tr>
+  `;
+  
+  lastRow.insertAdjacentHTML('afterend', newRowHTML);
+  
+  const allRows = document.querySelectorAll('.family-row-' + type);
+  document.getElementById('label-' + type).rowSpan = allRows.length;
+  
+  allRows.forEach(r => {
+    const btn = r.querySelector('.action-btn');
+    if (btn) btn.style.display = 'inline-flex';
+  });
+  
+  // Attach auto-resize to new textareas
+  const newRow = lastRow.nextElementSibling;
+  newRow.querySelectorAll('textarea').forEach(tx => {
+    tx.addEventListener('input', () => {
+      tx.style.height = 'auto';
+      tx.style.height = tx.scrollHeight + 'px';
+    });
+  });
+  const table = lastRow.closest('table');
+  table.classList.add('show-actions');
+}
+
+function removeFamilyRow(btn, type) {
+  const row = btn.closest('tr');
+  const table = row.closest('table');
+  
+  const labelCell = row.querySelector('#label-' + type);
+  if (labelCell) {
+    const rows = document.querySelectorAll('.family-row-' + type);
+    if (rows.length > 1) {
+      const nextRow = (rows[0] === row) ? rows[1] : rows[0];
+      nextRow.insertBefore(labelCell, nextRow.firstElementChild);
+    }
+  }
+  row.remove();
+  
+  const remainingRows = document.querySelectorAll('.family-row-' + type);
+  const currentLabelCell = document.getElementById('label-' + type);
+  if (currentLabelCell) currentLabelCell.rowSpan = remainingRows.length;
+  
+  if (remainingRows.length === 1) {
+    const btnRemaining = remainingRows[0].querySelector('.action-btn');
+    if (btnRemaining) btnRemaining.style.display = 'none';
+  }
+  
+  const hasExtra = table.querySelectorAll('.action-btn[style*="inline-flex"]').length > 0;
+  if (!hasExtra) {
+    table.classList.remove('show-actions');
+  }
+}
+
 // ── Required field definitions ──
 const REQUIRED = [
   {id:'position',     type:'text'},
@@ -1752,25 +2011,9 @@ const REQUIRED = [
   {id:'moth_dob',     type:'date'},
   {id:'moth_age',     type:'number'},
   {id:'moth_occ',     type:'text'},
-  {id:'bro_names',     type:'text'},
-  {id:'bro_dob',      type:'date'},
-  {id:'bro_age',      type:'number'},
-  {id:'bro_occ',      type:'text'},
-  {id:'sis_names',     type:'text'},
-  {id:'sis_dob',      type:'date'},
-  {id:'sis_age',      type:'number'},
-  {id:'sis_occ',      type:'text'},
   {id:'sp_name',      type:'text'},
   {id:'sp_age',       type:'number'},
   {id:'sp_occ',       type:'text'},
-  {id:'son_names',     type:'text'},
-  {id:'son_dob',      type:'date'},
-  {id:'son_age',      type:'number'},
-  {id:'son_occ',      type:'text'},
-  {id:'dau_names',     type:'text'},
-  {id:'dau_dob',      type:'date'},
-  {id:'dau_age',      type:'number'},
-  {id:'dau_occ',      type:'text'},
   {id:'emg_name',     type:'text'},
   {id:'emg_rel',      type:'text'},
   {id:'emg_addr',     type:'text'},
@@ -1959,10 +2202,90 @@ document.getElementById('sp_dob').addEventListener('change', function() {
 function validateAndPrint() {
   let hasErr = false;
 
+  // Validate dynamic family rows
+  ['brother', 'sister', 'son', 'daughter'].forEach(type => {
+    const rows = document.querySelectorAll('.family-row-' + type);
+    rows.forEach((row, idx) => {
+      const nameEl = row.querySelector('.' + type + '-name');
+      const dobEl = row.querySelector('.' + type + '-dob');
+      const ageEl = row.querySelector('.' + type + '-age');
+      const occEl = row.querySelector('.' + type + '-occ');
+      
+      if (!nameEl) return;
+      
+      const nameVal = nameEl.value.trim().toUpperCase();
+      const wrapName = nameEl.closest('.input-cell');
+      const wrapDob = dobEl.closest('.input-cell');
+      const wrapAge = ageEl.closest('.input-cell');
+      const wrapOcc = occEl.closest('.input-cell');
+      
+      // Clear all first
+      nameEl.classList.remove('err'); if (wrapName) wrapName.classList.remove('has-err');
+      dobEl.classList.remove('err'); if (wrapDob) wrapDob.classList.remove('has-err');
+      ageEl.classList.remove('err'); if (wrapAge) wrapAge.classList.remove('has-err');
+      occEl.classList.remove('err'); if (wrapOcc) wrapOcc.classList.remove('has-err');
+      
+      const isNA = (nameVal === 'N/A' || nameVal === 'NA' || nameVal === 'NIL' || nameVal === '-');
+      
+      if (isNA) {
+        if (idx === 0) {
+           return; // OK, ignore DOB/Age/Occ
+        } else {
+           hasErr = true;
+           nameEl.classList.add('err');
+           if (wrapName) {
+             wrapName.classList.add('has-err');
+             let errSpan = wrapName.querySelector('.err-msg');
+             if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
+           }
+           return; // Stop checking this invalid row
+        }
+      }
+      
+      // If the first row is totally empty, we require them to at least put N/A
+      if (idx === 0 && nameVal === '') {
+         hasErr = true;
+         nameEl.classList.add('err');
+         if (wrapName) {
+           wrapName.classList.add('has-err');
+           let errSpan = wrapName.querySelector('.err-msg');
+           if (errSpan) errSpan.innerText = `* ${type.charAt(0).toUpperCase() + type.slice(1)}(s) name or N/A is required.`;
+         }
+         return; 
+      }
+      
+      // For row > 0, or if name is NOT 'N/A', they must fill ALL 4 columns.
+      if (!nameVal) { 
+        hasErr = true; nameEl.classList.add('err'); 
+        if (wrapName) {
+          wrapName.classList.add('has-err');
+          let errSpan = wrapName.querySelector('.err-msg');
+          if (errSpan) errSpan.innerText = `* ${type.charAt(0).toUpperCase() + type.slice(1)}(s) name is required.`;
+        }
+      } 
+      if (!dobEl.value) { hasErr = true; dobEl.classList.add('err'); if (wrapDob) wrapDob.classList.add('has-err'); } 
+      if (!ageEl.value) { hasErr = true; ageEl.classList.add('err'); if (wrapAge) wrapAge.classList.add('has-err'); } 
+      if (!occEl.value.trim()) { hasErr = true; occEl.classList.add('err'); if (wrapOcc) wrapOcc.classList.add('has-err'); } 
+    });
+  });
+
   REQUIRED.forEach(f => {
     const el = document.getElementById(f.id);
     if (!el) return;
     const wrap = document.getElementById('f-' + f.id);
+    
+    if (f.id.startsWith('sp_') && f.id !== 'sp_name') {
+      const spNameEl = document.getElementById('sp_name');
+      if (spNameEl) {
+        const spNameVal = spNameEl.value.trim().toUpperCase();
+        if (spNameVal === 'N/A' || spNameVal === 'NA' || spNameVal === 'NIL' || spNameVal === '-') {
+          el.classList.remove('err');
+          if (wrap) wrap.classList.remove('has-err');
+          return; // Skip validation
+        }
+      }
+    }
+    
     let val = el.value.trim();
     let ok = val !== '';
     // Email format check
@@ -2252,22 +2575,67 @@ function printPreview() {
 
 function clearAll() {
   if (!confirm('This will clear all data entered. Are you sure?')) return;
+  
+  // Remove dynamically added family rows
+  ['brother', 'sister', 'son', 'daughter'].forEach(type => {
+    const rows = document.querySelectorAll('.family-row-' + type);
+    for (let i = rows.length - 1; i > 0; i--) {
+      rows[i].remove();
+    }
+    const labelCell = document.getElementById('label-' + type);
+    if (labelCell) labelCell.rowSpan = 1;
+    
+    if (rows.length > 0) {
+      const firstBtn = rows[0].querySelector('.action-btn');
+      if (firstBtn) firstBtn.style.display = 'none';
+      
+      const dobInput = rows[0].querySelector('.' + type + '-dob');
+      const ageInput = rows[0].querySelector('.' + type + '-age');
+      const occInput = rows[0].querySelector('.' + type + '-occ');
+      if (dobInput) dobInput.disabled = false;
+      if (ageInput) ageInput.disabled = false;
+      if (occInput) occInput.disabled = false;
+      
+      const addBtn = document.querySelector(`button[onclick^="addFamilyRow('${type}'"]`);
+      if (addBtn) addBtn.style.display = 'inline-block';
+    }
+  });
+  document.querySelectorAll('.show-actions').forEach(tbl => tbl.classList.remove('show-actions'));
+
+  // Re-enable Spouse fields if they were disabled by N/A
+  const spDob = document.getElementById('sp_dob');
+  const spAge = document.getElementById('sp_age');
+  const spOcc = document.getElementById('sp_occ');
+  if (spDob) spDob.disabled = false;
+  if (spAge) spAge.disabled = false;
+  if (spOcc) spOcc.disabled = false;
+
   document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],select,textarea').forEach(el => {
     el.value = '';
     el.classList.remove('err');
   });
   document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el => el.checked = false);
   document.querySelectorAll('.has-err').forEach(el => el.classList.remove('has-err'));
-  document.querySelectorAll('.err-msg').forEach(el => el.style.display = 'none');
+  
+  // Remove inline styles rather than forcing display none so CSS can take over again
+  document.querySelectorAll('.err-msg').forEach(el => el.style.display = '');
   document.getElementById('val-banner').style.display = 'none';
+  
   // Clear signature pad
   const canvas = document.getElementById('sig-canvas');
   if (canvas && canvas.getContext) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
   const sigType = document.getElementById('sig-type');
   if (sigType) sigType.value = '';
+  
   // Reset cert date to today
   const certDate = document.getElementById('cert-date');
   if (certDate) certDate.valueAsDate = new Date();
+  
+  // Re-adjust textarea heights if they were stretched
+  if (typeof autoResizeTextareas === 'function') {
+    autoResizeTextareas();
+  }
+  
   calcProgress();
 }
 
