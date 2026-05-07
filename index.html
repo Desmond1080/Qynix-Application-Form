@@ -684,6 +684,20 @@ table.form-table.show-actions .action-col { display: table-cell; }
     border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Hide native calendar icons, clear buttons, and spin arrows on mobile during print */
+  input::-webkit-calendar-picker-indicator,
+  input::-webkit-inner-spin-button,
+  input::-webkit-clear-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  select {
+    background-image: none !important; /* Hide dropdown arrows */
   }
 
   /* Hide all validation error messages and reset error layouts on print */
