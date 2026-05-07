@@ -762,7 +762,7 @@ input.sig-type-input:focus {
       </td>
     </tr>
     <tr>
-      <td class="label-cell" style="padding-left:30px">NRIC / Passport No. (New) <span class="req">*</span></td>
+      <td class="label-cell">NRIC / Passport No. (New) <span class="req">*</span></td>
       <td class="input-cell" id="f-nric_new">
         <input type="text" id="nric_new" placeholder="New IC / Passport number" maxlength="12">
         <span class="err-msg">* NRIC/Passport (New) is required.</span>
@@ -1000,24 +1000,59 @@ input.sig-type-input:focus {
     </tr>
     <tr>
       <td class="label-cell">Spouse <span class="req">*</span></td>
-      <td class="input-cell"><input type="text" id="sp_name" placeholder="Spouse name"></td>
-      <td class="input-cell"><input type="date" id="sp_dob"></td>
-      <td class="input-cell"><input type="number" id="sp_age" min="0" max="120" placeholder="Age"></td>
-      <td class="input-cell"><input type="text" id="sp_occ" placeholder="Occupation"></td>
+      <td class="input-cell" id="f-sp_name">
+        <input type="text" id="sp_name" placeholder="Spouse name">
+        <span class="err-msg">* Spouse name or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-sp_dob">
+        <input type="date" id="sp_dob">
+      </td>
+      <td class="input-cell" id="f-sp_age">
+        <input type="number" id="sp_age" min="0" max="120" placeholder="Age">
+        <span class="err-msg">* Spouse age or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-sp_occ">
+        <input type="text" id="sp_occ" placeholder="Occupation">
+        <span class="err-msg">* Spouse occupation or N/A is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell">Son(s) <span class="req">*</span></td>
-      <td class="input-cell"><textarea id="son_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea></td>
-      <td class="input-cell"><textarea id="son_dob" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="son_age" style="min-height:36px" placeholder="Age(s)"></textarea></td>
-      <td class="input-cell"><textarea id="son_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea></td>
+      <td class="input-cell" id="f-son_names">
+        <textarea id="son_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea>
+        <span class="err-msg">* Son(s) name or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-son_dob">
+        <textarea id="son_dob" style="min-height:36px" placeholder="DOB(s)"></textarea>
+        <span class="err-msg">* Son(s) date of birth or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-son_age">
+        <textarea id="son_age" style="min-height:36px" placeholder="Age(s)"></textarea>
+        <span class="err-msg">* Son(s) age or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-son_occ">
+        <textarea id="son_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea>
+        <span class="err-msg">* Son(s) occupation or N/A is required.</span>
+      </td>
     </tr>
     <tr>
       <td class="label-cell">Daughter(s) <span class="req">*</span></td>
-      <td class="input-cell"><textarea id="dau_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea></td>
-      <td class="input-cell"><textarea id="dau_dob" style="min-height:36px"></textarea></td>
-      <td class="input-cell"><textarea id="dau_age" style="min-height:36px" placeholder="Age(s)"></textarea></td>
-      <td class="input-cell"><textarea id="dau_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea></td>
+      <td class="input-cell" id="f-dau_names">
+        <textarea id="dau_names" style="min-height:36px" placeholder="Names (one per line) or N/A"></textarea>
+        <span class="err-msg">* Daughter(s) name or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-dau_dob">
+        <textarea id="dau_dob" style="min-height:36px" placeholder="DOB(s)"></textarea>
+        <span class="err-msg">* Daughter(s) date of birth or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-dau_age">
+        <textarea id="dau_age" style="min-height:36px" placeholder="Age(s)"></textarea>
+        <span class="err-msg">* Daughter(s) age or N/A is required.</span>
+      </td>
+      <td class="input-cell" id="f-dau_occ">
+        <textarea id="dau_occ" style="min-height:36px" placeholder="Occupation(s)"></textarea>
+        <span class="err-msg">* Daughter(s) occupation or N/A is required.</span>
+      </td>
     </tr>
   </table>
 
@@ -1044,11 +1079,14 @@ input.sig-type-input:focus {
       </td>
       <td class="label-cell" style="vertical-align:top">
         Telephone (Home) <span class="req">*</span><br>
-        <input type="tel" id="emg_home" placeholder="Home number or (Nil)" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+        <div id="f-emg_home">
+          <input type="tel" id="emg_home" placeholder="Home number or (Nil)" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+          <span class="err-msg">* Valid home number or (Nil) is required.</span>
+        </div>
         <br>(Handphone) <span class="req">*</span>
         <div id="f-emg_hp">
           <input type="tel" id="emg_hp" placeholder="Handphone number" style="border-bottom:1.5px solid #bbb;margin-top:3px">
-          <span class="err-msg">* Emergency handphone is required.</span>
+          <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
         </div>
       </td>
     </tr>
@@ -1064,18 +1102,20 @@ input.sig-type-input:focus {
       <th class="input-cell" style="width:42%">Qualifications / Achievements Obtained (incl. CGPA or Grading) <span class="req">*</span></th>
     </tr>
     <tr>
-      <td class="input-cell">
+      <td class="input-cell" id="f-sec_sch">
         <span>Secondary / High School</span>
-        <input type="text" id="sec_sch" placeholder="School name, location">
+        <input type="text" id="sec_sch" placeholder="School name or (Nil)">
+        <span class="err-msg">* School name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="sec_from"></td>
       <td class="input-cell"><input type="month" id="sec_to"></td>
       <td class="input-cell"><textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results"></textarea></td>
     </tr>
     <tr>
-      <td class="input-cell">
+      <td class="input-cell" id="f-uni">
         <span>College / Polytechnic / University</span>
-        <input type="text" id="uni" placeholder="Institution name, location">
+        <input type="text" id="uni" placeholder="Institution name or (Nil)">
+        <span class="err-msg">* Institution name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="uni_from"></td>
       <td class="input-cell"><input type="month" id="uni_to"></td>
@@ -1371,7 +1411,7 @@ input.sig-type-input:focus {
             <label><input type="radio" name="travel" value="yes"> YES</label>
             <label><input type="radio" name="travel" value="no"> NO</label>
           </div>
-          <span class="err-msg" id="travel-err">★ Please select Yes or No.</span>
+          <span class="err-msg" id="travel-err">* Please select Yes or No.</span>
         </div>
       </td>
       <td class="input-cell">
@@ -1388,7 +1428,7 @@ input.sig-type-input:focus {
             <label><input type="radio" name="passport" value="yes"> YES</label>
             <label><input type="radio" name="passport" value="no"> NO</label>
           </div>
-          <span class="err-msg" id="passport-err">★ Please select Yes or No.</span>
+          <span class="err-msg" id="passport-err">* Please select Yes or No.</span>
         </div>
       </td>
       <td class="input-cell">
@@ -1407,7 +1447,7 @@ input.sig-type-input:focus {
         <span class="field-hint">State the minimum amount in Ringgit Malaysia (RM)</span>
         <div id="f-exp_salary" style="margin-top:5px">
           <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px">
-          <span class="err-msg">★ Expected salary is required.</span>
+          <span class="err-msg">* Expected salary is required.</span>
         </div>
       </td>
     </tr>
@@ -1419,7 +1459,7 @@ input.sig-type-input:focus {
             <label><input type="radio" name="criminal" value="yes"> YES</label>
             <label><input type="radio" name="criminal" value="no"> NO</label>
           </div>
-          <span class="err-msg" id="criminal-err">★ Please select Yes or No.</span>
+          <span class="err-msg" id="criminal-err">* Please select Yes or No.</span>
         </div>
       </td>
       <td class="input-cell">
@@ -1465,7 +1505,7 @@ input.sig-type-input:focus {
     <tr>
       <td class="input-cell" id="f-ref1_name">
         <input type="text" id="ref1_name" placeholder="Referee 1 full name">
-        <span class="err-msg">★ Reference 1 name is required.</span>
+        <span class="err-msg">* Reference 1 name is required.</span>
       </td>
       <td class="input-cell">
         Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
@@ -1646,10 +1686,24 @@ const REQUIRED = [
   {id:'sis_dob',      type:'date'},
   {id:'sis_age',      type:'number'},
   {id:'sis_occ',      type:'text'},
+  {id:'sp_name',      type:'text'},
+  {id:'sp_age',       type:'number'},
+  {id:'sp_occ',       type:'text'},
+  {id:'son_names',     type:'text'},
+  {id:'son_dob',      type:'date'},
+  {id:'son_age',      type:'number'},
+  {id:'son_occ',      type:'text'},
+  {id:'dau_names',     type:'text'},
+  {id:'dau_dob',      type:'date'},
+  {id:'dau_age',      type:'number'},
+  {id:'dau_occ',      type:'text'},
   {id:'emg_name',     type:'text'},
   {id:'emg_rel',      type:'text'},
   {id:'emg_addr',     type:'text'},
+  {id:'emg_home',     type:'tel'},
   {id:'emg_hp',       type:'tel'},
+  {id:'sec_sch',     type:'text'},
+  {id:'uni',        type:'text'},
   {id:'prog_lang',    type:'text'},
   {id:'lang_spoken',  type:'text'},
   {id:'lang_written', type:'text'},
@@ -1989,6 +2043,7 @@ function validateAndPrint() {
   }
 
   function clearFieldError(wrapElement) {
+    if (!wrapElement) return;
     const existing = wrapElement.querySelector('.custom-err-msg');
     if (existing) existing.remove();
   }
@@ -2135,7 +2190,7 @@ calcProgress();
     if (!drawing) return; 
     e.preventDefault(); 
     const p = pos(e); 
-    ctx.lineTo(p.x, p.y); 
+    ctx.lineTo(p.x, p.y);
     ctx.stroke(); 
   });
 
