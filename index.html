@@ -1525,8 +1525,15 @@ input.sig-type-input:focus {
           <div>Passport Number:<span id="passport-no-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
           <input type="text" id="passport_no" placeholder="e.g. A12345678" style="border-bottom:1.5px solid #bbb">
           <span class="err-msg"></span>
-          <div>Date of Validity (from/to):<span id="passport-valid-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
-          <input type="text" id="passport_validity" placeholder="e.g. 01/2020 – 01/2030" style="border-bottom:1.5px solid #bbb">
+          <div>Date of Validity <span id="passport-valid-star" style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1">
+              From: <input type="date" id="passport_validity_from" style="border-bottom:1.5px solid #bbb">
+            </div>
+            <div style="flex:1">
+              To: <input type="date" id="passport_validity_to" style="border-bottom:1.5px solid #bbb">
+            </div>
+          </div>
           <span class="err-msg"></span>
         </div>
       </td>
@@ -1694,6 +1701,7 @@ input.sig-type-input:focus {
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div class="sig-lbl">Signature</div>
+          <span id="signature-err" class="err-msg" style="display:none;"></span>
           <button type="button" class="sig-clear-btn" onclick="clearSig()">
             <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             Clear
@@ -1703,6 +1711,7 @@ input.sig-type-input:focus {
       <!-- Date slot -->
       <div class="sig-slot" style="max-width:200px">
         <input type="date" id="cert-date">
+        <span class="err-msg" id="cert-date-err"></span>
         <div class="sig-lbl">Date</div>
       </div>
     </div>
@@ -1855,6 +1864,7 @@ const REQUIRED = [
   {id:'ref2_name',    type:'text'},
   {id:'ref2_occ',     type:'text'},
   {id:'religion',      type:'select'},
+  {id:'cert-date', type:'date'},
 ];
 
 const RADIO_GROUPS = [
@@ -1865,8 +1875,9 @@ const RADIO_GROUPS = [
 
 const CONDITIONAL_REQUIRED = [
   { radioName: 'travel', radioValue: 'yes', fieldId: 'travel_reason', message: 'Please state reason for travel.' },
-  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_no', message: 'Passport number is required.' },
-  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity', message: 'Passport validity is required.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_no', message: 'Passport number is required.' },    
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity_from', message: 'Validity from date is required.' },
+  { radioName: 'passport', radioValue: 'yes', fieldId: 'passport_validity_to', message: 'Validity to date is required.' },
   { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_when', message: 'Please provide the date (When).' },
   { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_where', message: 'Please provide the location (Where).' },
   { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_disp', message: 'Please provide the disposition of case.' }
@@ -1924,6 +1935,23 @@ function calcProgress() {
     pill.style.borderColor = '#c0392b';
     pill.style.color = '#c0392b';
   }
+
+  let signatureSet = false;
+  const drawMode = document.getElementById('sig-draw-wrap').style.display !== 'none';
+  const typeMode = document.getElementById('sig-type').style.display !== 'none';
+  const uploadMode = document.getElementById('sig-upload-wrap').style.display !== 'none';
+  if (drawMode) {
+    const canvas = document.getElementById('sig-canvas');
+    const ctx = canvas.getContext('2d');
+    signatureSet = !ctx.getImageData(0, 0, canvas.width, canvas.height).data.every(channel => channel === 0);
+  } else if (typeMode) {
+    signatureSet = document.getElementById('sig-type').value.trim() !== '';
+  } else if (uploadMode) {
+    signatureSet = document.getElementById('sig-uploaded-img').src !== '' && 
+                  document.getElementById('sig-uploaded-img').src !== window.location.href;
+  }
+  if (signatureSet) filled++;
+  total++;
 }
 
 function updateConditionalStars() {
@@ -2292,6 +2320,44 @@ function validateAndPrint() {
     }
   });
 
+  const passportYes = document.querySelector('input[name="passport"]:checked')?.value === 'yes';
+  if (passportYes) {
+    const fromField = document.getElementById('passport_validity_from');
+    const toField = document.getElementById('passport_validity_to');
+    if (fromField && toField) {
+      const fromVal = fromField.value.trim();
+      const toVal = toField.value.trim();
+      if (fromVal !== '' && toVal !== '') {
+        const fromDate = new Date(fromVal);
+        const toDate = new Date(toVal);
+        if (toDate <= fromDate) {
+          hasErr = true;
+          toField.classList.add('err');
+          // Add or show error message
+          let wrap = document.getElementById('f-passport_validity_to');
+          if (!wrap) wrap = toField.parentElement;
+          let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+          if (!errSpan && wrap) {
+            errSpan = document.createElement('span');
+            errSpan.className = 'err-msg';
+            errSpan.style.display = 'block';
+            errSpan.textContent = '“To” date must be after “From” date.';
+            wrap.appendChild(errSpan);
+          } else if (errSpan) {
+            errSpan.style.display = 'block';
+            errSpan.textContent = '“To” date must be after “From” date.';
+          }
+        } else {
+          toField.classList.remove('err');
+          let wrap = document.getElementById('f-passport_validity_to');
+          if (!wrap) wrap = toField.parentElement;
+          let errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+          if (errSpan) errSpan.style.display = 'none';
+        }
+      }
+    }
+  }
+
   function showFieldError(wrapElement, message) {
     clearFieldError(wrapElement);
     let errSpan = document.createElement('span');
@@ -2309,6 +2375,75 @@ function validateAndPrint() {
   }
 
   const banner = document.getElementById('val-banner');
+  if (hasErr) {
+    banner.style.display = 'block';
+    const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select, .has-err');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // --- Certification date validation (required) ---
+  const certDateField = document.getElementById('cert-date');
+  const certDateValue = certDateField ? certDateField.value.trim() : '';
+  const certDateErrSpan = document.getElementById('cert-date-err');
+
+  if (!certDateValue) {
+    hasErr = true;
+    certDateField?.classList.add('err');
+    if (certDateErrSpan) {
+      certDateErrSpan.style.display = 'block';
+      certDateErrSpan.textContent = 'Certification date is required.';
+    }
+  } else {
+    certDateField?.classList.remove('err');
+    if (certDateErrSpan) certDateErrSpan.style.display = 'none';
+  }
+
+  // Optional: prevent future dates
+  if (certDateValue) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (certDateValue > todayStr) {
+      hasErr = true;
+      const errSpan = document.getElementById('cert-date-err');
+      if (errSpan) {
+        errSpan.style.display = 'block';
+        errSpan.textContent = 'Certification date cannot be in the future.';
+      }
+      certDateField.classList.add('err');
+    }
+  }
+
+  banner.style.display = 'none';
+  // --- Signature validation (required) ---
+  let signatureValid = false;
+  const drawMode = document.getElementById('sig-draw-wrap').style.display !== 'none';
+  const typeMode = document.getElementById('sig-type').style.display !== 'none';
+  const uploadMode = document.getElementById('sig-upload-wrap').style.display !== 'none';
+
+  if (drawMode) {
+    const canvas = document.getElementById('sig-canvas');
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    signatureValid = imageData.data.some(channel => channel !== 0);
+  } else if (typeMode) {
+    signatureValid = document.getElementById('sig-type').value.trim() !== '';
+  } else if (uploadMode) {
+    const uploadedImg = document.getElementById('sig-uploaded-img');
+    signatureValid = uploadedImg.src !== '' && uploadedImg.src !== window.location.href;
+  }
+
+  if (!signatureValid) {
+    hasErr = true;
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) {
+      errSpan.style.display = 'block';
+      errSpan.textContent = 'Please provide your signature (draw, type, or upload).';
+      errSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });   // scroll to error message
+    }
+  }
+
+  // --- Final error handling and printing (reuse existing banner variable) ---
+  // banner was already declared earlier: const banner = document.getElementById('val-banner');
   if (hasErr) {
     banner.style.display = 'block';
     const firstErr = document.querySelector('.err, .has-err input, .has-err textarea, .has-err select, .has-err');
@@ -2396,7 +2531,7 @@ document.querySelectorAll('input[type="radio"]').forEach(el => {
 
     // --- PASSPORT: clear both fields when NO ---
     if (this.name === 'passport' && this.value === 'no') {
-      ['passport_no', 'passport_validity'].forEach(id => {
+      ['passport_no', 'passport_validity_from', 'passport_validity_to'].forEach(id => {
         const f = document.getElementById(id);
         if (f) {
           f.value = '';
@@ -2442,6 +2577,39 @@ document.querySelectorAll('input[type="radio"]').forEach(el => {
 // Initial progress
 updateConditionalStars();
 calcProgress();
+
+// Clear signature error when user provides input
+const sigType = document.getElementById('sig-type');
+const sigCanvas = document.getElementById('sig-canvas');
+const sigUpload = document.getElementById('sig-file');
+
+if (sigType) {
+  sigType.addEventListener('input', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+}
+if (sigCanvas) {
+  // Hide error when drawing finishes (pointer up)
+  sigCanvas.addEventListener('pointerup', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+  // Also clear when canvas is cleared manually (optional)
+  const clearBtn = document.querySelector('.sig-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      const errSpan = document.getElementById('signature-err');
+      if (errSpan) errSpan.style.display = 'none';
+    });
+  }
+}
+if (sigUpload) {
+  sigUpload.addEventListener('change', () => {
+    const errSpan = document.getElementById('signature-err');
+    if (errSpan) errSpan.style.display = 'none';
+  });
+}
 
 // ── Signature pad ──
 (function(){
@@ -2650,9 +2818,9 @@ window.addEventListener('load', function() {
   set('nric_old', 'A1234567');
   set('nric_new', '960515-08-1234');
   set('pob', 'PENANG');
-  set('race', 'CHINESE');
+  set('race', 'Chinese');
   set('citizenship', 'MALAYSIA');
-  set('religion', 'BUDDHISM');
+  set('religion', 'Buddhism');
   set('marital', 'Married');
   set('epf', 'EPF12345678');
   set('socso', 'SOCSO98765');
@@ -2755,7 +2923,8 @@ window.addEventListener('load', function() {
   set('driving', 'Class D (Car)');
   set('travel_reason', 'Willing to travel up to 50%');
   set('passport_no', 'A51234567');
-  set('passport_validity', '01/2025 – 01/2035');
+  set('passport_validity_from', '2025-01-01');
+  set('passport_validity_to', '2035-01-01');
   set('exp_salary', 'RM 6500 per month');
   set('crim_when', '');
   set('crim_where', '');
