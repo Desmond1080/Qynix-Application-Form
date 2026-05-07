@@ -634,7 +634,7 @@ input.sig-type-input:focus {
    PRINT — A4 portrait locked
 ══════════════════════════ */
 @media print {
-  @page { size: A4 portrait; margin: 14mm 12mm 14mm 12mm; }
+  @page { size: 210mm 297mm; margin: 14mm 12mm 14mm 12mm; }
 
   body { background: #fff !important; padding: 0 !important; width: 100% !important; min-width: 100% !important; }
 
@@ -671,11 +671,11 @@ input.sig-type-input:focus {
     background: transparent !important;
   }
 
-  /* Make placeholders light grey and clearly distinguished from typed text during print */
+  /* Make placeholders distinct yet legible with improved contrast during print */
   input::placeholder,
   textarea::placeholder {
-    color: #bbb !important;
-    opacity: 0.6 !important;
+    color: #888 !important;
+    opacity: 0.65 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
