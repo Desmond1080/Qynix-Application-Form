@@ -3883,9 +3883,9 @@ window.addEventListener('load', function() {
   set('rel1_rel', 'Nil');
 
   // For radio groups (these don't use .value, so set them manually)
-  document.querySelector('input[name="travel"][value="yes"]').checked = true;
-  document.querySelector('input[name="passport"][value="yes"]').checked = true;
-  document.querySelector('input[name="criminal"][value="no"]').checked = true;
+  checkRadio('travel', 'yes');
+  checkRadio('passport', 'yes');
+  checkRadio('criminal', 'no');
 });
 
 // ── Live Repagination Engine for On-Screen & Filling ──
