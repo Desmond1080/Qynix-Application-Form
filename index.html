@@ -1181,7 +1181,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_addr" style="width:100%" colspan="3">
         <textarea id="emg_addr" style="min-height: 0lh"placeholder="Emergency contact address"></textarea>
-        <span class="err-msg">* Emergencmy contact address is required.</span>
+        <span class="err-msg">* Emergency address is required.</span>
       </td>
     </tr>
   </table>
@@ -1200,20 +1200,20 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="input-cell" id="f-sec_sch">
         <span>Secondary / High School</span>
-        <input type="text" id="sec_sch" placeholder="School name or (Nil)">
+        <textarea type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* School name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="sec_from"></td>
       <td class="input-cell"><input type="month" id="sec_to"></td>
       <td class="input-cell" id="f-sec_qual">
-        <textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)"></textarea>
+        <textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* Qualifications / results / (Nil) is required.</span>
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-uni">
         <span>College / Polytechnic / University</span>
-        <input type="text" id="uni" placeholder="Institution name or (Nil)">
+        <textarea type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* Institution name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="uni_from"></td>
@@ -1241,13 +1241,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course1_inst">
-        <input type="text" id="course1_inst" placeholder="Institution">
+        <textarea type="text" id="course1_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course1_from"></td>
       <td class="input-cell"><input type="month" id="course1_to"></td>
       <td class="input-cell" id="f-course1_qual">
-        <input type="text" id="course1_qual" placeholder="Qualification">
+        <textarea id="course1_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1257,13 +1257,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course2_inst">
-        <input type="text" id="course2_inst" placeholder="Institution">
+        <textarea type="text" id="course2_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course2_from"></td>
       <td class="input-cell"><input type="month" id="course2_to"></td>
       <td class="input-cell" id="f-course2_qual">
-        <input type="text" id="course2_qual" placeholder="Qualification">
+        <textarea id="course2_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1273,13 +1273,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course3_inst">
-        <input type="text" id="course3_inst" placeholder="Institution">
+        <textarea type="text" id="course3_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course3_from"></td>
       <td class="input-cell"><input type="month" id="course3_to"></td>
       <td class="input-cell" id="f-course3_qual">
-        <input type="text" id="course3_qual" placeholder="Qualification">
+        <textarea id="course3_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1488,7 +1488,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td colspan="2" class="input-cell" id="f-emp1_salary">
         <span class="label-cell" style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month) <span class="req">*</span></span> &nbsp; RM
-        <input type="number" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px" pattern="\d+" min="0">
+        <input type="number" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px" min="0" max="1000000">
         <span class="err-msg">* Last drawn salary is required.</span>
       </td>
     </tr>
@@ -1726,13 +1726,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
       <td class="input-cell" id="f-ref1_occ">
         <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor">
-        <span class="err-msg">★ Occupation/relationship is required.</span>
+        <span class="err-msg">* Occupation/relationship is required.</span>
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-ref2_name">
         <input type="text" id="ref2_name" placeholder="Referee 2 full name">
-        <span class="err-msg">★ Reference 2 name is required.</span>
+        <span class="err-msg">* Reference 2 name is required.</span>
       </td>
       <td class="input-cell">
         Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
@@ -1740,7 +1740,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
       <td class="input-cell" id="f-ref2_occ">
         <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague">
-        <span class="err-msg">★ Occupation/relationship is required.</span>
+        <span class="err-msg">* Occupation/relationship is required.</span>
       </td>
     </tr>
   </table>
@@ -1859,6 +1859,24 @@ table.form-table.show-actions .action-col { display: table-cell; }
 </div>
 
 <script>
+// check if nil or n/a is entered in name fields, and disable related inputs if so
+function checkIfNil(nameInput) {
+  const val = nameInput.value.trim();
+  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil'].includes(val);
+  const row = nameInput.closest('tr');
+  const dateBoxes = row ? row.querySelectorAll('input[type="month"]') : [];
+
+  dateBoxes.forEach(box => {
+    box.disabled = isNil;
+    if (isNil) {
+      box.value = '';
+      box.classList.remove('err');
+      const wrap = box.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+    }
+  });
+}
+
 // Regex function to strictly allow valid name characters
 function enforceNameChars(input) {
   const origVal = input.value;
@@ -2651,6 +2669,27 @@ function validateAndPrint() {
     }
   });
 
+  // salary validation (prevent negative or out of range) 
+  const salaryEls = [document.getElementById('emp1_salary'), document.getElementById('emp2_salary')];
+  const salaryWraps = [document.getElementById('f-emp1_salary'), document.getElementById('f-emp2_salary')];
+  salaryEls.forEach((el, idx) => {
+    if (el && el.value){
+      if (isNaN(el.value) || parseInt(el.value) < 0){
+        el.classList.add('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
+        showFieldError(salaryWraps[idx], 'Salary must be greater than 0 or more');
+      }else if (parseInt(el.value) > 1000000){
+        el.classList.add('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
+        showFieldError(salaryWraps[idx], 'Salary must be 1 million or less');
+      } else {
+        el.classList.remove('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.remove('has-err');
+        clearFieldError(salaryWraps[idx]);
+      }
+    }
+  })
+
   // ─── HEIGHT & WEIGHT VALIDATION (prevent negative or out-of-range) ───
   const heightEl = document.getElementById('height');
   const weightEl = document.getElementById('weight');
@@ -3311,7 +3350,6 @@ function autoResizeTextareas() {
       tx.style.height = 'auto';
       const newHeight = Math.min(tx.scrollHeight, SKILL_MAX_HEIGHT);
       tx.style.height = newHeight + 'px';
-      tx.style.height = relativeHeight + 'px';
     } else {
       // For other textareas: resize normally
       tx.style.height = 'auto';
