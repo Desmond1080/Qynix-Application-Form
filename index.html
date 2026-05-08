@@ -665,11 +665,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
     max-width: 100% !important;
     padding: 0 0 16px !important;
     margin: 0 !important;
-    min-height: unset !important;
-    display: block !important;
+    min-height: 262mm !important;
+    display: flex !important;
+    flex-direction: column !important;
     page-break-after: always !important;
     break-after: page !important;
     overflow: visible !important;
+    box-sizing: border-box !important;
   }
   .page-card:last-of-type {
     page-break-after: avoid !important;
