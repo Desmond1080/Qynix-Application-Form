@@ -2002,11 +2002,19 @@ function handleParentNA(nameInput, type) {
     const wrapAge = document.getElementById('f-' + type + '_age'); if (wrapAge) wrapAge.classList.remove('has-err');
     const wrapOcc = document.getElementById('f-' + type + '_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
   } else {
-    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
-    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
+    if (dobInput) { 
+      if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = ''; 
+      dobInput.type = 'date'; 
+      dobInput.disabled = false; 
+    }
+    if (ageInput) { 
+      if (ageInput.disabled && ageInput.value === '-') ageInput.value = ''; 
+      ageInput.type = 'number'; 
+      ageInput.disabled = false; 
+    }
     if (occInput) { 
+      if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = ''; 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
   setTimeout(() => calcProgress(), 50);
@@ -2034,11 +2042,19 @@ function handleSpouseNA(nameInput) {
     const wrapAge = document.getElementById('f-sp_age'); if (wrapAge) wrapAge.classList.remove('has-err');
     const wrapOcc = document.getElementById('f-sp_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
   } else {
-    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
-    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
+    if (dobInput) { 
+      if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = ''; 
+      dobInput.type = 'date'; 
+      dobInput.disabled = false; 
+    }
+    if (ageInput) { 
+      if (ageInput.disabled && ageInput.value === '-') ageInput.value = ''; 
+      ageInput.type = 'number'; 
+      ageInput.disabled = false; 
+    }
     if (occInput) { 
+      if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = ''; 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
   setTimeout(() => calcProgress(), 50);
@@ -2092,11 +2108,19 @@ function handleFamilyNA(nameInput, type) {
       if (addBtn) addBtn.style.display = 'none';
     }
   } else {
-    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
-    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
+    if (dobInput) { 
+      if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = ''; 
+      dobInput.type = 'date'; 
+      dobInput.disabled = false; 
+    }
+    if (ageInput) { 
+      if (ageInput.disabled && ageInput.value === '-') ageInput.value = ''; 
+      ageInput.type = 'number'; 
+      ageInput.disabled = false; 
+    }
     if (occInput) { 
+      if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = ''; 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
     nameInput.classList.remove('err');
     const wrap = nameInput.closest('.input-cell');
@@ -2479,10 +2503,12 @@ function calcProgress() {
   document.getElementById('completion-pill').textContent = pct + '% complete';
 
   const pill = document.getElementById('completion-pill');
+  const valBanner = document.getElementById('val-banner');
   if (pct === 100) {
     pill.style.background = '#edf8eb';
     pill.style.borderColor = '#3aac28';
     pill.style.color = '#1e7012';
+    if (valBanner) valBanner.style.display = 'none';
   } else if (pct >= 60) {
     pill.style.background = '#fff8e1';
     pill.style.borderColor = '#f59e0b';
@@ -3273,6 +3299,9 @@ function clearAll() {
 // ── Live validation clearing + progress ──
 document.querySelectorAll('input, select, textarea').forEach(el => {
   el.addEventListener('input', () => {
+
+    if (el.closest('.office-box')) return;
+
     if (isClearing) return;
     el.classList.remove('err');
     const wrap = el.closest('.has-err');
@@ -4078,6 +4107,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('input', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
+    if (e.target.closest('.office-box')) return;
     debouncedRepaginate();
   }
 });
