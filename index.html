@@ -680,12 +680,52 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  input, select, textarea {
+  input:not([type="radio"]):not([type="checkbox"]), select, textarea {
     border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
     -webkit-appearance: none !important;
     appearance: none !important;
+  }
+
+  input[type="radio"], input[type="checkbox"] {
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    accent-color: #3aac28 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  input[type="checkbox"]:checked {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #3aac28 !important;
+    border: 1px solid #3aac28 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") !important;
+    background-size: 9px 9px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 2px !important;
+    width: 13px !important;
+    height: 13px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  input[type="radio"]:checked {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #3aac28 !important;
+    border: 1px solid #3aac28 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3C/svg%3E") !important;
+    background-size: 5px 5px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 50% !important;
+    width: 13px !important;
+    height: 13px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
   }
 
   /* Hide native calendar icons, clear buttons, and spin arrows on mobile during print */
@@ -2051,22 +2091,23 @@ function addFamilyRow(type, label) {
     return;
   }
 
+  const uniqueIndex = Date.now() + '_' + Math.floor(Math.random() * 1000);
   const newRowHTML = `
     <tr class="family-row-${type}">
       <td class="input-cell">
-        <textarea rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
+        <textarea id="${type}_name_${uniqueIndex}" rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) name is required.</span>
       </td>
       <td class="input-cell">
-        <input type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
+        <input id="${type}_dob_${uniqueIndex}" type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) date of birth is required.</span>
       </td>
       <td class="input-cell">
-        <input type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
+        <input id="${type}_age_${uniqueIndex}" type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) age is required.</span>
       </td>
       <td class="input-cell">
-        <textarea rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
+        <textarea id="${type}_occ_${uniqueIndex}" rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) occupation is required.</span>
       </td>
       <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
@@ -2085,7 +2126,7 @@ function addFamilyRow(type, label) {
     if (btn) btn.style.display = 'inline-flex';
   });
   
-  // Attach auto-resize to new textareas
+  // Attach auto-resize, live validation, and progress listeners to new inputs
   const newRow = lastRow.nextElementSibling;
   newRow.querySelectorAll('textarea').forEach(tx => {
     tx.addEventListener('input', () => {
@@ -2093,6 +2134,17 @@ function addFamilyRow(type, label) {
       tx.style.height = tx.scrollHeight + 'px';
     });
   });
+
+  newRow.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('err');
+      const wrap = el.closest('.has-err');
+      if (wrap) wrap.classList.remove('has-err');
+      calcProgress();
+    });
+    el.addEventListener('change', calcProgress);
+  });
+
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
 }
@@ -2283,7 +2335,7 @@ function calcProgress() {
   if (drawWrap && drawWrap.style.display !== 'none') {
     const canvas = document.getElementById('sig-canvas');
     if (canvas && canvas.width > 0 && canvas.height > 0) {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       signatureSet = imageData.data.some(channel => channel !== 0);
     }
@@ -2908,7 +2960,7 @@ function validateAndPrint() {
 
   if (drawMode) {
     const canvas = document.getElementById('sig-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     signatureValid = imageData.data.some(channel => channel !== 0);
   } else if (typeMode) {
@@ -3009,7 +3061,7 @@ function clearAll() {
   
   // Clear signature pad
   const canvas = document.getElementById('sig-canvas');
-  if (canvas && canvas.getContext) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  if (canvas && canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0, 0, canvas.width, canvas.height);
   const sigType = document.getElementById('sig-type');
   if (sigType) sigType.value = '';
   
@@ -3169,7 +3221,7 @@ if (sigUpload) {
     canvas.width  = currentWidth;
     canvas.height = 80;
     
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d', { willReadFrequently: true });
     ctx.strokeStyle = '#111';
     ctx.lineWidth   = 1.8;
     ctx.lineCap     = 'round';
@@ -3275,7 +3327,7 @@ window.handleSignatureUpload = function(input) {
 window.clearSig = function() {
   // Clear Draw Canvas
   const canvas = document.getElementById('sig-canvas');
-  if (canvas.getContext) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  if (canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0,0,canvas.width,canvas.height);
   
   // Clear Type input
   document.getElementById('sig-type').value = '';
@@ -3821,10 +3873,16 @@ function repaginateForm() {
   }
 }
 
+let repaginateTimeout = null;
+function debouncedRepaginate() {
+  clearTimeout(repaginateTimeout);
+  repaginateTimeout = setTimeout(repaginateForm, 250);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initRepagination, 150);
 });
-document.addEventListener('input', repaginateForm);
+document.addEventListener('input', debouncedRepaginate);
 document.addEventListener('change', repaginateForm);
 </script>
 
