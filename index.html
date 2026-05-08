@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1024, initial-scale=1.0">
+<meta name="viewport" content="width=1024 , initial-scale=1.0">
 <title>Qynix Technologies – Application for Employment</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -983,8 +983,11 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
     </tr>
     <tr>
-      <td class="label-cell"></td>
-      <td></td>
+      <td class="label-cell" style="width:150px;vertical-align:top" rowspan="6">Permanent Address <span class="req">*</span></td>
+      <td class="input-cell" id="f-perm_addr" style="width:30%;vertical-align:top" rowspan="6">
+        <textarea id="perm_addr" style="min-height:230px;width:100%" placeholder="Full permanent address"></textarea>
+        <span class="err-msg">* Permanent address is required.</span>
+      </td>
       <td class="label-cell">Income Tax No. <span class="req">*</span></td>
       <td class="input-cell" id="f-tax">
         <input type="text" id="tax" placeholder="Income Tax (or Nil)">
@@ -992,41 +995,35 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
     </tr>
     <tr>
-      <td class="label-cell"></td>
-      <td></td>
       <td class="label-cell">Savings/Current Account No.<br><small style="font-weight:400">(Public Bank only)</small> <span class="req">*</span></td>
       <td class="input-cell"><input type="text" maxlength="15" id="bank_acc" placeholder="Savings/Current Account (or Nil)"></td>
     </tr>
     <tr>
-      <td class="label-cell" style="vertical-align:top;padding-top:8px">Permanent Address <span class="req">*</span></td>
-      <td class="input-cell" id="f-perm_addr">
-        <textarea id="perm_addr" style="min-height:72px" placeholder="Full permanent address"></textarea>
-        <span class="err-msg">* Permanent address is required.</span>
+      <td class="label-cell" style="width:20%">Contact Numbers (Home) <span class="req">*</span></td>
+      <td class="input-cell" id="f-tel_home" style="width:20%">
+        <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" style="border-bottom:1.5px solid #bbb;width:100%">
+        <span class="err-msg">* Valid home phone number is required.</span>
       </td>
-      <td class="label-cell" style="vertical-align:top;padding-top:8px">
-        Contact Numbers
-        <div style="margin-top:6px;display:flex;flex-direction:column;gap:5px">
-          <div style="font-size:11.5px;font-weight:600">Home <span class="req">*</span></div>
-          <div id="f-tel_home">
-            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" style="border-bottom:1.5px solid #bbb">
-            <span class="err-msg">* Valid home phone number is required.</span>
-          </div>
-          <div style="font-size:11.5px;font-weight:600">Office <span class="req">*</span></div>
-          <div id="f-tel_office">
-            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" style="border-bottom:1.5px solid #bbb">
-            <span class="err-msg">* Valid office phone number is required.</span>
-          </div>
-          <div style="font-size:11.5px;font-weight:600">Handphone <span class="req">*</span></div>
-          <div id="f-tel_hp">
-            <input type="tel" id="tel_hp" placeholder="e.g. 012-3456789" style="border-bottom:1.5px solid #bbb" pattern="^0\d{2,3}-\d{7,8}$" >
-            <span class="err-msg">* Handphone is required.</span>
-          </div>
-          <div style="font-size:11.5px;font-weight:600">Email ID <span class="req">*</span></div>
-          <div id="f-email">
-            <input type="email" id="email" placeholder="e.g. name@email.com" style="border-bottom:1.5px solid #bbb">
-            <span class="err-msg">* Valid email is required.</span>
-          </div>
-        </div>
+    </tr>
+    <tr>
+      <td class="label-cell">Contact Numbers (Office) <span class="req">*</span></td>
+      <td class="input-cell" id="f-tel_office">
+        <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" style="border-bottom:1.5px solid #bbb;width:100%">
+        <span class="err-msg">* Valid office phone number is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">Contact Numbers (Handphone) <span class="req">*</span></td>
+      <td class="input-cell" id="f-tel_hp">
+        <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)" style="border-bottom:1.5px solid #bbb;width:100%">
+        <span class="err-msg">* Valid handphone number is required.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">Contact Numbers (Email) <span class="req">*</span></td>
+      <td class="input-cell" id="f-email">
+        <input type="email" id="email" placeholder="Email or (Nil)" style="border-bottom:1.5px solid #bbb;width:100%">
+        <span class="err-msg">* Valid email is required.</span>
       </td>
     </tr>
     <tr>
@@ -1034,7 +1031,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="input-cell">
         <textarea id="postal_addr" style="min-height:60px" placeholder="Leave '-' if same as permanent address"></textarea>
       </td>
-      <td class="label-cell" style="vertical-align:top;padding-top:8px">
+      <td class="label-cell" style="vertical-align:top;padding-top:8px" colspan="2">
         Contact Numbers
         <div style="margin-top:6px">
           <div style="font-size:11.5px;font-weight:600">Home</div>
@@ -3459,7 +3456,7 @@ window.clearSig = function() {
 document.getElementById('cert-date').valueAsDate = new Date();
 
 // textareas configuration - maximum 3 lines only
-const TextareaIds = ['prog_lang', 'os', 'database', 'internet_tech', 'domain', 'skills_other', 'lang_spoken', 'lang_written', 'dialect','disability', 'illness'];
+const TextareaIds = ['prog_lang', 'os', 'database', 'internet_tech', 'domain', 'skills_other', 'lang_spoken', 'lang_written', 'dialect','disability', 'illness', 'fullname'];
 const MAX_LINES = 3;
 const LINE_HEIGHT_PX = 18; // Approximate line height in pixels
 const SKILL_MAX_HEIGHT = MAX_LINES * LINE_HEIGHT_PX; // ~54px for 3 lines
