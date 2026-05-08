@@ -2055,6 +2055,15 @@ function handleFamilyNA(nameInput, type) {
   const ageInput = row.querySelector('.' + type + '-age');
   const occInput = row.querySelector('.' + type + '-occ');
   
+  // Update placeholders based on position (idx 0 is the "main" row that allows N/A)
+  if (idx === 0) {
+    if (nameInput) nameInput.placeholder = 'Name or N/A';
+    if (occInput) occInput.placeholder = 'Occupation or N/A';
+  } else {
+    if (nameInput) nameInput.placeholder = 'Name';
+    if (occInput) occInput.placeholder = 'Occupation';
+  }
+  
   const val = nameInput.value.trim().toUpperCase();
   const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
   
