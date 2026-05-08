@@ -827,7 +827,18 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   <table class="form-table">
     <tr>
-      <td class="label-cell">Name (Mr/Mrs/Miss/Mdm/Dr*) <span class="req">*</span></td>
+      <td class="label-cell">
+        Name (Mr/Mrs/Miss/Mdm/Dr)
+        <!-- <select>
+          <option value="">— Select —</option>
+          <option>Mr</option>
+          <option>Mrs</option>
+          <option>Miss</option>
+          <option>Mdm</option>
+          <option>Dr</option>
+        </select> -->
+        <span class="req">*</span>
+      </td>
       <td class="input-cell" id="f-fullname">
         <textarea id="fullname" placeholder="Full name as per IC / Passport" style="min-height:34px; text-transform:uppercase" oninput="enforceNameChars(this)"></textarea>
         <span class="err-msg">* Full name is required.</span>
@@ -936,7 +947,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="label-cell"></td>
       <td></td>
       <td class="label-cell">Savings/Current Account No.<br><small style="font-weight:400">(Public Bank only)</small> <span class="req">*</span></td>
-      <td class="input-cell"><input type="text" id="bank_acc" placeholder="Savings/Current Account (or Nil)"></td>
+      <td class="input-cell"><input type="text" maxlength="15" id="bank_acc" placeholder="Savings/Current Account (or Nil)"></td>
     </tr>
     <tr>
       <td class="label-cell" style="vertical-align:top;padding-top:8px">Permanent Address <span class="req">*</span></td>
