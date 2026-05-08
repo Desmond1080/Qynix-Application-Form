@@ -3351,7 +3351,6 @@ function autoResizeTextareas() {
       tx.style.height = 'auto';
       const newHeight = Math.min(tx.scrollHeight, SKILL_MAX_HEIGHT);
       tx.style.height = newHeight + 'px';
-      tx.style.height = relativeHeight + 'px';
     } else {
       // For other textareas: resize normally
       tx.style.height = 'auto';
@@ -3810,10 +3809,16 @@ function repaginateForm() {
   }
 }
 
+let repaginateTimeout = null;
+function debouncedRepaginate() {
+  clearTimeout(repaginateTimeout);
+  repaginateTimeout = setTimeout(repaginateForm, 250);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initRepagination, 150);
 });
-document.addEventListener('input', repaginateForm);
+document.addEventListener('input', debouncedRepaginate);
 document.addEventListener('change', repaginateForm);
 </script>
 
