@@ -1992,7 +1992,7 @@ function handleParentNA(nameInput, type) {
   if (isNA) {
     if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
     if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
-    if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
+    if (occInput) { occInput.value = '-'; occInput.disabled = true; occInput.classList.remove('err'); }
     
     nameInput.classList.remove('err');
     const wrap = nameInput.closest('.input-cell');
@@ -2009,6 +2009,7 @@ function handleParentNA(nameInput, type) {
       if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
+  setTimeout(() => calcProgress(), 50);
 }
 
 function handleSpouseNA(nameInput) {
@@ -2023,7 +2024,7 @@ function handleSpouseNA(nameInput) {
   if (isNA) {
     if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
     if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
-    if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
+    if (occInput) { occInput.value = '-'; occInput.disabled = true; occInput.classList.remove('err'); }
     
     nameInput.classList.remove('err');
     const wrap = nameInput.closest('.input-cell');
@@ -2040,6 +2041,7 @@ function handleSpouseNA(nameInput) {
       if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
+  setTimeout(() => calcProgress(), 50);
 }
 
 //dynamic row 
@@ -2052,6 +2054,15 @@ function handleFamilyNA(nameInput, type) {
   const dobInput = row.querySelector('.' + type + '-dob');
   const ageInput = row.querySelector('.' + type + '-age');
   const occInput = row.querySelector('.' + type + '-occ');
+  
+  // Update placeholders based on position (idx 0 is the "main" row that allows N/A)
+  if (idx === 0) {
+    if (nameInput) nameInput.placeholder = 'Name or N/A';
+    if (occInput) occInput.placeholder = 'Occupation or N/A';
+  } else {
+    if (nameInput) nameInput.placeholder = 'Name';
+    if (occInput) occInput.placeholder = 'Occupation';
+  }
   
   const val = nameInput.value.trim().toUpperCase();
   const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
@@ -2236,6 +2247,8 @@ function addFamilyRow(type, label) {
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
   repaginateForm();
+
+  calcProgress();
 }
 
 function removeFamilyRow(btn, type) {
@@ -2272,6 +2285,8 @@ function removeFamilyRow(btn, type) {
     if (nameInput) handleFamilyNA(nameInput, type);
   });
   repaginateForm();
+
+  calcProgress();
 }
 
 // ── Required field definitions ──
@@ -2378,38 +2393,59 @@ const CONDITIONAL_REQUIRED = [
   { radioName: 'criminal', radioValue: 'yes', fieldId: 'crim_disp', message: 'Please provide the disposition of case.' }
 ];
 
-// ── Progress tracking (fixed) ──
+// ── Progress tracking (Truly Dynamic) ──
 function calcProgress() {
   let filled = 0;
-  // Count standard required fields + radio groups + signature (add 1 for signature)
-  let total = REQUIRED.length + RADIO_GROUPS.length + 1;
+  let total = 0; 
 
+  // 1. Check Standard Required Fields
   REQUIRED.forEach(f => {
     const el = document.getElementById(f.id);
-    if (!el) return;
+    if (!el) return; 
+
+    // If the field is locked by "N/A", skip it! Do not count it in the total.
+    if (el.disabled) return; 
+
+    total++; // The field is active, so add it to our required total
+    
     let val = el.value.trim();
     let ok = val !== '';
     if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
     if (ok) filled++;
   });
 
+  // 2. Check Radio Groups
   RADIO_GROUPS.forEach(g => {
+    total++;
     const checked = [...document.querySelectorAll(`input[name="${g.name}"]`)].some(r => r.checked);
     if (checked) filled++;
   });
 
-  // Conditional required fields (only count if radio is YES)
+  // 3. Check Conditional Fields (Travel Reason, Passport, etc.)
   CONDITIONAL_REQUIRED.forEach(c => {
     const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
-    if (radio && radio.value === c.radioValue) {
-        total++; // only count toward total if this field is actually required
+    
+    // Only count these fields in the total if the "YES" radio is actually checked
+    if (radio && radio.value === c.radioValue) { 
         const el = document.getElementById(c.fieldId);
-        if (el && el.value.trim() !== '') filled++;
+        if (!el || el.disabled) return;
+        total++;
+        if (el.value.trim() !== '') filled++;
     }
-    // if radio is not YES, this field is NOT required → do not add to total or filled
-});
+  });
 
-  // --- Signature detection (must be after total and filled setup) ---
+  // 4. Check Dynamic Family Rows (Brothers, Sisters, Sons, Daughters)
+  const dynamicInputs = document.querySelectorAll('tr[class*="family-row-"] input, tr[class*="family-row-"] textarea');
+  dynamicInputs.forEach(el => {
+      if (el.disabled) return; // Skip N/A locked fields
+      if (el.type === 'button' || el.type === 'submit') return; // Don't track the 'X' buttons
+      
+      total++;
+      if (el.value.trim() !== '') filled++;
+  });
+
+  // 5. Check Signature 
+  total++;
   let signatureSet = false;
   const drawWrap = document.getElementById('sig-draw-wrap');
   const typeInput = document.getElementById('sig-type');
@@ -2417,7 +2453,6 @@ function calcProgress() {
   const uploadedImg = document.getElementById('sig-uploaded-img');
 
   if (drawWrap && drawWrap.style.display !== 'none') {
-
     signatureSet = sigHasContent;
     const canvas = document.getElementById('sig-canvas');
     if (canvas && canvas.width > 0 && canvas.height > 0) {
@@ -2433,7 +2468,12 @@ function calcProgress() {
 
   if (signatureSet) filled++;
 
-  const pct = Math.round((filled / total) * 100);
+  // Calculate the final percentage safely
+  let pct = total === 0 ? 0 : Math.round((filled / total) * 100);
+  
+  // Cap it at 100% to prevent weird math glitches
+  if (pct > 100) pct = 100;
+
   document.getElementById('progress-bar').style.width = pct + '%';
   document.getElementById('pct').textContent = pct;
   document.getElementById('completion-pill').textContent = pct + '% complete';
@@ -2629,13 +2669,17 @@ function validateAndPrint() {
     if (!el) return;
     const wrap = document.getElementById('f-' + f.id);
     
-    if (f.id.startsWith('sp_') && f.id !== 'sp_name') {
-      const spNameEl = document.getElementById('sp_name');
-      if (spNameEl) {
-        const spNameVal = spNameEl.value.trim().toUpperCase();
-        if (spNameVal === 'N/A' || spNameVal === 'NA' || spNameVal === 'NIL' || spNameVal === '-') {
+    if ((f.id.startsWith('sp_') && f.id !== 'sp_name') || 
+        (f.id.startsWith('fath_') && f.id !== 'fath_name') || 
+        (f.id.startsWith('moth_') && f.id !== 'moth_name')) {
+      let prefix = f.id.split('_')[0];
+      const parentNameEl = document.getElementById(prefix + '_name');
+      if (parentNameEl) {
+        const parentNameVal = parentNameEl.value.trim().toUpperCase();
+        if (parentNameVal === 'N/A' || parentNameVal === 'NA' || parentNameVal === 'NIL' || parentNameVal === '-') {
           el.classList.remove('err');
           if (wrap) wrap.classList.remove('has-err');
+          clearFieldError(wrap);
           return; // Skip validation
         }
       }
