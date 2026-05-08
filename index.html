@@ -1783,30 +1783,26 @@ table.form-table.show-actions .action-col { display: table-cell; }
     </tr>
     <tr>
       <td class="input-cell" id="f-ref1_name">
-        <input type="text" id="ref1_name" placeholder="Referee 1 full name">
-        <span class="err-msg">* Reference 1 name is required.</span>
+        <input type="text" id="ref1_name" placeholder="Referee 1 full name or (Nil)">
       </td>
       <td class="input-cell">
-        Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
-        Office: <input type="tel" id="ref1_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+        Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref1_office" placeholder="Office no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin-top:3px">
       </td>
       <td class="input-cell" id="f-ref1_occ">
-        <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor">
-        <span class="err-msg">* Occupation/relationship is required.</span>
+        <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor or (Nil)">
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-ref2_name">
-        <input type="text" id="ref2_name" placeholder="Referee 2 full name">
-        <span class="err-msg">* Reference 2 name is required.</span>
+        <input type="text" id="ref2_name" placeholder="Referee 2 full name or (Nil)">
       </td>
       <td class="input-cell">
-        Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
-        Office: <input type="tel" id="ref2_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+        Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref2_office" placeholder="Office no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin-top:3px">
       </td>
       <td class="input-cell" id="f-ref2_occ">
-        <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague">
-        <span class="err-msg">* Occupation/relationship is required.</span>
+        <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague or (Nil)">
       </td>
     </tr>
   </table>
@@ -2314,10 +2310,6 @@ const REQUIRED = [
   {id:'driving',      type:'text'},
   {id:'notice',       type:'text'}, 
   {id:'other_info',   type:'text'},
-  {id:'ref1_name',    type:'text'},
-  {id:'ref1_occ',     type:'text'},
-  {id:'ref2_name',    type:'text'},
-  {id:'ref2_occ',     type:'text'},
   {id:'religion',      type:'select'},
   {id:'cert-date', type:'date'},
 ];
