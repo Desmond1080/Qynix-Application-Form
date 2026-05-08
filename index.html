@@ -3211,6 +3211,7 @@ function printPreview() {
 
 function clearAll() {
   if (!confirm('This will clear all data entered. Are you sure?')) return;
+  if (typeof clearSavedFormState === 'function') clearSavedFormState();
   
   // Remove dynamically added family rows
   ['brother', 'sister', 'son', 'daughter'].forEach(type => {
@@ -3496,6 +3497,7 @@ if (sigUpload) {
       drawing = false;
       sigHasContent = true;
       calcProgress(); 
+      if (typeof saveFormState === 'function') saveFormState();
     }
   });
 
@@ -3537,6 +3539,7 @@ window.switchSigMode = function(mode, btn) {
     typeInput.style.display = 'none';
     uploadWrap.style.display = '';
   }
+  if (typeof saveFormState === 'function') saveFormState();
 };
 
 window.handleSignatureUpload = function(input) {
@@ -3548,6 +3551,7 @@ window.handleSignatureUpload = function(input) {
       document.getElementById('sig-upload-trigger').style.display = 'none';
       document.getElementById('sig-img-preview-wrap').style.display = 'flex';
       calcProgress();
+      if (typeof saveFormState === 'function') saveFormState();
     };
     reader.readAsDataURL(file);
   }
@@ -3567,6 +3571,7 @@ window.clearSig = function() {
   document.getElementById('sig-upload-trigger').style.display = 'flex';
 
   calcProgress();
+  if (typeof saveFormState === 'function') saveFormState();
 };
 
 // Auto-fill today's date in cert date field
@@ -3785,182 +3790,6 @@ TextareaIds.forEach(id => {
 </script>
 
 <script>
-// ── Pre-fill from PDF data ──
-window.addEventListener('load', function() {
-
-  function set(id, val) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    if (el.disabled) return;
-    el.value = val;
-    el.dispatchEvent(new Event('input', {bubbles:true}));
-    el.dispatchEvent(new Event('change', {bubbles:true}));
-  }
-
-  function selectOption(id, val) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    for (var i=0; i<el.options.length; i++) {
-      if (el.options[i].text.toLowerCase() === val.toLowerCase()) {
-        el.selectedIndex = i;
-        el.dispatchEvent(new Event('change', {bubbles:true}));
-        return;
-      }
-    }
-  }
-
-  function checkRadio(name, val) {
-    var radios = document.querySelectorAll('input[name="' + name + '"]');
-    radios.forEach(function(r) {
-      if (r.value === val) {
-        r.checked = true;
-        r.dispatchEvent(new Event('change', {bubbles:true}));
-      }
-    });
-  }
-
-  set('position', 'Senior Full Stack Developer');
-  set('fullname', 'TAN WEI MING');
-  set('chinese_name', '陈伟明');
-  set('age', '29');
-  set('dob', '1996-05-15');
-  set('nric_old', 'A1234567');
-  set('nric_new', '960515-08-1234');
-  set('pob', 'PENANG');
-  set('race', 'Chinese');
-  set('citizenship', 'MALAYSIA');
-  set('religion', 'Buddhism');
-  set('marital', 'Married');
-  set('epf', 'EPF12345678');
-  set('socso', 'SOCSO98765');
-  set('tax', 'TAX123456');
-  set('bank_acc', '3123456789');
-  set('perm_addr', '12, Jalan Bukit Jambul, Bayan Lepas, 11900 Penang');
-  set('postal_addr', '-');
-  set('tel_home', '04-1234567');
-  set('tel_office', '04-7654321');
-  set('tel_hp', '012-3456789');
-  set('email', 'wei.tan@example.com');
-  set('fath_name', 'TAN AH KOW');
-  set('fath_dob', '1965-03-10');
-  set('fath_age', '59');
-  set('fath_occ', 'Retired Engineer');
-  set('moth_name', 'LIM SOO LING');
-  set('moth_dob', '1968-07-22');
-  set('moth_age', '56');
-  set('moth_occ', 'Housewife');
-  set('bro_names', 'Tan Wei Jie');
-  set('bro_dob', '1998-09-12');
-  set('bro_age', '26');
-  set('bro_occ', 'Accountant');
-  set('sis_names', 'N/A');
-  set('sis_dob', 'N/A');
-  set('sis_age', 'N/A');
-  set('sis_occ', 'N/A');
-  set('sp_name', 'CHONG MEI LING');
-  set('sp_dob', '1997-01-05');
-  set('sp_age', '29');
-  set('sp_occ', 'Teacher');
-  set('son_names', 'Tan Zi Hao');
-  set('son_dob', '2020-11-20');
-  set('son_age', '3');
-  set('son_occ', 'N/A');
-  set('dau_names', 'N/A');
-  set('dau_dob', 'N/A');
-  set('dau_age', 'N/A');
-  set('dau_occ', 'N/A');
-  set('emg_name', 'TAN WEI JIE');
-  set('emg_rel', 'Brother');
-  set('emg_addr', '12, Jalan Bukit Jambul, Bayan Lepas, Penang');
-  set('emg_home', '04-1234567');
-  set('emg_hp', '013-9876543');
-  set('sec_sch', 'SMK Bukit Jambul, Penang');
-  set('sec_from', '2009-01');
-  set('sec_to', '2013-12');
-  set('sec_qual', 'SPM - 8As');
-  set('uni', 'Universiti Sains Malaysia (USM), Penang');
-  set('uni_from', '2014-06');
-  set('uni_to', '2018-05');
-  set('uni_qual', 'Bachelor of Computer Science, CGPA 3.75');
-  set('course1', 'Full Stack Web Development Bootcamp');
-  set('course1_inst', 'Coding Academy');
-  set('course1_from', '2020-02');
-  set('course1_to', '2020-08');
-  set('course1_qual', 'Certificate');
-  set('course2', 'Agile Scrum Master');
-  set('course2_inst', 'Scrum Institute');
-  set('course2_from', '2022-01');
-  set('course2_to', '2022-02');
-  set('course2_qual', 'Scrum Master Certified');
-  set('course3', '');
-  set('course3_inst', '');
-  set('course3_from', '');
-  set('course3_to', '');
-  set('course3_qual', '');
-  set('prog_lang', 'JavaScript, TypeScript, Python, Java, C#');
-  set('os', 'Windows, Linux (Ubuntu), macOS');
-  set('database', 'MySQL, PostgreSQL, MongoDB, Redis');
-  set('internet_tech', 'React, Node.js, Express, REST APIs, GraphQL, HTML/CSS');
-  set('domain', 'FinTech, E-commerce, Healthcare');
-  set('skills_other', 'Docker, Kubernetes, Git, CI/CD pipelines, AWS');
-  set('lang_spoken', 'English, Bahasa Malaysia, Mandarin, Cantonese');
-  set('lang_written', 'English, Bahasa Malaysia, Simplified Chinese');
-  set('dialect', 'Hokkien, Cantonese');
-  set('height', '175');
-  set('weight', '70');
-  set('disability', 'Nil');
-  set('illness', 'Nil');
-  set('rel1_name', 'Nil');
-  set('rel1_dept', '');
-  set('rel1_rel', '');
-  set('emp1_name', 'Tech Solutions Sdn Bhd');
-  set('emp1_addr', 'Menara Axis, Level 15, Jalan Bangsar, 59200 KL');
-  set('emp1_pos', 'Software Engineer');
-  set('emp1_from', '2021-03');
-  set('emp1_to', '2025-04');
-  set('emp1_salary', '5500');
-  set('emp1_duties', 'Full-stack development using React & Node.js');
-  set('emp1_reason', 'Career growth opportunity');
-  set('emp2_name', 'Digital Solutions PLT');
-  set('emp2_addr', 'No. 88, Lebuhraya Batu Lanchang, 11600 Penang');
-  set('emp2_pos', 'Junior Programmer');
-  set('emp2_from', '2018-07');
-  set('emp2_to', '2021-02');
-  set('emp2_salary', '3200');
-  set('emp2_duties', 'Maintained legacy systems, C# desktop apps');
-  set('emp2_reason', 'Seeking better challenge');
-  set('driving', 'Class D (Car)');
-  set('travel_reason', 'Willing to travel up to 50%');
-  set('passport_no', 'A51234567');
-  set('passport_validity_from', '2025-01-01');
-  set('passport_validity_to', '2035-01-01');
-  set('exp_salary', 'RM 6500 per month');
-  set('crim_when', '');
-  set('crim_where', '');
-  set('crim_disp', '');
-  set('notice', '1 month notice / can start on 01/07/2025');
-  set('other_info', 'Strong team player, passionate about open-source');
-  set('ref1_name', 'Dr. Liew Chee Keong');
-  set('ref1_hp', '012-8881234');
-  set('ref1_office', '04-6532187');
-  set('ref1_occ', 'Senior Lecturer (USM)');
-  set('ref2_name', 'Ms. Chan Siew Leng');
-  set('ref2_hp', '016-5557890');
-  set('ref2_office', '03-22881234');
-  set('ref2_occ', 'Project Manager (Tech Solutions)');
-  set('sig_type', 'Tan Wei Ming');
-  set('course3', 'N/A');
-  set('course3_inst', 'N/A');
-  set('course3_qual', 'N/A');
-  set('rel1_dept', 'Nil');
-  set('rel1_rel', 'Nil');
-
-  // For radio groups (these don't use .value, so set them manually)
-  checkRadio('travel', 'yes');
-  checkRadio('passport', 'yes');
-  checkRadio('criminal', 'no');
-});
-
 // ── Live Repagination Engine for On-Screen & Filling ──
 let originalSections = [];
 
@@ -4102,6 +3931,7 @@ function debouncedRepaginate() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  loadFormState();
   setTimeout(initRepagination, 150);
 });
 
@@ -4111,6 +3941,207 @@ document.addEventListener('input', (e) => {
     debouncedRepaginate();
   }
 });
+
+let autoSaveTimeout = null;
+function debouncedSave() {
+  clearTimeout(autoSaveTimeout);
+  autoSaveTimeout = setTimeout(saveFormState, 1000);
+}
+document.addEventListener('input', debouncedSave);
+document.addEventListener('change', debouncedSave);
+
+let isRestoring = false;
+
+// ── Auto-Save & Auto-Restore System using localStorage ──
+function saveFormState() {
+  if (isRestoring) return;
+  try {
+    const data = {
+      staticFields: {},
+      radioFields: {},
+      dynamicData: { brother: [], sister: [], son: [], daughter: [] },
+      sigMode: 'draw',
+      sigData: ''
+    };
+
+    // 1. Collect all static inputs
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      if (!el.id) return;
+      if (el.closest('[class^="family-row-"]')) return; // handled as dynamic rows
+      if (el.id === 'sig-canvas') return;
+      if (el.type === 'file') return;
+
+      if (el.type === 'checkbox') {
+        data.staticFields[el.id] = el.checked;
+      } else if (el.type === 'radio') {
+        if (el.checked) {
+          data.radioFields[el.name] = el.value;
+        }
+      } else {
+        data.staticFields[el.id] = el.value;
+      }
+    });
+
+    // Collect radio groups that don't have individual IDs but use names
+    document.querySelectorAll('input[type="radio"]').forEach(el => {
+      if (el.checked && el.name) {
+        data.radioFields[el.name] = el.value;
+      }
+    });
+
+    // 2. Collect dynamic family rows
+    ['brother', 'sister', 'son', 'daughter'].forEach(type => {
+      const rows = document.querySelectorAll('.family-row-' + type);
+      rows.forEach((row, idx) => {
+        if (idx === 0) return; // skip first static row
+        const nameVal = row.querySelector('.' + type + '-name')?.value || '';
+        const dobVal = row.querySelector('.' + type + '-dob')?.value || '';
+        const ageVal = row.querySelector('.' + type + '-age')?.value || '';
+        const occVal = row.querySelector('.' + type + '-occ')?.value || '';
+        const isNao = row.querySelector('.' + type + '-dob')?.disabled || false;
+        data.dynamicData[type].push({ name: nameVal, dob: dobVal, age: ageVal, occ: occVal, disabled: isNao });
+      });
+    });
+
+    // 3. Collect signature state
+    const drawMode = document.getElementById('sig-draw-wrap')?.style.display !== 'none';
+    const typeMode = document.getElementById('sig-type')?.style.display !== 'none';
+    const uploadMode = document.getElementById('sig-upload-wrap')?.style.display !== 'none';
+    
+    if (typeMode) {
+      data.sigMode = 'type';
+      data.sigData = document.getElementById('sig-type')?.value || '';
+    } else if (uploadMode) {
+      data.sigMode = 'upload';
+      const uploadedImg = document.getElementById('sig-uploaded-img');
+      if (uploadedImg && uploadedImg.src && uploadedImg.src !== window.location.href) {
+        data.sigData = uploadedImg.src;
+      }
+    } else if (drawMode) {
+      data.sigMode = 'draw';
+      const canvas = document.getElementById('sig-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const isPainted = imageData.data.some(channel => channel !== 0);
+        if (isPainted) data.sigData = canvas.toDataURL();
+      }
+    }
+
+    localStorage.setItem('qynix_form_state', JSON.stringify(data));
+  } catch (err) {
+    console.error('Failed to save form state:', err);
+  }
+}
+
+function loadFormState() {
+  try {
+    const raw = localStorage.getItem('qynix_form_state');
+    if (!raw) return;
+    isRestoring = true;
+    const data = JSON.parse(raw);
+
+    // 1. Recreate dynamic rows
+    ['brother', 'sister', 'son', 'daughter'].forEach(type => {
+      const list = data.dynamicData?.[type] || [];
+      list.forEach(item => {
+        addFamilyRow(type, type.charAt(0).toUpperCase() + type.slice(1));
+        const rows = document.querySelectorAll('.family-row-' + type);
+        const lastRow = rows[rows.length - 1];
+        if (lastRow) {
+          const nameInput = lastRow.querySelector('.' + type + '-name');
+          const dobInput = lastRow.querySelector('.' + type + '-dob');
+          const ageInput = lastRow.querySelector('.' + type + '-age');
+          const occInput = lastRow.querySelector('.' + type + '-occ');
+
+          if (nameInput) nameInput.value = item.name;
+          if (dobInput) dobInput.value = item.dob;
+          if (ageInput) ageInput.value = item.age;
+          if (occInput) occInput.value = item.occ;
+
+          if (item.disabled) {
+            if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+            if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
+            if (occInput) { occInput.disabled = true; }
+          }
+        }
+      });
+    });
+
+    // 2. Restore static inputs
+    if (data.staticFields) {
+       Object.keys(data.staticFields).forEach(id => {
+         const el = document.getElementById(id);
+         if (el) {
+           if (el.type === 'file') return;
+           if (el.type === 'checkbox') {
+             el.checked = data.staticFields[id];
+           } else {
+             el.value = data.staticFields[id];
+           }
+         }
+       });
+     }
+
+    // Restore radio selections
+    if (data.radioFields) {
+      Object.keys(data.radioFields).forEach(name => {
+        const val = data.radioFields[name];
+        const radio = document.querySelector(`input[name="${name}"][value="${val}"]`);
+        if (radio) radio.checked = true;
+      });
+    }
+
+    // 3. Restore signature state
+    if (data.sigMode) {
+      const drawBtn = document.querySelector('.sig-tab[onclick*="draw"]');
+      const typeBtn = document.querySelector('.sig-tab[onclick*="type"]');
+      const uploadBtn = document.querySelector('.sig-tab[onclick*="upload"]');
+
+      if (data.sigMode === 'type' && typeBtn) {
+        typeBtn.click();
+        const typeInp = document.getElementById('sig-type');
+        if (typeInp) typeInp.value = data.sigData || '';
+      } else if (data.sigMode === 'upload' && uploadBtn) {
+        uploadBtn.click();
+        const uploadedImg = document.getElementById('sig-uploaded-img');
+        if (uploadedImg && data.sigData) {
+          uploadedImg.src = data.sigData;
+          const trigger = document.getElementById('sig-upload-trigger');
+          if (trigger) trigger.style.display = 'none';
+          const previewWrap = document.getElementById('sig-img-preview-wrap');
+          if (previewWrap) previewWrap.style.display = 'flex';
+        }
+      } else if (data.sigMode === 'draw' && drawBtn) {
+        drawBtn.click();
+        const canvas = document.getElementById('sig-canvas');
+        if (canvas && data.sigData) {
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          const img = new Image();
+          img.onload = function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+          };
+          img.src = data.sigData;
+        }
+      }
+    }
+
+    // Run layout and progress engines
+    setTimeout(() => {
+      calcProgress();
+      autoResizeTextareas();
+      isRestoring = false;
+    }, 50);
+  } catch (err) {
+    console.error('Failed to restore form state:', err);
+    isRestoring = false;
+  }
+}
+
+function clearSavedFormState() {
+  localStorage.removeItem('qynix_form_state');
+}
 
 // Global validation for all date and month inputs to enforce realistic year ranges
 document.addEventListener('focusout', (e) => {
