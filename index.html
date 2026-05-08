@@ -2247,6 +2247,8 @@ function addFamilyRow(type, label) {
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
   repaginateForm();
+
+  calcProgress();
 }
 
 function removeFamilyRow(btn, type) {
@@ -2283,6 +2285,8 @@ function removeFamilyRow(btn, type) {
     if (nameInput) handleFamilyNA(nameInput, type);
   });
   repaginateForm();
+
+  calcProgress();
 }
 
 // ── Required field definitions ──
