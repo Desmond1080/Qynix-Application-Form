@@ -3963,7 +3963,6 @@ function saveFormState() {
     ['brother', 'sister', 'son', 'daughter'].forEach(type => {
       const rows = document.querySelectorAll('.family-row-' + type);
       rows.forEach((row, idx) => {
-        if (idx === 0) return; // skip first static row
         const nameVal = row.querySelector('.' + type + '-name')?.value || '';
         const dobVal = row.querySelector('.' + type + '-dob')?.value || '';
         const ageVal = row.querySelector('.' + type + '-age')?.value || '';
@@ -4014,15 +4013,17 @@ function loadFormState() {
     // 1. Recreate dynamic rows
     ['brother', 'sister', 'son', 'daughter'].forEach(type => {
       const list = data.dynamicData?.[type] || [];
-      list.forEach(item => {
-        addFamilyRow(type, type.charAt(0).toUpperCase() + type.slice(1));
+      list.forEach((item, idx) => {
+        if (idx > 0) {
+          addFamilyRow(type, type.charAt(0).toUpperCase() + type.slice(1));
+        }
         const rows = document.querySelectorAll('.family-row-' + type);
-        const lastRow = rows[rows.length - 1];
-        if (lastRow) {
-          const nameInput = lastRow.querySelector('.' + type + '-name');
-          const dobInput = lastRow.querySelector('.' + type + '-dob');
-          const ageInput = lastRow.querySelector('.' + type + '-age');
-          const occInput = lastRow.querySelector('.' + type + '-occ');
+        const targetRow = rows[idx];
+        if (targetRow) {
+          const nameInput = targetRow.querySelector('.' + type + '-name');
+          const dobInput = targetRow.querySelector('.' + type + '-dob');
+          const ageInput = targetRow.querySelector('.' + type + '-age');
+          const occInput = targetRow.querySelector('.' + type + '-occ');
 
           if (nameInput) nameInput.value = item.name;
           if (dobInput) dobInput.value = item.dob;
