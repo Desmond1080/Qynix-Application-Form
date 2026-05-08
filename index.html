@@ -2046,22 +2046,23 @@ function addFamilyRow(type, label) {
     return;
   }
 
+  const uniqueIndex = Date.now() + '_' + Math.floor(Math.random() * 1000);
   const newRowHTML = `
     <tr class="family-row-${type}">
       <td class="input-cell">
-        <textarea rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
+        <textarea id="${type}_name_${uniqueIndex}" rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) name is required.</span>
       </td>
       <td class="input-cell">
-        <input type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
+        <input id="${type}_dob_${uniqueIndex}" type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) date of birth is required.</span>
       </td>
       <td class="input-cell">
-        <input type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
+        <input id="${type}_age_${uniqueIndex}" type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) age is required.</span>
       </td>
       <td class="input-cell">
-        <textarea rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
+        <textarea id="${type}_occ_${uniqueIndex}" rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) occupation is required.</span>
       </td>
       <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
@@ -2080,7 +2081,7 @@ function addFamilyRow(type, label) {
     if (btn) btn.style.display = 'inline-flex';
   });
   
-  // Attach auto-resize to new textareas
+  // Attach auto-resize, live validation, and progress listeners to new inputs
   const newRow = lastRow.nextElementSibling;
   newRow.querySelectorAll('textarea').forEach(tx => {
     tx.addEventListener('input', () => {
@@ -2088,6 +2089,17 @@ function addFamilyRow(type, label) {
       tx.style.height = tx.scrollHeight + 'px';
     });
   });
+
+  newRow.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('err');
+      const wrap = el.closest('.has-err');
+      if (wrap) wrap.classList.remove('has-err');
+      calcProgress();
+    });
+    el.addEventListener('change', calcProgress);
+  });
+
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
 }
