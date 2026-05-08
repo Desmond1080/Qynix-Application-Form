@@ -842,7 +842,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   <!-- Position Applied For -->
   <div class="position-row">
-    <span>Position Applied For:</span>
+    <span>Position Applied For: <span style="color:#c0392b; font-weight:900;">*</span></span>
     <div id="f-position">
       <input type="text" id="position" placeholder="State the position you are applying for">
       <span class="err-msg">* This field is required.</span>
@@ -1249,7 +1249,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
       <td class="input-cell" id="f-emg_addr" style="width:100%" colspan="3">
         <textarea id="emg_addr" style="min-height: 0lh"placeholder="Emergency contact address"></textarea>
-        <span class="err-msg">* Emergencmy contact address is required.</span>
+        <span class="err-msg">* Emergency address is required.</span>
       </td>
     </tr>
   </table>
@@ -1268,20 +1268,20 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="input-cell" id="f-sec_sch">
         <span>Secondary / High School</span>
-        <input type="text" id="sec_sch" placeholder="School name or (Nil)">
+        <textarea type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* School name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="sec_from"></td>
       <td class="input-cell"><input type="month" id="sec_to"></td>
       <td class="input-cell" id="f-sec_qual">
-        <textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)"></textarea>
+        <textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* Qualifications / results / (Nil) is required.</span>
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-uni">
         <span>College / Polytechnic / University</span>
-        <input type="text" id="uni" placeholder="Institution name or (Nil)">
+        <textarea type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)" oninput="checkIfNil(this)"></textarea>
         <span class="err-msg">* Institution name or (Nil) is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="uni_from"></td>
@@ -1309,13 +1309,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course1_inst">
-        <input type="text" id="course1_inst" placeholder="Institution">
+        <textarea type="text" id="course1_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course1_from"></td>
       <td class="input-cell"><input type="month" id="course1_to"></td>
       <td class="input-cell" id="f-course1_qual">
-        <input type="text" id="course1_qual" placeholder="Qualification">
+        <textarea id="course1_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1325,13 +1325,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course2_inst">
-        <input type="text" id="course2_inst" placeholder="Institution">
+        <textarea type="text" id="course2_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course2_from"></td>
       <td class="input-cell"><input type="month" id="course2_to"></td>
       <td class="input-cell" id="f-course2_qual">
-        <input type="text" id="course2_qual" placeholder="Qualification">
+        <textarea id="course2_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1341,13 +1341,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <span class="err-msg">* Course name is required.</span>
       </td>
       <td class="input-cell" id="f-course3_inst">
-        <input type="text" id="course3_inst" placeholder="Institution">
+        <textarea type="text" id="course3_inst" placeholder="Institution"></textarea>
         <span class="err-msg">* Institution name is required.</span>
       </td>
       <td class="input-cell"><input type="month" id="course3_from"></td>
       <td class="input-cell"><input type="month" id="course3_to"></td>
       <td class="input-cell" id="f-course3_qual">
-        <input type="text" id="course3_qual" placeholder="Qualification">
+        <textarea id="course3_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
         <span class="err-msg">* Qualification is required.</span>
       </td>
     </tr>
@@ -1556,7 +1556,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td colspan="2" class="input-cell" id="f-emp1_salary">
         <span class="label-cell" style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month) <span class="req">*</span></span> &nbsp; RM
-        <input type="number" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px" pattern="\d+" min="0">
+        <input type="number" id="emp1_salary" placeholder="e.g. 3,500" style="max-width:180px;margin-left:6px" min="0" max="1000000">
         <span class="err-msg">* Last drawn salary is required.</span>
       </td>
     </tr>
@@ -1794,13 +1794,13 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
       <td class="input-cell" id="f-ref1_occ">
         <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor">
-        <span class="err-msg">★ Occupation/relationship is required.</span>
+        <span class="err-msg">* Occupation/relationship is required.</span>
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-ref2_name">
         <input type="text" id="ref2_name" placeholder="Referee 2 full name">
-        <span class="err-msg">★ Reference 2 name is required.</span>
+        <span class="err-msg">* Reference 2 name is required.</span>
       </td>
       <td class="input-cell">
         Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
@@ -1808,7 +1808,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
       </td>
       <td class="input-cell" id="f-ref2_occ">
         <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague">
-        <span class="err-msg">★ Occupation/relationship is required.</span>
+        <span class="err-msg">* Occupation/relationship is required.</span>
       </td>
     </tr>
   </table>
@@ -1927,6 +1927,26 @@ table.form-table.show-actions .action-col { display: table-cell; }
 </div>
 
 <script>
+// check if nil or n/a is entered in name fields, and disable related inputs if so
+function checkIfNil(nameInput) {
+  const val = nameInput.value.trim();
+  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil'].includes(val);
+  const row = nameInput.closest('tr');
+  const dateBoxes = row ? row.querySelectorAll('input[type="month"]') : [];
+
+  dateBoxes.forEach(box => {
+    box.disabled = isNil;
+    if (isNil) {
+      box.value = '';
+      box.classList.remove('err');
+      const wrap = box.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+    }
+  });
+}
+
+let sigHasContent = false;
+let isClearing = false;
 // Regex function to strictly allow valid name characters
 function enforceNameChars(input) {
   const origVal = input.value;
@@ -2342,16 +2362,14 @@ function calcProgress() {
 
   // Conditional required fields (only count if radio is YES)
   CONDITIONAL_REQUIRED.forEach(c => {
-    total++; // always count toward total
     const radio = document.querySelector(`input[name="${c.radioName}"]:checked`);
     if (radio && radio.value === c.radioValue) {
-      const el = document.getElementById(c.fieldId);
-      if (el && el.value.trim() !== '') filled++;
-    } else {
-      // not applicable → automatically considered filled
-      filled++;
+        total++; // only count toward total if this field is actually required
+        const el = document.getElementById(c.fieldId);
+        if (el && el.value.trim() !== '') filled++;
     }
-  });
+    // if radio is not YES, this field is NOT required → do not add to total or filled
+});
 
   // --- Signature detection (must be after total and filled setup) ---
   let signatureSet = false;
@@ -2361,6 +2379,8 @@ function calcProgress() {
   const uploadedImg = document.getElementById('sig-uploaded-img');
 
   if (drawWrap && drawWrap.style.display !== 'none') {
+
+    signatureSet = sigHasContent;
     const canvas = document.getElementById('sig-canvas');
     if (canvas && canvas.width > 0 && canvas.height > 0) {
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -2782,6 +2802,27 @@ function validateAndPrint() {
     }
   });
 
+  // salary validation (prevent negative or out of range) 
+  const salaryEls = [document.getElementById('emp1_salary'), document.getElementById('emp2_salary')];
+  const salaryWraps = [document.getElementById('f-emp1_salary'), document.getElementById('f-emp2_salary')];
+  salaryEls.forEach((el, idx) => {
+    if (el && el.value){
+      if (isNaN(el.value) || parseInt(el.value) < 0){
+        el.classList.add('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
+        showFieldError(salaryWraps[idx], 'Salary must be greater than 0 or more');
+      }else if (parseInt(el.value) > 1000000){
+        el.classList.add('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
+        showFieldError(salaryWraps[idx], 'Salary must be 1 million or less');
+      } else {
+        el.classList.remove('err');
+        if (salaryWraps[idx]) salaryWraps[idx].classList.remove('has-err');
+        clearFieldError(salaryWraps[idx]);
+      }
+    }
+  })
+
   // ─── HEIGHT & WEIGHT VALIDATION (prevent negative or out-of-range) ───
   const heightEl = document.getElementById('height');
   const weightEl = document.getElementById('weight');
@@ -3076,11 +3117,20 @@ function clearAll() {
   if (spAge) spAge.disabled = false;
   if (spOcc) spOcc.disabled = false;
 
-  document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],select,textarea').forEach(el => {
+  sigHasContent = false;
+  isClearing = true;
+  document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],input[type="month"],select,textarea').forEach(el => {
     el.value = '';
     el.classList.remove('err');
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
   });
-  document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el => el.checked = false);
+  document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el => {
+    el.checked = false;
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  isClearing = false;
+
   document.querySelectorAll('.has-err').forEach(el => el.classList.remove('has-err'));
   
   // Remove inline styles rather than forcing display none so CSS can take over again
@@ -3088,32 +3138,48 @@ function clearAll() {
   document.getElementById('val-banner').style.display = 'none';
   
   // Clear signature pad
+  sigHasContent = false;
   const canvas = document.getElementById('sig-canvas');
   if (canvas && canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0, 0, canvas.width, canvas.height);
   const sigType = document.getElementById('sig-type');
   if (sigType) sigType.value = '';
-  
-  // Reset cert date to today
+
+  // Clear uploaded signature image
+  const uploadedImg = document.getElementById('sig-uploaded-img');
+  if (uploadedImg) uploadedImg.src = '';
+  const previewWrap = document.getElementById('sig-img-preview-wrap');
+  if (previewWrap) previewWrap.style.display = 'none';
+  const uploadTrigger = document.getElementById('sig-upload-trigger');
+  if (uploadTrigger) uploadTrigger.style.display = 'flex';
+  const fileInput = document.getElementById('sig-file');
+  if (fileInput) fileInput.value = '';
+
+  // Clear cert date
   const certDate = document.getElementById('cert-date');
-  if (certDate) certDate.valueAsDate = new Date();
-  
-  // Re-adjust textarea heights if they were stretched
+  if (certDate) certDate.value = '';
+
+  // Re-adjust textarea heights
   if (typeof autoResizeTextareas === 'function') {
     autoResizeTextareas();
   }
-  
+
+  updateConditionalStars();
   calcProgress();
 }
 
 // ── Live validation clearing + progress ──
 document.querySelectorAll('input, select, textarea').forEach(el => {
   el.addEventListener('input', () => {
+    if (isClearing) return;
     el.classList.remove('err');
     const wrap = el.closest('.has-err');
     if (wrap) wrap.classList.remove('has-err');
     calcProgress();
   });
-  el.addEventListener('change', calcProgress);
+  el.addEventListener('change', () => {
+    if (isClearing) return;
+    calcProgress();
+  });
 });
 
 // ── Radio live ──
@@ -3296,6 +3362,7 @@ if (sigUpload) {
     if (drawing) {
       canvas.releasePointerCapture(e.pointerId);
       drawing = false;
+      sigHasContent = true;
       calcProgress(); 
     }
   });
@@ -3321,6 +3388,8 @@ window.switchSigMode = function(mode, btn) {
   const drawWrap   = document.getElementById('sig-draw-wrap');
   const typeInput  = document.getElementById('sig-type');
   const uploadWrap = document.getElementById('sig-upload-wrap');
+
+  if (mode !== 'draw') sigHasContent = false;
   
   if (mode === 'draw') {
     drawWrap.style.display = '';
@@ -3353,21 +3422,19 @@ window.handleSignatureUpload = function(input) {
 };
 
 window.clearSig = function() {
-  // Clear Draw Canvas
   const canvas = document.getElementById('sig-canvas');
   if (canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0,0,canvas.width,canvas.height);
-  
+  sigHasContent = false;
   // Clear Type input
   document.getElementById('sig-type').value = '';
-  
-  // Clear Upload Image input and preview
+
   const fileInput = document.getElementById('sig-file');
   if (fileInput) fileInput.value = '';
   document.getElementById('sig-uploaded-img').src = '';
   document.getElementById('sig-img-preview-wrap').style.display = 'none';
   document.getElementById('sig-upload-trigger').style.display = 'flex';
 
-  calcProgress(); 
+  calcProgress();
 };
 
 // Auto-fill today's date in cert date field
