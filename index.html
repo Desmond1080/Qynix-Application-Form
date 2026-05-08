@@ -680,14 +680,27 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   /* iOS WebKit Safari Print Fix */
   @supports (-webkit-touch-callout: none) {
+    body {
+      width: 1024px !important;
+      min-width: 1024px !important;
+    }
     .page-card {
+      width: 1024px !important;
+      max-width: 1024px !important;
       display: block !important;
       min-height: unset !important;
       height: auto !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      padding: 0 !important;
     }
-    .form-footer {
-      margin-top: 14px !important;
-      position: static !important;
+    .page-card:last-of-type {
+      page-break-after: avoid !important;
+      break-after: avoid !important;
+    }
+    .print-section {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
     }
   }
 
@@ -1268,7 +1281,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
   </table>
 </div>
 
-<div class="print-section" data-min-page="3">
+<div class="print-section" data-min-page="2">
   <!-- Educational Data -->
   <div class="sec-title">Educational Data</div>
   <table class="form-table">
@@ -1306,8 +1319,11 @@ table.form-table.show-actions .action-col { display: table-cell; }
     </tr>
   </table>
   <p style="font-size:10.5px;font-style:italic;margin-bottom:6px">(Please attach copies of original certificates. Training sessions/courses attended will ease gauging of knowledge and ability.)</p>
+</div>
 
+<div class="print-section" data-min-page="3">
   <!-- Other Courses -->
+  <div class="sec-title">Other Courses &amp; Training</div>
   <table class="form-table">
     <tr>
       <th class="input-cell">Other Courses / Short or Long Training Completed or Currently Pursuing <span class="req">*</span></th>
@@ -1450,7 +1466,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
   </table>
 </div>
 
-<div class="print-section">
+<div class="print-section" data-min-page="4">
   <!-- Health -->
   <div class="sec-title">Health</div>
   <table class="form-table textarea-table">
@@ -1798,30 +1814,26 @@ table.form-table.show-actions .action-col { display: table-cell; }
     </tr>
     <tr>
       <td class="input-cell" id="f-ref1_name">
-        <input type="text" id="ref1_name" placeholder="Referee 1 full name">
-        <span class="err-msg">* Reference 1 name is required.</span>
+        <input type="text" id="ref1_name" placeholder="Referee 1 full name or (Nil)">
       </td>
       <td class="input-cell">
-        Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
-        Office: <input type="tel" id="ref1_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+        Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref1_office" placeholder="Office no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin-top:3px">
       </td>
       <td class="input-cell" id="f-ref1_occ">
-        <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor">
-        <span class="err-msg">* Occupation/relationship is required.</span>
+        <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor or (Nil)">
       </td>
     </tr>
     <tr>
       <td class="input-cell" id="f-ref2_name">
-        <input type="text" id="ref2_name" placeholder="Referee 2 full name">
-        <span class="err-msg">* Reference 2 name is required.</span>
+        <input type="text" id="ref2_name" placeholder="Referee 2 full name or (Nil)">
       </td>
       <td class="input-cell">
-        Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no." style="border-bottom:1.5px solid #bbb;margin:3px 0">
-        Office: <input type="tel" id="ref2_office" placeholder="Office no." style="border-bottom:1.5px solid #bbb;margin-top:3px">
+        Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin:3px 0">
+        Office: <input type="tel" id="ref2_office" placeholder="Office no. or (Nil)" style="border-bottom:1.5px solid #bbb;margin-top:3px">
       </td>
       <td class="input-cell" id="f-ref2_occ">
-        <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague">
-        <span class="err-msg">* Occupation/relationship is required.</span>
+        <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague or (Nil)">
       </td>
     </tr>
   </table>
@@ -2347,10 +2359,6 @@ const REQUIRED = [
   {id:'driving',      type:'text'},
   {id:'notice',       type:'text'}, 
   {id:'other_info',   type:'text'},
-  {id:'ref1_name',    type:'text'},
-  {id:'ref1_occ',     type:'text'},
-  {id:'ref2_name',    type:'text'},
-  {id:'ref2_occ',     type:'text'},
   {id:'religion',      type:'select'},
   {id:'cert-date', type:'date'},
 ];
@@ -3938,9 +3946,6 @@ function repaginateForm() {
           <div style="flex:1"></div>
           <div class="page-num">- ${nextPageIndex} -</div>
         </div>
-        <div class="form-footer">
-          Qynix Technologies Sdn Bhd
-        </div>
       `;
       const actionButtons = document.getElementById('action-buttons');
       document.body.insertBefore(newCard, actionButtons);
@@ -3973,9 +3978,6 @@ function repaginateForm() {
             <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
             <div style="flex:1"></div>
             <div class="page-num">- ${nextPageIndex} -</div>
-          </div>
-          <div class="form-footer">
-            Qynix Technologies Sdn Bhd
           </div>
         `;
         const actionButtons = document.getElementById('action-buttons');
