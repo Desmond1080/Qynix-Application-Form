@@ -678,6 +678,19 @@ table.form-table.show-actions .action-col { display: table-cell; }
     break-after: avoid !important;
   }
 
+  /* iOS WebKit Safari Print Fix */
+  @supports (-webkit-touch-callout: none) {
+    .page-card {
+      display: block !important;
+      min-height: unset !important;
+      height: auto !important;
+    }
+    .form-footer {
+      margin-top: 14px !important;
+      position: static !important;
+    }
+  }
+
   .form-actions, #val-banner, #success-screen, #progress-wrap, #progress-label, .no-print, .action-col { display: none !important; }
 
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
