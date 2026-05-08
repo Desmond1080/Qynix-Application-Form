@@ -3758,7 +3758,12 @@ document.querySelectorAll('textarea').forEach(tx => {
   });
 });
 
-window.addEventListener('resize', autoResizeTextareas);
+let lastTextareaWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === lastTextareaWidth) return;
+  lastTextareaWidth = window.innerWidth;
+  autoResizeTextareas();
+});
 window.addEventListener('load', autoResizeTextareas);
 setTimeout(autoResizeTextareas, 200);
 
@@ -3797,6 +3802,9 @@ function initRepagination() {
 
 function repaginateForm() {
   if (originalSections.length === 0) return;
+
+  const currentBodyHeight = document.body.scrollHeight;
+  document.body.style.minHeight = currentBodyHeight + 'px';
 
   const activeEl = document.activeElement;
   const activeId = activeEl ? activeEl.id : null;
@@ -3912,13 +3920,17 @@ function repaginateForm() {
   if (activeId) {
     const el = document.getElementById(activeId);
     if (el) {
-      el.focus();
-      const supportedTypes = ['text', 'search', 'url', 'tel', 'password'];
-      if (selStart !== null && selEnd !== null && ('setSelectionRange' in el) && supportedTypes.includes(el.type || '')) {
+      el.focus({ preventScroll: true });
+      const supportedTypes = ['text', 'search', 'url', 'tel', 'password', 'textarea'];
+      if (selStart !== null && selEnd !== null && ('setSelectionRange' in el) && (supportedTypes.includes(el.type || '') || el.tagName === 'TEXTAREA')) {
+        const x = window.scrollX || window.pageXOffset || 0;
+        const y = window.scrollY || window.pageYOffset || 0;
         el.setSelectionRange(selStart, selEnd);
+        window.scrollTo(x, y);
       }
     }
   }
+  document.body.style.minHeight = '';
 }
 
 let repaginateTimeout = null;
@@ -3932,10 +3944,19 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initRepagination, 150);
 });
 
-document.addEventListener('input', (e) => {
+let textareaOrigValue = '';
+document.addEventListener('focusin', (e) => {
+  if (e.target && e.target.tagName === 'TEXTAREA') {
+    textareaOrigValue = e.target.value;
+  }
+});
+
+document.addEventListener('focusout', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
     if (e.target.closest('.office-box')) return;
-    debouncedRepaginate();
+    if (e.target.value !== textareaOrigValue) {
+      debouncedRepaginate();
+    }
   }
 });
 
