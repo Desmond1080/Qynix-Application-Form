@@ -665,15 +665,37 @@ table.form-table.show-actions .action-col { display: table-cell; }
     max-width: 100% !important;
     padding: 0 0 16px !important;
     margin: 0 !important;
-    min-height: unset !important;
-    display: block !important;
+    min-height: 262mm !important;
+    display: flex !important;
+    flex-direction: column !important;
     page-break-after: always !important;
     break-after: page !important;
     overflow: visible !important;
+    box-sizing: border-box !important;
   }
   .page-card:last-of-type {
     page-break-after: avoid !important;
     break-after: avoid !important;
+  }
+
+  /* iOS WebKit Safari Print Fix */
+  @supports (-webkit-touch-callout: none) {
+    .page-card {
+      display: block !important;
+      min-height: unset !important;
+      height: auto !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      padding: 0 !important;
+    }
+    .page-card:last-of-type {
+      page-break-after: avoid !important;
+      break-after: avoid !important;
+    }
+    .print-section {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
   }
 
   .form-actions, #val-banner, #success-screen, #progress-wrap, #progress-label, .no-print, .action-col { display: none !important; }
@@ -2179,6 +2201,10 @@ function addFamilyRow(type, label) {
 
   newRow.querySelectorAll('input, select, textarea').forEach(el => {
     el.addEventListener('input', () => {
+      if (el.classList.contains(type + '-name')) {
+        const val = el.value.trim().toUpperCase();
+        if (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-') return;
+      }
       el.classList.remove('err');
       const wrap = el.closest('.has-err');
       if (wrap) wrap.classList.remove('has-err');
@@ -2189,6 +2215,7 @@ function addFamilyRow(type, label) {
 
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
+  repaginateForm();
 }
 
 function removeFamilyRow(btn, type) {
@@ -2224,6 +2251,7 @@ function removeFamilyRow(btn, type) {
     const nameInput = r.querySelector('.' + type + '-name');
     if (nameInput) handleFamilyNA(nameInput, type);
   });
+  repaginateForm();
 }
 
 // ── Required field definitions ──
@@ -3876,9 +3904,6 @@ function repaginateForm() {
           <div style="flex:1"></div>
           <div class="page-num">- ${nextPageIndex} -</div>
         </div>
-        <div class="form-footer">
-          Qynix Technologies Sdn Bhd
-        </div>
       `;
       const actionButtons = document.getElementById('action-buttons');
       document.body.insertBefore(newCard, actionButtons);
@@ -3911,9 +3936,6 @@ function repaginateForm() {
             <div class="logo-block"><img src="https://qynix.com/wp-content/uploads/2024/03/Qynix-Logo-300x129.png" alt="Qynix Technologies Logo" class="logo-svg"></div>
             <div style="flex:1"></div>
             <div class="page-num">- ${nextPageIndex} -</div>
-          </div>
-          <div class="form-footer">
-            Qynix Technologies Sdn Bhd
           </div>
         `;
         const actionButtons = document.getElementById('action-buttons');
@@ -3951,7 +3973,8 @@ function repaginateForm() {
     const el = document.getElementById(activeId);
     if (el) {
       el.focus();
-      if (selStart !== null && selEnd !== null && ('setSelectionRange' in el)) {
+      const supportedTypes = ['text', 'search', 'url', 'tel', 'password'];
+      if (selStart !== null && selEnd !== null && ('setSelectionRange' in el) && supportedTypes.includes(el.type || '')) {
         el.setSelectionRange(selStart, selEnd);
       }
     }
@@ -3967,8 +3990,12 @@ function debouncedRepaginate() {
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initRepagination, 150);
 });
-document.addEventListener('input', debouncedRepaginate);
-document.addEventListener('change', repaginateForm);
+
+document.addEventListener('input', (e) => {
+  if (e.target && e.target.tagName === 'TEXTAREA') {
+    debouncedRepaginate();
+  }
+});
 </script>
 
 </body>
