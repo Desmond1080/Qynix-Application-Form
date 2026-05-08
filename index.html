@@ -2137,6 +2137,10 @@ function addFamilyRow(type, label) {
 
   newRow.querySelectorAll('input, select, textarea').forEach(el => {
     el.addEventListener('input', () => {
+      if (el.classList.contains(type + '-name')) {
+        const val = el.value.trim().toUpperCase();
+        if (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-') return;
+      }
       el.classList.remove('err');
       const wrap = el.closest('.has-err');
       if (wrap) wrap.classList.remove('has-err');
