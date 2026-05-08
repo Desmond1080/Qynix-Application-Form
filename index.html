@@ -1039,7 +1039,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="label-cell">Father <span class="req">*</span></td>
       <td class="input-cell" id="f-fath_name">
-          <textarea rows="1" id="fath_name" placeholder="Father's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
+          <textarea rows="1" id="fath_name" placeholder="Father's name" maxlength="100" style="min-height:34px" oninput="handleParentNA(this, 'fath')"></textarea>
           <span class="err-msg">* Father's name is required.</span>
       </td> 
       <td class="input-cell" id="f-fath_dob">
@@ -1059,7 +1059,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="label-cell">Mother <span class="req">*</span></td>
       <td class="input-cell" id="f-moth_name">
-        <textarea rows="1" id="moth_name" placeholder="Mother's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
+        <textarea rows="1" id="moth_name" placeholder="Mother's name" maxlength="100" style="min-height:34px" oninput="handleParentNA(this, 'moth')"></textarea>
         <span class="err-msg">* Mother's name is required.</span>
       </td>
       <td class="input-cell" id="f-moth_dob">
@@ -1934,6 +1934,37 @@ function enforceNameChars(input) {
   }
 }
 
+function handleParentNA(nameInput, type) {
+  enforceNameChars(nameInput);
+  const dobInput = document.getElementById(type + '_dob');
+  const ageInput = document.getElementById(type + '_age');
+  const occInput = document.getElementById(type + '_occ');
+  
+  const val = nameInput.value.trim().toUpperCase();
+  const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
+
+  if (isNA) {
+    if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
+    if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
+    if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
+    
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+    
+    const wrapDob = document.getElementById('f-' + type + '_dob'); if (wrapDob) wrapDob.classList.remove('has-err');
+    const wrapAge = document.getElementById('f-' + type + '_age'); if (wrapAge) wrapAge.classList.remove('has-err');
+    const wrapOcc = document.getElementById('f-' + type + '_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
+  } else {
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
+    if (occInput) { 
+      occInput.disabled = false; 
+      if (occInput.value === 'N/A') occInput.value = ''; 
+    }
+  }
+}
+
 function handleSpouseNA(nameInput) {
   enforceNameChars(nameInput);
   const dobInput = document.getElementById('sp_dob');
@@ -1944,8 +1975,8 @@ function handleSpouseNA(nameInput) {
   const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
   if (isNA) {
-    if (dobInput) { dobInput.value = ''; dobInput.disabled = true; dobInput.classList.remove('err'); }
-    if (ageInput) { ageInput.value = ''; ageInput.disabled = true; ageInput.classList.remove('err'); }
+    if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
+    if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
     if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
     
     nameInput.classList.remove('err');
@@ -1956,8 +1987,8 @@ function handleSpouseNA(nameInput) {
     const wrapAge = document.getElementById('f-sp_age'); if (wrapAge) wrapAge.classList.remove('has-err');
     const wrapOcc = document.getElementById('f-sp_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
   } else {
-    if (dobInput) dobInput.disabled = false;
-    if (ageInput) ageInput.disabled = false;
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
       if (occInput.value === 'N/A') occInput.value = ''; 
@@ -1965,6 +1996,7 @@ function handleSpouseNA(nameInput) {
   }
 }
 
+//dynamic row 
 function handleFamilyNA(nameInput, type) {
   enforceNameChars(nameInput);
   const row = nameInput.closest('tr');
@@ -1988,13 +2020,13 @@ function handleFamilyNA(nameInput, type) {
       if (wrap) wrap.classList.add('has-err');
       if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
       
-      if (dobInput) dobInput.disabled = false;
-      if (ageInput) ageInput.disabled = false;
-      if (occInput) occInput.disabled = false;
+      if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+      if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
+      if (occInput) { occInput.value = '-'; occInput.disabled = true; }
     } else {
-      if (dobInput) { dobInput.value = ''; dobInput.disabled = true; }
-      if (ageInput) { ageInput.value = ''; ageInput.disabled = true; }
-      if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; }
+      if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+      if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
+      if (occInput) { occInput.value = '-'; occInput.disabled = true; }
       
       nameInput.classList.remove('err');
       const wrap = nameInput.closest('.input-cell');
@@ -2003,8 +2035,8 @@ function handleFamilyNA(nameInput, type) {
       if (addBtn) addBtn.style.display = 'none';
     }
   } else {
-    if (dobInput) dobInput.disabled = false;
-    if (ageInput) ageInput.disabled = false;
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
       if (occInput.value === 'N/A') occInput.value = ''; 
@@ -2055,6 +2087,19 @@ function addFamilyRow(type, label) {
   const ageInput = lastRow.querySelector('.' + type + '-age');
   const occInput = lastRow.querySelector('.' + type + '-occ');
   
+  const lastVal = nameInput ? nameInput.value.trim().toUpperCase() : '';
+  if (lastVal === 'N/A' || lastVal === 'NA' || lastVal === 'NIL' || lastVal === '-') {
+    const errAdd = document.getElementById('err-' + type + '-add');
+    if (errAdd) {
+      errAdd.style.display = 'block';
+      errAdd.innerText = 'Please delete the extra row with N/A.';
+      setTimeout(() => errAdd.style.display = 'none', 4000);
+    } else {
+      alert('Please delete the extra row with N/A.');
+    }
+    return;
+  }
+
   const isFilled = (nameInput && nameInput.value.trim() !== '') &&
                    (dobInput && dobInput.value !== '') &&
                    (ageInput && ageInput.value !== '') &&
@@ -2157,6 +2202,12 @@ function removeFamilyRow(btn, type) {
   if (!hasExtra) {
     table.classList.remove('show-actions');
   }
+
+  // Re-evaluate N/A rules for all remaining rows since their index has changed
+  remainingRows.forEach(r => {
+    const nameInput = r.querySelector('.' + type + '-name');
+    if (nameInput) handleFamilyNA(nameInput, type);
+  });
 }
 
 // ── Required field definitions ──
@@ -3539,6 +3590,7 @@ window.addEventListener('load', function() {
   function set(id, val) {
     var el = document.getElementById(id);
     if (!el) return;
+    if (el.disabled) return;
     el.value = val;
     el.dispatchEvent(new Event('input', {bubbles:true}));
     el.dispatchEvent(new Event('change', {bubbles:true}));
