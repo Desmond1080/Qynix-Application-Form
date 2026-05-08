@@ -680,12 +680,52 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  input, select, textarea {
+  input:not([type="radio"]):not([type="checkbox"]), select, textarea:not(#interviewer_notes) {
     border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
     -webkit-appearance: none !important;
     appearance: none !important;
+  }
+
+  input[type="radio"], input[type="checkbox"] {
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    accent-color: #3aac28 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  input[type="checkbox"]:checked {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #3aac28 !important;
+    border: 1px solid #3aac28 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") !important;
+    background-size: 9px 9px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 2px !important;
+    width: 13px !important;
+    height: 13px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  input[type="radio"]:checked {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #3aac28 !important;
+    border: 1px solid #3aac28 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3C/svg%3E") !important;
+    background-size: 5px 5px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 50% !important;
+    width: 13px !important;
+    height: 13px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
   }
 
   /* Hide native calendar icons, clear buttons, and spin arrows on mobile during print */
@@ -728,11 +768,24 @@ table.form-table.show-actions .action-col { display: table-cell; }
     max-width: 100px !important;
   }
 
-  textarea {
+  textarea:not(#interviewer_notes) {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
     border-bottom: none !important;
+  }
+
+  #interviewer_notes {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    min-height: 120px !important;
+    height: 120px !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .sec-title { break-after: avoid; }
@@ -745,6 +798,19 @@ table.form-table.show-actions .action-col { display: table-cell; }
     break-inside: avoid !important;
     -webkit-column-break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  table.form-table th,
+  .office-box .office-hdr {
+    background-color: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .label-cell {
+    background-color: #fafafa !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 </style>
@@ -973,7 +1039,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="label-cell">Father <span class="req">*</span></td>
       <td class="input-cell" id="f-fath_name">
-          <textarea rows="1" id="fath_name" placeholder="Father's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
+          <textarea rows="1" id="fath_name" placeholder="Father's name" maxlength="100" style="min-height:34px" oninput="handleParentNA(this, 'fath')"></textarea>
           <span class="err-msg">* Father's name is required.</span>
       </td> 
       <td class="input-cell" id="f-fath_dob">
@@ -993,7 +1059,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
     <tr>
       <td class="label-cell">Mother <span class="req">*</span></td>
       <td class="input-cell" id="f-moth_name">
-        <textarea rows="1" id="moth_name" placeholder="Mother's name" maxlength="100" style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
+        <textarea rows="1" id="moth_name" placeholder="Mother's name" maxlength="100" style="min-height:34px" oninput="handleParentNA(this, 'moth')"></textarea>
         <span class="err-msg">* Mother's name is required.</span>
       </td>
       <td class="input-cell" id="f-moth_dob">
@@ -1835,7 +1901,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="others"> Others, pls specify</label>
         <input type="text" id="decision_other" placeholder="Specify..." style="max-width:180px;border-bottom:1px solid #aaa">
       </div>
-      <textarea id="interviewer_notes" style="width:100%;min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;font-family:inherit;font-size:12px;resize:vertical" placeholder="Interviewer's notes and comments..."></textarea>
+      <textarea id="interviewer_notes" style="min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;" placeholder="Interviewer's notes and comments..."></textarea>
     </div>
   </div>
 </div>
@@ -1870,6 +1936,37 @@ function enforceNameChars(input) {
   }
 }
 
+function handleParentNA(nameInput, type) {
+  enforceNameChars(nameInput);
+  const dobInput = document.getElementById(type + '_dob');
+  const ageInput = document.getElementById(type + '_age');
+  const occInput = document.getElementById(type + '_occ');
+  
+  const val = nameInput.value.trim().toUpperCase();
+  const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
+
+  if (isNA) {
+    if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
+    if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
+    if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
+    
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+    
+    const wrapDob = document.getElementById('f-' + type + '_dob'); if (wrapDob) wrapDob.classList.remove('has-err');
+    const wrapAge = document.getElementById('f-' + type + '_age'); if (wrapAge) wrapAge.classList.remove('has-err');
+    const wrapOcc = document.getElementById('f-' + type + '_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
+  } else {
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
+    if (occInput) { 
+      occInput.disabled = false; 
+      if (occInput.value === 'N/A') occInput.value = ''; 
+    }
+  }
+}
+
 function handleSpouseNA(nameInput) {
   enforceNameChars(nameInput);
   const dobInput = document.getElementById('sp_dob');
@@ -1880,8 +1977,8 @@ function handleSpouseNA(nameInput) {
   const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
   if (isNA) {
-    if (dobInput) { dobInput.value = ''; dobInput.disabled = true; dobInput.classList.remove('err'); }
-    if (ageInput) { ageInput.value = ''; ageInput.disabled = true; ageInput.classList.remove('err'); }
+    if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
+    if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
     if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; occInput.classList.remove('err'); }
     
     nameInput.classList.remove('err');
@@ -1892,8 +1989,8 @@ function handleSpouseNA(nameInput) {
     const wrapAge = document.getElementById('f-sp_age'); if (wrapAge) wrapAge.classList.remove('has-err');
     const wrapOcc = document.getElementById('f-sp_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
   } else {
-    if (dobInput) dobInput.disabled = false;
-    if (ageInput) ageInput.disabled = false;
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
       if (occInput.value === 'N/A') occInput.value = ''; 
@@ -1901,6 +1998,7 @@ function handleSpouseNA(nameInput) {
   }
 }
 
+//dynamic row 
 function handleFamilyNA(nameInput, type) {
   enforceNameChars(nameInput);
   const row = nameInput.closest('tr');
@@ -1924,13 +2022,13 @@ function handleFamilyNA(nameInput, type) {
       if (wrap) wrap.classList.add('has-err');
       if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
       
-      if (dobInput) dobInput.disabled = false;
-      if (ageInput) ageInput.disabled = false;
-      if (occInput) occInput.disabled = false;
+      if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+      if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
+      if (occInput) { occInput.value = '-'; occInput.disabled = true; }
     } else {
-      if (dobInput) { dobInput.value = ''; dobInput.disabled = true; }
-      if (ageInput) { ageInput.value = ''; ageInput.disabled = true; }
-      if (occInput) { occInput.value = 'N/A'; occInput.disabled = true; }
+      if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+      if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
+      if (occInput) { occInput.value = '-'; occInput.disabled = true; }
       
       nameInput.classList.remove('err');
       const wrap = nameInput.closest('.input-cell');
@@ -1939,8 +2037,8 @@ function handleFamilyNA(nameInput, type) {
       if (addBtn) addBtn.style.display = 'none';
     }
   } else {
-    if (dobInput) dobInput.disabled = false;
-    if (ageInput) ageInput.disabled = false;
+    if (dobInput) { if (dobInput.value === '-/-/-') dobInput.value = ''; dobInput.type = 'date'; dobInput.disabled = false; }
+    if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
       if (occInput.value === 'N/A') occInput.value = ''; 
@@ -1991,6 +2089,19 @@ function addFamilyRow(type, label) {
   const ageInput = lastRow.querySelector('.' + type + '-age');
   const occInput = lastRow.querySelector('.' + type + '-occ');
   
+  const lastVal = nameInput ? nameInput.value.trim().toUpperCase() : '';
+  if (lastVal === 'N/A' || lastVal === 'NA' || lastVal === 'NIL' || lastVal === '-') {
+    const errAdd = document.getElementById('err-' + type + '-add');
+    if (errAdd) {
+      errAdd.style.display = 'block';
+      errAdd.innerText = 'Please delete the extra row with N/A.';
+      setTimeout(() => errAdd.style.display = 'none', 4000);
+    } else {
+      alert('Please delete the extra row with N/A.');
+    }
+    return;
+  }
+
   const isFilled = (nameInput && nameInput.value.trim() !== '') &&
                    (dobInput && dobInput.value !== '') &&
                    (ageInput && ageInput.value !== '') &&
@@ -2008,22 +2119,23 @@ function addFamilyRow(type, label) {
     return;
   }
 
+  const uniqueIndex = Date.now() + '_' + Math.floor(Math.random() * 1000);
   const newRowHTML = `
     <tr class="family-row-${type}">
       <td class="input-cell">
-        <textarea rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
+        <textarea id="${type}_name_${uniqueIndex}" rows="1" name="${type}_names[]" class="${type}-name" placeholder="Name" maxlength="100" style="min-height:20px;" oninput="handleFamilyNA(this, '${type}')"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) name is required.</span>
       </td>
       <td class="input-cell">
-        <input type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
+        <input id="${type}_dob_${uniqueIndex}" type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) date of birth is required.</span>
       </td>
       <td class="input-cell">
-        <input type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
+        <input id="${type}_age_${uniqueIndex}" type="number" name="${type}_age[]" class="${type}-age" min="0" max="120" placeholder="Age">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) age is required.</span>
       </td>
       <td class="input-cell">
-        <textarea rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
+        <textarea id="${type}_occ_${uniqueIndex}" rows="1" name="${type}_occ[]" class="${type}-occ" placeholder="Occupation" maxlength="100" style="min-height:20px;"></textarea>
         <span class="err-msg" style="white-space: normal;">* ${label}(s) occupation is required.</span>
       </td>
       <td class="input-cell action-col no-print" style="text-align: center; vertical-align: middle;">
@@ -2042,7 +2154,7 @@ function addFamilyRow(type, label) {
     if (btn) btn.style.display = 'inline-flex';
   });
   
-  // Attach auto-resize to new textareas
+  // Attach auto-resize, live validation, and progress listeners to new inputs
   const newRow = lastRow.nextElementSibling;
   newRow.querySelectorAll('textarea').forEach(tx => {
     tx.addEventListener('input', () => {
@@ -2050,6 +2162,17 @@ function addFamilyRow(type, label) {
       tx.style.height = tx.scrollHeight + 'px';
     });
   });
+
+  newRow.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('err');
+      const wrap = el.closest('.has-err');
+      if (wrap) wrap.classList.remove('has-err');
+      calcProgress();
+    });
+    el.addEventListener('change', calcProgress);
+  });
+
   const table = lastRow.closest('table');
   table.classList.add('show-actions');
 }
@@ -2081,6 +2204,12 @@ function removeFamilyRow(btn, type) {
   if (!hasExtra) {
     table.classList.remove('show-actions');
   }
+
+  // Re-evaluate N/A rules for all remaining rows since their index has changed
+  remainingRows.forEach(r => {
+    const nameInput = r.querySelector('.' + type + '-name');
+    if (nameInput) handleFamilyNA(nameInput, type);
+  });
 }
 
 // ── Required field definitions ──
@@ -2230,7 +2359,14 @@ function calcProgress() {
   const uploadedImg = document.getElementById('sig-uploaded-img');
 
   if (drawWrap && drawWrap.style.display !== 'none') {
+
     signatureSet = sigHasContent;
+    const canvas = document.getElementById('sig-canvas');
+    if (canvas && canvas.width > 0 && canvas.height > 0) {
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      signatureSet = imageData.data.some(channel => channel !== 0);
+    }
   } else if (typeInput && typeInput.style.display !== 'none') {
     signatureSet = typeInput.value.trim() !== '';
   } else if (uploadWrap && uploadWrap.style.display !== 'none') {
@@ -2852,7 +2988,7 @@ function validateAndPrint() {
 
   if (drawMode) {
     const canvas = document.getElementById('sig-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     signatureValid = imageData.data.some(channel => channel !== 0);
   } else if (typeMode) {
@@ -2963,7 +3099,7 @@ function clearAll() {
   // Clear signature pad
   sigHasContent = false;
   const canvas = document.getElementById('sig-canvas');
-  if (canvas && canvas.getContext) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  if (canvas && canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0, 0, canvas.width, canvas.height);
   const sigType = document.getElementById('sig-type');
   if (sigType) sigType.value = '';
 
@@ -3138,7 +3274,7 @@ if (sigUpload) {
     canvas.width  = currentWidth;
     canvas.height = 80;
     
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d', { willReadFrequently: true });
     ctx.strokeStyle = '#111';
     ctx.lineWidth   = 1.8;
     ctx.lineCap     = 'round';
@@ -3246,9 +3382,9 @@ window.handleSignatureUpload = function(input) {
 
 window.clearSig = function() {
   const canvas = document.getElementById('sig-canvas');
-  if (canvas.getContext) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  if (canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0,0,canvas.width,canvas.height);
   sigHasContent = false;
-
+  // Clear Type input
   document.getElementById('sig-type').value = '';
 
   const fileInput = document.getElementById('sig-file');
@@ -3332,7 +3468,6 @@ function autoResizeTextareas() {
       tx.style.height = 'auto';
       const newHeight = Math.min(tx.scrollHeight, SKILL_MAX_HEIGHT);
       tx.style.height = newHeight + 'px';
-      tx.style.height = relativeHeight + 'px';
     } else {
       // For other textareas: resize normally
       tx.style.height = 'auto';
@@ -3483,6 +3618,7 @@ window.addEventListener('load', function() {
   function set(id, val) {
     var el = document.getElementById(id);
     if (!el) return;
+    if (el.disabled) return;
     el.value = val;
     el.dispatchEvent(new Event('input', {bubbles:true}));
     el.dispatchEvent(new Event('change', {bubbles:true}));
@@ -3791,10 +3927,17 @@ function repaginateForm() {
   }
 }
 
+let repaginateTimeout = null;
+function debouncedRepaginate() {
+  clearTimeout(repaginateTimeout);
+  repaginateTimeout = setTimeout(repaginateForm, 250);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initRepagination, 150);
 });
-
+document.addEventListener('input', debouncedRepaginate);
+document.addEventListener('change', repaginateForm);
 </script>
 
 </body>
