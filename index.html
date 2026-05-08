@@ -2712,7 +2712,7 @@ function validateAndPrint() {
     let ok = val !== '';
     // Email format check
     if (f.type === 'email' && ok) {
-      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.toUpperCase() === 'NIL' || val.toLowerCase() === 'nil' || val === 'Nil';
     }
     if (f.type === 'tel' && ok) ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
 
