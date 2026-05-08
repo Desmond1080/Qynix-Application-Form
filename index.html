@@ -2284,7 +2284,7 @@ function calcProgress() {
   if (drawWrap && drawWrap.style.display !== 'none') {
     const canvas = document.getElementById('sig-canvas');
     if (canvas && canvas.width > 0 && canvas.height > 0) {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       signatureSet = imageData.data.some(channel => channel !== 0);
     }
@@ -2909,7 +2909,7 @@ function validateAndPrint() {
 
   if (drawMode) {
     const canvas = document.getElementById('sig-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     signatureValid = imageData.data.some(channel => channel !== 0);
   } else if (typeMode) {
@@ -3010,7 +3010,7 @@ function clearAll() {
   
   // Clear signature pad
   const canvas = document.getElementById('sig-canvas');
-  if (canvas && canvas.getContext) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  if (canvas && canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0, 0, canvas.width, canvas.height);
   const sigType = document.getElementById('sig-type');
   if (sigType) sigType.value = '';
   
@@ -3170,7 +3170,7 @@ if (sigUpload) {
     canvas.width  = currentWidth;
     canvas.height = 80;
     
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d', { willReadFrequently: true });
     ctx.strokeStyle = '#111';
     ctx.lineWidth   = 1.8;
     ctx.lineCap     = 'round';
@@ -3276,7 +3276,7 @@ window.handleSignatureUpload = function(input) {
 window.clearSig = function() {
   // Clear Draw Canvas
   const canvas = document.getElementById('sig-canvas');
-  if (canvas.getContext) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  if (canvas.getContext) canvas.getContext('2d', { willReadFrequently: true }).clearRect(0,0,canvas.width,canvas.height);
   
   // Clear Type input
   document.getElementById('sig-type').value = '';
