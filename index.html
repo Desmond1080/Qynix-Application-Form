@@ -1995,7 +1995,7 @@ function handleParentNA(nameInput, type) {
     if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A') occInput.value = ''; 
+      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
 }
@@ -2026,7 +2026,7 @@ function handleSpouseNA(nameInput) {
     if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A') occInput.value = ''; 
+      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
   }
 }
@@ -2074,7 +2074,7 @@ function handleFamilyNA(nameInput, type) {
     if (ageInput) { if (ageInput.value === '-') ageInput.value = ''; ageInput.type = 'number'; ageInput.disabled = false; }
     if (occInput) { 
       occInput.disabled = false; 
-      if (occInput.value === 'N/A') occInput.value = ''; 
+      if (occInput.value === 'N/A' || occInput.value === '-') occInput.value = ''; 
     }
     nameInput.classList.remove('err');
     const wrap = nameInput.closest('.input-cell');
@@ -2131,6 +2131,18 @@ function addFamilyRow(type, label) {
       setTimeout(() => errAdd.style.display = 'none', 4000);
     } else {
       alert('Please delete the extra row with N/A.');
+    }
+    return;
+  }
+
+  if (lastRow.querySelector('.err')) {
+    const errAdd = document.getElementById('err-' + type + '-add');
+    if (errAdd) {
+      errAdd.style.display = 'block';
+      errAdd.innerText = 'Please fix the errors in the current row first.';
+      setTimeout(() => errAdd.style.display = 'none', 4000);
+    } else {
+      alert('Please fix the errors in the current row first.');
     }
     return;
   }
@@ -3068,6 +3080,27 @@ function validateAndPrint() {
     }
   }
 
+  // --- Re-verify all date fields for realistic year range ---
+  document.querySelectorAll('input[type="date"], input[type="month"]').forEach(el => {
+    if (el.value && !el.disabled && !el.readOnly) {
+      const year = parseInt(el.value.split('-')[0], 10);
+      if (year < 1900 || year > 2100) {
+        hasErr = true;
+        el.classList.add('err');
+        const wrap = el.closest('.input-cell') || el.closest('td') || el.parentElement;
+        if (wrap && wrap.classList) {
+          wrap.classList.add('has-err');
+          let errSpan = wrap.querySelector('.err-msg');
+          if (errSpan) {
+            if (!errSpan.dataset.origText) errSpan.dataset.origText = errSpan.innerText;
+            errSpan.innerText = "* Please enter a valid year (1900 - 2100).";
+            errSpan.style.display = 'block';
+          }
+        }
+      }
+    }
+  });
+
   // --- Final error handling and printing (reuse existing banner variable) ---
   // banner was already declared earlier: const banner = document.getElementById('val-banner');
   if (hasErr) {
@@ -4003,6 +4036,42 @@ document.addEventListener('input', (e) => {
     debouncedRepaginate();
   }
 });
+
+// Global validation for all date and month inputs to enforce realistic year ranges
+document.addEventListener('focusout', (e) => {
+    if (e.target && (e.target.type === 'date' || e.target.type === 'month')) {
+      const wrap = e.target.closest('.input-cell') || e.target.closest('td') || e.target.parentElement;
+      const errSpan = wrap ? wrap.querySelector('.err-msg') : null;
+
+      if (e.target.value) {
+        const parts = e.target.value.split('-');
+        const year = parseInt(parts[0], 10);
+        if (year < 1900 || year > 2100) {
+          e.target.value = '';
+          e.target.classList.add('err');
+          if (wrap && wrap.classList) wrap.classList.add('has-err');
+          
+          if (errSpan) {
+            if (!errSpan.dataset.origText) errSpan.dataset.origText = errSpan.innerText;
+            errSpan.innerText = "* Please enter a valid year (1900 - 2100).";
+          }
+          
+          e.target.dispatchEvent(new Event('change', { bubbles: true }));
+          calcProgress();
+        } else {
+          // Valid year, restore original text if it was changed
+          if (errSpan && errSpan.dataset.origText) {
+            errSpan.innerText = errSpan.dataset.origText;
+          }
+        }
+      } else {
+        // Input is empty, restore original text
+        if (errSpan && errSpan.dataset.origText) {
+          errSpan.innerText = errSpan.dataset.origText;
+        }
+      }
+    }
+  });
 </script>
 
 </body>
