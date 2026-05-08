@@ -680,7 +680,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
 
   .form-header { position: static !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  input:not([type="radio"]):not([type="checkbox"]), select, textarea {
+  input:not([type="radio"]):not([type="checkbox"]), select, textarea:not(#interviewer_notes) {
     border-bottom: none !important;
     background: transparent !important;
     color: #111 !important;
@@ -768,11 +768,24 @@ table.form-table.show-actions .action-col { display: table-cell; }
     max-width: 100px !important;
   }
 
-  textarea {
+  textarea:not(#interviewer_notes) {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
     border-bottom: none !important;
+  }
+
+  #interviewer_notes {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    min-height: 120px !important;
+    height: 120px !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .sec-title { break-after: avoid; }
@@ -785,6 +798,19 @@ table.form-table.show-actions .action-col { display: table-cell; }
     break-inside: avoid !important;
     -webkit-column-break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  table.form-table th,
+  .office-box .office-hdr {
+    background-color: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .label-cell {
+    background-color: #fafafa !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 </style>
@@ -1875,7 +1901,7 @@ table.form-table.show-actions .action-col { display: table-cell; }
         <label style="display:flex;align-items:center;gap:5px;font-size:12px"><input type="checkbox" name="decision" value="others"> Others, pls specify</label>
         <input type="text" id="decision_other" placeholder="Specify..." style="max-width:180px;border-bottom:1px solid #aaa">
       </div>
-      <textarea id="interviewer_notes" style="width:100%;min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;font-family:inherit;font-size:12px;resize:vertical" placeholder="Interviewer's notes and comments..."></textarea>
+      <textarea id="interviewer_notes" style="min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;" placeholder="Interviewer's notes and comments..."></textarea>
     </div>
   </div>
 </div>
