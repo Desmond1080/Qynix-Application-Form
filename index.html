@@ -1804,7 +1804,7 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your
               duties, responsibilities and skillsets used for programming <span class="req">*</span></span>
             <span class="field-hint">(Use separate sheets if necessary)</span>
-            <textarea id="emp1_duties" style="min-height:50px;margin-top:4px"
+            <textarea id="emp1_duties" style="min-height:50px;margin-top:4px" maxlength="800"
               placeholder="Describe your role, key responsibilities, and technologies used..."></textarea>
             <span class="err-msg">* Duties, responsibilities and skillsets information is required.</span>
           </td>
@@ -1813,7 +1813,7 @@
           <td colspan="2" class="input-cell" id="f-emp1_reason">
             <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving <span
                 class="req">*</span></span>
-            <textarea id="emp1_reason" style="min-height:36px;margin-top:3px"
+            <textarea id="emp1_reason" style="min-height:36px;margin-top:3px" maxlength="500"
               placeholder="State your reason for leaving (or 'Currently employed')"></textarea>
             <span class="err-msg">* Reason for leaving is required.</span>
           </td>
@@ -1871,7 +1871,7 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Describe briefly your
               duties, responsibilities and skillsets used for programming <span class="req">*</span></span>
             <span class="field-hint">(Use separate sheets if necessary)</span>
-            <textarea id="emp2_duties" style="min-height:80px;margin-top:4px"
+            <textarea id="emp2_duties" style="min-height:80px;margin-top:4px" maxlength="800"
               placeholder="Describe your role, key responsibilities, and technologies/tools used..."></textarea>
             <span class="err-msg">* Duties, responsibilities and skillsets information or (Nil) is required.</span>
           </td>
@@ -1880,7 +1880,7 @@
           <td colspan="2" class="input-cell" id="f-emp2_reason">
             <span class="label-cell" style="font-size:11.5px;font-weight:600;font-style:italic">Reason For Leaving <span
                 class="req">*</span></span>
-            <textarea id="emp2_reason" style="min-height:44px;margin-top:3px"
+            <textarea id="emp2_reason" style="min-height:44px;margin-top:3px" maxlength="500"
               placeholder="State your reason for leaving"></textarea>
             <span class="err-msg">* Reason for leaving or (Nil) is required.</span>
           </td>
@@ -2292,9 +2292,26 @@
       const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
       if (isNA) {
-        if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
-        if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
-        if (occInput) { occInput.value = '-'; occInput.disabled = true; occInput.classList.remove('err'); }
+        if (dobInput) { 
+          dobInput.type = 'text'; 
+          dobInput.value = '-/-/-'; 
+          dobInput.disabled = true; 
+          dobInput.classList.remove('err');
+          dobInput.style.pointerEvents = 'none';
+        }
+        if (ageInput) { 
+          ageInput.type = 'text'; 
+          ageInput.value = '-'; 
+          ageInput.disabled = true; 
+          ageInput.classList.remove('err');
+          ageInput.style.pointerEvents = 'none';
+        }
+        if (occInput) { 
+          occInput.value = '-'; 
+          occInput.disabled = true; 
+          occInput.classList.remove('err'); 
+          occInput.style.pointerEvents = 'none';
+        }
 
         nameInput.classList.remove('err');
         const wrap = nameInput.closest('.input-cell');
@@ -2308,15 +2325,18 @@
           if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
+          dobInput.style.pointerEvents = '';
         }
         if (ageInput) {
           if (ageInput.disabled && ageInput.value === '-') ageInput.value = '';
           ageInput.type = 'number';
           ageInput.disabled = false;
+          ageInput.style.pointerEvents = '';
         }
         if (occInput) {
           if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = '';
           occInput.disabled = false;
+          occInput.style.pointerEvents = '';
         }
       }
       setTimeout(() => calcProgress(), 50);
@@ -2332,9 +2352,26 @@
       const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
       if (isNA) {
-        if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; dobInput.classList.remove('err'); }
-        if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; ageInput.classList.remove('err'); }
-        if (occInput) { occInput.value = '-'; occInput.disabled = true; occInput.classList.remove('err'); }
+        if (dobInput) { 
+          dobInput.type = 'text'; 
+          dobInput.value = '-/-/-'; 
+          dobInput.disabled = true; 
+          dobInput.classList.remove('err'); 
+          dobInput.style.pointerEvents = 'none';
+        }
+        if (ageInput) { 
+          ageInput.type = 'text'; 
+          ageInput.value = '-'; 
+          ageInput.disabled = true; 
+          ageInput.classList.remove('err'); 
+          ageInput.style.pointerEvents = 'none';
+        }
+        if (occInput) { 
+          occInput.value = '-'; 
+          occInput.disabled = true; 
+          occInput.classList.remove('err'); 
+          occInput.style.pointerEvents = 'none';
+        }
 
         nameInput.classList.remove('err');
         const wrap = nameInput.closest('.input-cell');
@@ -2348,15 +2385,18 @@
           if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
+          dobInput.style.pointerEvents = '';
         }
         if (ageInput) {
           if (ageInput.disabled && ageInput.value === '-') ageInput.value = '';
           ageInput.type = 'number';
           ageInput.disabled = false;
+          ageInput.style.pointerEvents = '';
         }
         if (occInput) {
           if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = '';
           occInput.disabled = false;
+          occInput.style.pointerEvents = '';
         }
       }
       setTimeout(() => calcProgress(), 50);
@@ -2395,13 +2435,41 @@
           if (wrap) wrap.classList.add('has-err');
           if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
 
-          if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
-          if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
-          if (occInput) { occInput.value = '-'; occInput.disabled = true; }
+          if (dobInput) { 
+            dobInput.type = 'text'; 
+            dobInput.value = '-/-/-'; 
+            dobInput.disabled = true; 
+            dobInput.style.pointerEvents = 'none';
+          }
+          if (ageInput) { 
+            ageInput.type = 'text'; 
+            ageInput.value = '-'; 
+            ageInput.disabled = true; 
+            ageInput.style.pointerEvents = 'none';
+          }
+          if (occInput) { 
+            occInput.value = '-'; 
+            occInput.disabled = true; 
+            occInput.style.pointerEvents = 'none';
+          }
         } else {
-          if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
-          if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
-          if (occInput) { occInput.value = '-'; occInput.disabled = true; }
+          if (dobInput) { 
+            dobInput.type = 'text'; 
+            dobInput.value = '-/-/-'; 
+            dobInput.disabled = true; 
+            dobInput.style.pointerEvents = 'none';
+          }
+          if (ageInput) { 
+            ageInput.type = 'text'; 
+            ageInput.value = '-'; 
+            ageInput.disabled = true; 
+            ageInput.style.pointerEvents = 'none';
+          }
+          if (occInput) { 
+            occInput.value = '-'; 
+            occInput.disabled = true; 
+            occInput.style.pointerEvents = 'none';
+          }
 
           nameInput.classList.remove('err');
           const wrap = nameInput.closest('.input-cell');
@@ -2414,15 +2482,18 @@
           if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
+          dobInput.style.pointerEvents = '';
         }
         if (ageInput) {
           if (ageInput.disabled && ageInput.value === '-') ageInput.value = '';
           ageInput.type = 'number';
           ageInput.disabled = false;
+          ageInput.style.pointerEvents = '';
         }
         if (occInput) {
           if (occInput.disabled && (occInput.value === 'N/A' || occInput.value === '-')) occInput.value = '';
           occInput.disabled = false;
+          occInput.style.pointerEvents = '';
         }
         nameInput.classList.remove('err');
         const wrap = nameInput.closest('.input-cell');
@@ -3882,8 +3953,8 @@
     // textareas configuration - maximum 3 lines only
     const TextareaIds = ['prog_lang', 'os', 'database', 'internet_tech', 'domain', 'skills_other', 'lang_spoken', 'lang_written', 'dialect', 'disability', 'illness', 'fullname'];
     const MAX_LINES = 3;
-    const LINE_HEIGHT_PX = 18; // Approximate line height in pixels
-    const SKILL_MAX_HEIGHT = MAX_LINES * LINE_HEIGHT_PX; // ~54px for 3 lines
+    const LINE_HEIGHT_PX = 28; // Approximate line height in pixels
+    const SKILL_MAX_HEIGHT = (MAX_LINES * LINE_HEIGHT_PX) + 10; // 84px text + 10px padding/buffer = 94px
     const SKILL_LIMIT_MESSAGE = '* Maximum lines required is 3.';
 
     function getSkillErrorEl(textarea) {
@@ -4464,6 +4535,14 @@
 
         // Run layout and progress engines
         setTimeout(() => {
+          // Trigger N/A logic for Father, Mother, Spouse if values were restored
+          const fathName = document.getElementById('fath_name');
+          if (fathName) handleParentNA(fathName, 'fath');
+          const mothName = document.getElementById('moth_name');
+          if (mothName) handleParentNA(mothName, 'moth');
+          const spName = document.getElementById('sp_name');
+          if (spName) handleSpouseNA(spName);
+
           calcProgress();
           autoResizeTextareas();
           isRestoring = false;
