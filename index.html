@@ -1123,7 +1123,7 @@
           <td class="label-cell" style="width:150px;vertical-align:top" rowspan="6">Permanent Address <span
               class="req">*</span></td>
           <td class="input-cell" id="f-perm_addr" style="width:30%;vertical-align:top" rowspan="6">
-            <textarea id="perm_addr" style="min-height:230px;width:100%"
+            <textarea id="perm_addr" style="min-height:230px;width:100%" maxlength="500"
               placeholder="Full permanent address"></textarea>
             <span class="err-msg">* Permanent address is required.</span>
           </td>
@@ -1593,7 +1593,7 @@
         <tr>
           <td class="label-cell">Programming Language <span class="req">*</span></td>
           <td class="input-cell" id="f-prog_lang">
-            <textarea id="prog_lang" style="min-height: 0lh"
+            <textarea id="prog_lang" style="min-height: 0lh; height:25px;"
               placeholder="e.g. Java, Python, C++, JavaScript..."></textarea>
             <span class="err-msg">* Please list your programming languages (or state N/A).</span>
           </td>
@@ -1751,7 +1751,7 @@
                 class="req">*</span> <em style="font-weight:400;font-size:10.5px">(Present Employer – if not currently
                 working, state most recent former employer)</em></span>
             <div id="f-emp1_name">
-              <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px">
+              <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px" oninput="enforceNameChars(this)" maxlength="110">
               <span class="err-msg">* Employer name is required.</span>
             </div>
           </td>
@@ -1772,7 +1772,7 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Position(s) Held <span
                 class="req">*</span></span>
             <div id="f-emp1_pos">
-              <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px">
+              <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px" maxlength="50">
               <span class="err-msg">* Position held is required.</span>
             </div>
           </td>
