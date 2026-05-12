@@ -744,17 +744,18 @@
       body {
         background: #fff !important;
         padding: 0 !important;
-        width: 100% !important;
-        min-width: 100% !important;
+        width: 748px !important;
+        min-width: 748px !important;
+        margin: 0 auto !important;
       }
 
       .page-card {
         box-shadow: none !important;
         border: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 748px !important;
+        max-width: 748px !important;
         padding: 0 0 16px !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         min-height: 262mm !important;
         display: flex !important;
         flex-direction: column !important;
@@ -772,13 +773,13 @@
       /* iOS WebKit Safari Print Fix */
       @supports (-webkit-touch-callout: none) {
         body {
-          width: 820px !important;
-          min-width: 820px !important;
+          width: 748px !important;
+          min-width: 748px !important;
         }
 
         .page-card {
-          width: 820px !important;
-          max-width: 820px !important;
+          width: 748px !important;
+          max-width: 748px !important;
           display: block !important;
           min-height: unset !important;
           height: auto !important;
@@ -822,6 +823,8 @@
         color: #111 !important;
         -webkit-appearance: none !important;
         appearance: none !important;
+        max-height: none !important;
+        overflow: visible !important;
       }
 
       input[type="radio"],
@@ -3936,19 +3939,21 @@
     }
 
     // Auto-resize textareas to perfectly fit content height
-    function autoResizeTextareas() {
+    function autoResizeTextareas(isPrinting = false) {
       document.querySelectorAll('textarea').forEach(tx => {
         const isSkillTextarea = TextareaIds.includes(tx.id);
 
-        if (isSkillTextarea) {
-          // For skill textareas: enforce 3-line maximum
+        if (isSkillTextarea && !isPrinting) {
+          // For skill textareas on screen: enforce 3-line maximum
           tx.style.height = 'auto';
           const newHeight = Math.min(tx.scrollHeight, SKILL_MAX_HEIGHT);
           tx.style.height = newHeight + 'px';
         } else {
-          // For other textareas: resize normally
+          // For other textareas OR during printing: resize fully!
           tx.style.height = 'auto';
-          tx.style.height = tx.scrollHeight + 'px';
+          // Add a tiny buffer when printing (e.g., 12px) to guarantee no cutoff due to minor rendering variations in print engines
+          const buffer = isPrinting ? 12 : 0;
+          tx.style.height = (tx.scrollHeight + buffer) + 'px';
         }
       });
     }
@@ -4064,6 +4069,18 @@
       autoResizeTextareas();
     });
     window.addEventListener('load', autoResizeTextareas);
+    window.addEventListener('beforeprint', () => {
+      autoResizeTextareas(true);
+      if (typeof repaginateForm === 'function') {
+        repaginateForm();
+      }
+    });
+    window.addEventListener('afterprint', () => {
+      autoResizeTextareas(false);
+      if (typeof repaginateForm === 'function') {
+        repaginateForm();
+      }
+    });
     setTimeout(autoResizeTextareas, 200);
 
     // ── Block Enter key when reaching maximum 3 lines ──
