@@ -4355,6 +4355,30 @@
     document.addEventListener('input', debouncedSave);
     document.addEventListener('change', debouncedSave);
 
+    // ── Force numeric maximums & max length limitations instantly on input ──
+    document.addEventListener('input', function (e) {
+      const el = e.target;
+      if (el.tagName === 'INPUT' && el.type === 'number') {
+        const maxAttr = el.getAttribute('max');
+        if (maxAttr && el.value !== '') {
+          // 1. Enforce standard non-negative whole number digits
+          if (el.value.includes('.') || el.value.includes('-')) {
+            el.value = el.value.replace(/[^0-9]/g, '');
+          }
+          // 2. Prevent typing digits that exceed the MAX attribute length
+          if (el.value.length > maxAttr.length) {
+            el.value = el.value.slice(0, maxAttr.length);
+          }
+          // 3. Clamp mathematically if evaluation exceeds the maximum number 
+          const numMax = parseInt(maxAttr, 10);
+          const numCur = parseInt(el.value, 10);
+          if (!isNaN(numCur) && numCur > numMax) {
+            el.value = numMax;
+          }
+        }
+      }
+    });
+
     let isRestoring = false;
 
     // ── Auto-Save & Auto-Restore System using localStorage ──
