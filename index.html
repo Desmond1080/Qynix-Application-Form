@@ -1142,7 +1142,7 @@
         <tr>
           <td class="label-cell" style="width:20%">Contact Numbers (Home) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_home" style="width:20%">
-            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)"
+            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid home phone number is required.</span>
           </td>
@@ -1150,7 +1150,7 @@
         <tr>
           <td class="label-cell">Contact Numbers (Office) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_office">
-            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)"
+            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid office phone number is required.</span>
           </td>
@@ -1158,7 +1158,7 @@
         <tr>
           <td class="label-cell">Contact Numbers (Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_hp">
-            <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)"
+            <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid handphone number is required.</span>
           </td>
@@ -1182,7 +1182,7 @@
             Contact Numbers
             <div style="margin-top:6px">
               <div style="font-size:11.5px;font-weight:600">Home</div>
-              <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb">
+              <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb" oninput="enforceNumberChars(this)" maxlength="17">
             </div>
           </td>
         </tr>
@@ -1667,7 +1667,7 @@
         <tr>
           <td class="label-cell" style="width:200px">Height (cm) <span class="req">*</span></td>
           <td class="input-cell" id="f-height">
-            <input type="number" id="height" min="100" max="250" placeholder="e.g. 170" min="0">
+            <input type="number" id="height" max="250" placeholder="e.g. 170" min="0">
             <span class="err-msg">* Height is required.</span>
           </td>
           <td class="label-cell">Weight (kg) <span class="req">*</span></td>
@@ -2277,6 +2277,15 @@
     function enforceNameChars(input) {
       const origVal = input.value;
       const newVal = origVal.replace(/[^a-zA-Z\s/'\-\.]/g, '');
+      if (origVal !== newVal) {
+        input.value = newVal;
+      }
+    }
+
+    // regex function to allow valid number characters for phone and salary fields
+    function enforceNumberChars(input) {
+      const origVal = input.value;
+      const newVal = origVal.replace(/[^0-9,.\s]/g, '');
       if (origVal !== newVal) {
         input.value = newVal;
       }
