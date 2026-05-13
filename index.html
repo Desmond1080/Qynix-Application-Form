@@ -5158,6 +5158,15 @@
           const spName = document.getElementById('sp_name');
           if (spName) handleSpouseNA(spName);
 
+          // Trigger N/A logic for Dynamic Family rows (Add buttons hiding)
+          ['brother', 'sister', 'son', 'daughter'].forEach(type => {
+            const firstRow = document.querySelector('.family-row-' + type);
+            if (firstRow) {
+              const nameInp = firstRow.querySelector('.' + type + '-name');
+              if (nameInp) handleFamilyNA(nameInp, type);
+            }
+          });
+
           // Trigger Education/Employment Nil checks for restored values
           ['sec_sch', 'uni', 'emp1_name', 'emp2_name', 'course1', 'course2', 'course3'].forEach(id => {
             const el = document.getElementById(id);
