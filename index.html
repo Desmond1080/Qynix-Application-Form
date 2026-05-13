@@ -3413,10 +3413,10 @@ function handleEmp2Nil(nameInput) {
           if (heightWrap) heightWrap.classList.add('has-err');
           showFieldError(heightWrap, 'Height must be a positive number (0 or greater).');
           hasErr = true;
-        } else if (isNaN(heightVal) || heightVal > 350) {
+        } else if (isNaN(heightVal) || heightVal > 250) {
           heightEl.classList.add('err');
           if (heightWrap) heightWrap.classList.add('has-err');
-          showFieldError(heightWrap, 'Height must be 350 cm or less.');
+          showFieldError(heightWrap, 'Height must be 250 cm or less.');
           hasErr = true;
         } else {
           heightEl.classList.remove('err');
@@ -3432,7 +3432,7 @@ function handleEmp2Nil(nameInput) {
           if (weightWrap) weightWrap.classList.add('has-err');
           showFieldError(weightWrap, 'Weight must be a positive number (0 or greater).');
           hasErr = true;
-        } else if (weightVal > 500) {
+        } else if (weightVal > 300) {
           weightEl.classList.add('err');
           if (weightWrap) weightWrap.classList.add('has-err');
           showFieldError(weightWrap, 'Weight must be 300 kg or less.');
