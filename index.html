@@ -1093,7 +1093,7 @@
           </td>
           <td class="label-cell">Date of Birth <span class="req">*</span></td>
           <td class="input-cell" id="f-dob">
-            <input type="date" id="dob">
+            <input type="date" id="dob" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Date of birth is required.</span>
           </td>
         </tr>
@@ -1151,27 +1151,28 @@
         <tr>
           <td class="label-cell">Marital Status <span class="req">*</span></td>
           <td class="input-cell" id="f-marital">
-            <select id="marital">
+            <select id="marital" onchange="handleMaritalChange(this)">
               <option value="" disabled selected>— Select —</option>
               <option>Single</option>
               <option>Married</option>
               <option>Divorced</option>
               <option>Widow / Widower</option>
+              <option>Other</option>
             </select>
             <span class="err-msg">* Marital status is required.</span>
           </td>
           <td class="label-cell">EPF No. <span class="req">*</span></td>
           <td class="input-cell" id="f-epf">
-            <input type="text" id="epf" placeholder="EPF (or Nil)">
+            <input type="text" id="epf" placeholder="EPF (or Nil)" maxlength="15" oninput="this.value = this.value.replace(/[^a-zA-Z0-9/]/g, '')">
             <span class="err-msg">* EPF number is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell">Others (please specify)</td>
-          <td class="input-cell"><input type="text" id="marital_other" placeholder="(if applicable)"></td>
+          <td class="input-cell" id="f-marital_other"><input type="text" id="marital_other" value="-" disabled placeholder="(if applicable)" maxlength="34"></td>
           <td class="label-cell">SOCSO No. <span class="req">*</span></td>
           <td class="input-cell" id="f-socso">
-            <input type="text" id="socso" placeholder="SOCSO (or Nil)">
+            <input type="text" id="socso" placeholder="SOCSO (or Nil)" maxlength="15" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')">
             <span class="err-msg">* SOCSO number is required.</span>
           </td>
         </tr>
@@ -1185,7 +1186,7 @@
           </td>
           <td class="label-cell">Income Tax No. <span class="req">*</span></td>
           <td class="input-cell" id="f-tax">
-            <input type="text" id="tax" placeholder="Income Tax (or Nil)">
+            <input type="text" id="tax" placeholder="Income Tax (or Nil)" maxlength="20" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '')">
             <span class="err-msg">* Income Tax number is required.</span>
           </td>
         </tr>
@@ -1268,7 +1269,7 @@
             <span class="err-msg">* Father's name is required.</span>
           </td>
           <td class="input-cell" id="f-fath_dob">
-            <input type="date" id="fath_dob">
+            <input type="date" id="fath_dob" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Father's date of birth is required.</span>
           </td>
           <td class="input-cell" id="f-fath_age">
@@ -1290,7 +1291,7 @@
             <span class="err-msg">* Mother's name is required.</span>
           </td>
           <td class="input-cell" id="f-moth_dob">
-            <input type="date" id="moth_dob">
+            <input type="date" id="moth_dob" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Mother's date of birth is required.</span>
           </td>
           <td class="input-cell" id="f-moth_age">
@@ -1320,7 +1321,7 @@
           </td>
           <td class="input-cell" id="f-bro_dob">
             <input type="date" id="bro_dob" name="brother_dob[]" class="brother-dob"
-              onchange="calcFamilyAge(this, 'brother')">
+              onchange="calcFamilyAge(this, 'brother')" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Brother(s) date of birth or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-bro_age">
@@ -1355,7 +1356,7 @@
           </td>
           <td class="input-cell" id="f-sis_dob">
             <input type="date" id="sis_dob" name="sister_dob[]" class="sister-dob"
-              onchange="calcFamilyAge(this, 'sister')">
+              onchange="calcFamilyAge(this, 'sister')" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Sister(s) date of birth or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-sis_age">
@@ -1382,7 +1383,7 @@
             <span class="err-msg">* Spouse name or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-sp_dob">
-            <input type="date" id="sp_dob">
+            <input type="date" id="sp_dob" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Spouse's date of birth is required.</span>
           </td>
           <td class="input-cell" id="f-sp_age">
@@ -1410,7 +1411,7 @@
             <span class="err-msg">* Son(s) name or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-son_dob">
-            <input type="date" id="son_dob" name="son_dob[]" class="son-dob" onchange="calcFamilyAge(this, 'son')">
+            <input type="date" id="son_dob" name="son_dob[]" class="son-dob" onchange="calcFamilyAge(this, 'son')" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Son(s) date of birth or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-son_age">
@@ -1444,7 +1445,7 @@
           </td>
           <td class="input-cell" id="f-dau_dob">
             <input type="date" id="dau_dob" name="daughter_dob[]" class="daughter-dob"
-              onchange="calcFamilyAge(this, 'daughter')">
+              onchange="calcFamilyAge(this, 'daughter')" min="1900-01-01" max="2100-12-31">
             <span class="err-msg">* Daughter(s) date of birth or N/A is required.</span>
           </td>
           <td class="input-cell" id="f-dau_age">
@@ -1542,8 +1543,8 @@
               placeholder="School name or (Nil)" oninput="handleEduNil(this,'sec')"></textarea>
             <span class="err-msg">* School name or (Nil) is required.</span>
           </td>
-          <td class="input-cell"><input type="month" id="sec_from"></td>
-          <td class="input-cell"><input type="month" id="sec_to"></td>
+          <td class="input-cell"><input type="month" id="sec_from" min="1900-01" max="2100-12"></td>
+          <td class="input-cell"><input type="month" id="sec_to" min="1900-01" max="2100-12"></td>
           <td class="input-cell" id="f-sec_qual">
             <textarea maxlength="500" id="sec_qual" style="min-height:44px"
               placeholder="Qualifications / results / (Nil)"></textarea>
@@ -1557,8 +1558,8 @@
               placeholder="Institution name or (Nil)" oninput="handleEduNil(this,'uni')"></textarea>
             <span class="err-msg">* Institution name or (Nil) is required.</span>
           </td>
-          <td class="input-cell"><input type="month" id="uni_from"></td>
-          <td class="input-cell"><input type="month" id="uni_to"></td>
+          <td class="input-cell"><input type="month" id="uni_from" min="1900-01" max="2100-12"></td>
+          <td class="input-cell"><input type="month" id="uni_to" min="1900-01" max="2100-12"></td>
           <td class="input-cell" id="f-uni_qual">
             <textarea maxlength="500" id="uni_qual" style="min-height:44px"
               placeholder="Degree / CGPA / (Nil)"></textarea>
@@ -1592,8 +1593,8 @@
             <textarea type="text" id="course1_inst" placeholder="Institution"></textarea>
             <span class="err-msg">* Institution name is required.</span>
           </td>
-          <td class="input-cell"><input type="month" id="course1_from"></td>
-          <td class="input-cell"><input type="month" id="course1_to"></td>
+          <td class="input-cell"><input type="month" id="course1_from" min="1900-01" max="2100-12"></td>
+          <td class="input-cell"><input type="month" id="course1_to" min="1900-01" max="2100-12"></td>
           <td class="input-cell" id="f-course1_qual">
             <textarea id="course1_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
             <span class="err-msg">* Qualification is required.</span>
@@ -1609,8 +1610,8 @@
             <textarea type="text" id="course2_inst" placeholder="Institution"></textarea>
             <span class="err-msg">* Institution name is required.</span>
           </td>
-          <td class="input-cell"><input type="month" id="course2_from"></td>
-          <td class="input-cell"><input type="month" id="course2_to"></td>
+          <td class="input-cell"><input type="month" id="course2_from" min="1900-01" max="2100-12"></td>
+          <td class="input-cell"><input type="month" id="course2_to" min="1900-01" max="2100-12"></td>
           <td class="input-cell" id="f-course2_qual">
             <textarea id="course2_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
             <span class="err-msg">* Qualification is required.</span>
@@ -1626,8 +1627,8 @@
             <textarea type="text" id="course3_inst" placeholder="Institution"></textarea>
             <span class="err-msg">* Institution name is required.</span>
           </td>
-          <td class="input-cell"><input type="month" id="course3_from"></td>
-          <td class="input-cell"><input type="month" id="course3_to"></td>
+          <td class="input-cell"><input type="month" id="course3_from" min="1900-01" max="2100-12"></td>
+          <td class="input-cell"><input type="month" id="course3_to" min="1900-01" max="2100-12"></td>
           <td class="input-cell" id="f-course3_qual">
             <textarea id="course3_qual" style="min-height: 0lh;" placeholder="Qualification"></textarea>
             <span class="err-msg">* Qualification is required.</span>
@@ -1845,13 +1846,13 @@
           <td class="input-cell">
             <span style="font-weight:600">From (Mth/Yr) <span class="req">*</span></span>
             <div id="f-emp1_from">
-              <input type="month" id="emp1_from">
+              <input type="month" id="emp1_from" min="1900-01" max="2100-12">
               <span class="err-msg">* From date is required.</span>
             </div>
             <span style="font-weight:600; margin-top:6px; display:inline-block">To (Mth/Yr) <span
                 class="req">*</span></span>
             <div id="f-emp1_to">
-              <input type="month" id="emp1_to">
+              <input type="month" id="emp1_to" min="1900-01" max="2100-12">
               <span class="err-msg">* To date is required.</span>
             </div>
           </td>
@@ -1919,10 +1920,10 @@
           </td>
           <td class="input-cell">
             <span style="font-weight:600">From (Mth/Yr)<span class="req">*</span></span>
-            <input type="month" id="emp2_from">
+            <input type="month" id="emp2_from" min="1900-01" max="2100-12">
             <span style="font-weight:600; margin-top:6px; display:inline-block">To (Mth/Yr)<span
                 class="req">*</span></span>
-            <input type="month" id="emp2_to">
+            <input type="month" id="emp2_to" min="1900-01" max="2100-12">
           </td>
         </tr>
         <tr>
@@ -2029,10 +2030,10 @@
                   style="color:#c0392b; font-weight:900; display:none;"> *</span></div>
               <div style="display:flex; gap:10px;">
                 <div style="flex:1">
-                  From: <input type="date" id="passport_validity_from" style="border-bottom:1.5px solid #bbb">
+                  From: <input type="date" id="passport_validity_from" style="border-bottom:1.5px solid #bbb" min="1900-01-01" max="2100-12-31">
                 </div>
                 <div style="flex:1">
-                  To: <input type="date" id="passport_validity_to" style="border-bottom:1.5px solid #bbb">
+                  To: <input type="date" id="passport_validity_to" style="border-bottom:1.5px solid #bbb" min="1900-01-01" max="2100-12-31">
                 </div>
               </div>
               <span class="err-msg"></span>
@@ -2075,7 +2076,7 @@
               <tr>
                 <td style="border:1px solid #ccc;padding:3px">
                   <div id="f-crim_when">
-                    <input type="date" id="crim_when">
+                    <input type="date" id="crim_when" min="1900-01-01" max="2100-12-31">
                     <span class="err-msg"></span>
                   </div>
                 </td>
@@ -2256,7 +2257,7 @@
           </div>
           <!-- Date slot -->
           <div class="sig-slot" style="max-width:200px">
-            <input type="date" id="cert-date">
+            <input type="date" id="cert-date" min="1900-01-01" max="2100-12-31">
             <span class="err-msg" id="cert-date-err"></span>
             <div class="sig-lbl">Date</div>
           </div>
@@ -2702,7 +2703,7 @@
         <span class="err-msg" style="white-space: normal;">* ${label}(s) name is required.</span>
       </td>
       <td class="input-cell">
-        <input id="${type}_dob_${uniqueIndex}" type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')">
+        <input id="${type}_dob_${uniqueIndex}" type="date" name="${type}_dob[]" class="${type}-dob" onchange="calcFamilyAge(this, '${type}')" min="1900-01-01" max="2100-12-31">
         <span class="err-msg" style="white-space: normal;">* ${label}(s) date of birth is required.</span>
       </td>
       <td class="input-cell">
@@ -2925,6 +2926,7 @@
       { id: 'race', type: 'text' },
       { id: 'citizenship', type: 'select' },
       { id: 'marital', type: 'select' },
+      { id: 'marital_other', type: 'text' },
       { id: 'epf', type: 'text' },
       { id: 'socso', type: 'text' },
       { id: 'tax', type: 'text' },
@@ -4842,9 +4844,32 @@
       });
     }
 
+    function handleMaritalChange(select) {
+      const otherInput = document.getElementById('marital_other');
+      if (!otherInput) return;
+      if (select.value === 'Other') {
+        otherInput.disabled = false;
+        if (otherInput.value === '-') otherInput.value = '';
+        otherInput.placeholder = 'Please specify';
+      } else {
+        otherInput.disabled = true;
+        otherInput.value = '-';
+        otherInput.placeholder = '(if applicable)';
+        otherInput.classList.remove('err');
+        const wrap = document.getElementById('f-marital_other');
+        if (wrap) wrap.classList.remove('has-err');
+      }
+      calcProgress();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       populateCitizenship();
       loadFormState();
+
+      // Ensure 'Other' specification field state is correctly restored on load
+      const maritalSelect = document.getElementById('marital');
+      if (maritalSelect) handleMaritalChange(maritalSelect);
+
       setTimeout(initRepagination, 150);
     });
 
