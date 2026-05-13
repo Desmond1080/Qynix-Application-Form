@@ -1806,7 +1806,7 @@
                 working, state most recent former employer)</em></span>
             <div id="f-emp1_name">
               <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px"
-                oninput="enforceNameChars(this)" maxlength="110">
+                oninput="handleEmpNil(this, 'emp1')" maxlength="110">
               <span class="err-msg">* Employer name is required.</span>
             </div>
           </td>
@@ -1886,7 +1886,7 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <em
                 style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em> <span
                 class="req">*</span></span>
-            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110" oninput="handleEmp2Nil(this)">
+            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110" oninput="handleEmpNil(this, 'emp2')">
             <span class="err-msg">* Employer name or (Nil) is required.</span>
           </td>
         </tr>
@@ -2848,13 +2848,17 @@ function handleCourseNil(nameInput, idx) {
   setTimeout(() => calcProgress(), 50);
 }
 
-// ── Nil Logic for Previous Employer (emp2) ──
-function handleEmp2Nil(nameInput) {
+// ── Nil Logic for Employers (emp1/emp2) ──
+function handleEmpNil(nameInput, prefix) {
   enforceNameChars(nameInput);
   const val = nameInput.value.trim();
   const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
-  const depIds = ['emp2_addr','emp2_pos','emp2_from','emp2_to','emp2_salary','emp2_duties','emp2_reason'];
-  const textDefaults = { emp2_addr:'-', emp2_pos:'-', emp2_duties:'-', emp2_reason:'-' };
+  const depIds = [prefix+'_addr', prefix+'_pos', prefix+'_from', prefix+'_to', prefix+'_salary', prefix+'_duties', prefix+'_reason'];
+  const textDefaults = {};
+  textDefaults[prefix+'_addr'] = '-';
+  textDefaults[prefix+'_pos'] = '-';
+  textDefaults[prefix+'_duties'] = '-';
+  textDefaults[prefix+'_reason'] = '-';
 
   if (isNil) {
     depIds.forEach(id => {
@@ -2867,7 +2871,7 @@ function handleEmp2Nil(nameInput) {
       if (wrap) wrap.classList.remove('has-err');
     });
     nameInput.classList.remove('err');
-    const wrap = document.getElementById('f-emp2_name');
+    const wrap = document.getElementById('f-' + prefix + '_name');
     if (wrap) wrap.classList.remove('has-err');
   } else {
     depIds.forEach(id => {
@@ -3007,22 +3011,53 @@ function handleEmp2Nil(nameInput) {
         const el = document.getElementById(f.id);
         if (!el) return;
 
-        // Synchronized Skip check for N/A Parent names
-        if ((f.id.startsWith('sp_') && f.id !== 'sp_name') ||
-          (f.id.startsWith('fath_') && f.id !== 'fath_name') ||
-          (f.id.startsWith('moth_') && f.id !== 'moth_name')) {
+        // --- Synchronized Skip Logic for Nil/NA Sections ---
+        // This ensures fields are not counted in the total if their parent section is 'Nil'
+        let shouldSkip = el.disabled;
+
+        // Parent Logic
+        if (!shouldSkip && (f.id.startsWith('sp_') || f.id.startsWith('fath_') || f.id.startsWith('moth_'))) {
           let prefix = f.id.split('_')[0];
-          const parentNameEl = document.getElementById(prefix + '_name');
-          if (parentNameEl) {
-            const parentNameVal = parentNameEl.value.trim().toUpperCase();
-            if (parentNameVal === 'N/A' || parentNameVal === 'NA' || parentNameVal === 'NIL' || parentNameVal === '-') {
-              return; // Skip validation total and count
+          if (f.id !== prefix + '_name') {
+            const nameEl = document.getElementById(prefix + '_name');
+            if (nameEl && ['NIL','N/A','NA','-'].includes(nameEl.value.trim().toUpperCase())) shouldSkip = true;
+          }
+        }
+
+        // Education Logic
+        if (!shouldSkip && f.id.startsWith('sec_') && f.id !== 'sec_sch') {
+          const main = document.getElementById('sec_sch');
+          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+        }
+        if (!shouldSkip && f.id.startsWith('uni_') && f.id !== 'uni') {
+          const main = document.getElementById('uni');
+          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+        }
+
+        // Course Logic
+        if (!shouldSkip && f.id.startsWith('course')) {
+          const match = f.id.match(/^course(\d)/);
+          if (match) {
+            const num = match[1];
+            const mainId = 'course' + num;
+            if (f.id !== mainId) {
+              const main = document.getElementById(mainId);
+              if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
             }
           }
         }
 
-        // If the field is locked by "N/A", skip it! Do not count it in the total.
-        if (el.disabled) return;
+        // Employment Logic
+        if (!shouldSkip && f.id.startsWith('emp1_') && f.id !== 'emp1_name') {
+          const main = document.getElementById('emp1_name');
+          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+        }
+        if (!shouldSkip && f.id.startsWith('emp2_') && f.id !== 'emp2_name') {
+          const main = document.getElementById('emp2_name');
+          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+        }
+
+        if (shouldSkip) return;
 
         total++; // The field is active, so add it to our required total
 
@@ -3130,11 +3165,22 @@ function handleEmp2Nil(nameInput) {
       }
     }
 
+
+
     function updateConditionalStars() {
       // Travel
       const travelYes = document.querySelector('input[name="travel"]:checked')?.value === 'yes';
       const travelStar = document.getElementById('travel-star');
       if (travelStar) travelStar.style.display = travelYes ? 'inline' : 'none';
+      const travelReason = document.getElementById('travel_reason');
+      if (travelReason) {
+        travelReason.disabled = !travelYes;
+        if (!travelYes) {
+          travelReason.value = '-';
+        } else if (travelReason.value === '-') {
+          travelReason.value = '';
+        }
+      }
 
       // Passport
       const passportYes = document.querySelector('input[name="passport"]:checked')?.value === 'yes';
@@ -3142,6 +3188,25 @@ function handleEmp2Nil(nameInput) {
       const passportValidStar = document.getElementById('passport-valid-star');
       if (passportNoStar) passportNoStar.style.display = passportYes ? 'inline' : 'none';
       if (passportValidStar) passportValidStar.style.display = passportYes ? 'inline' : 'none';
+      const pNo = document.getElementById('passport_no');
+      if (pNo) {
+        pNo.disabled = !passportYes;
+        if (!passportYes) pNo.value = '-';
+        else if (pNo.value === '-') pNo.value = '';
+      }
+      ['passport_validity_from', 'passport_validity_to'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.disabled = !passportYes;
+          if (!passportYes) {
+            el.type = 'text';
+            el.value = '-/-/-';
+          } else if (el.value === '-/-/-') {
+            el.type = 'date';
+            el.value = '';
+          }
+        }
+      });
 
       // Criminal
       const criminalYes = document.querySelector('input[name="criminal"]:checked')?.value === 'yes';
@@ -3151,6 +3216,26 @@ function handleEmp2Nil(nameInput) {
       if (crimWhenStar) crimWhenStar.style.display = criminalYes ? 'inline' : 'none';
       if (crimWhereStar) crimWhereStar.style.display = criminalYes ? 'inline' : 'none';
       if (crimDispStar) crimDispStar.style.display = criminalYes ? 'inline' : 'none';
+
+      ['crim_where', 'crim_disp'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.disabled = !criminalYes;
+          if (!criminalYes) el.value = '-';
+          else if (el.value === '-') el.value = '';
+        }
+      });
+      const cWhen = document.getElementById('crim_when');
+      if (cWhen) {
+        cWhen.disabled = !criminalYes;
+        if (!criminalYes) {
+          cWhen.type = 'text';
+          cWhen.value = '-/-/-';
+        } else if (cWhen.value === '-/-/-') {
+          cWhen.type = 'date';
+          cWhen.value = '';
+        }
+      }
     }
 
     // Live validation for criminal date field (cannot be future)
@@ -4921,10 +5006,15 @@ function handleEmp2Nil(nameInput) {
           const spName = document.getElementById('sp_name');
           if (spName) handleSpouseNA(spName);
 
-          // Trigger Education Nil checks for restored values
-          ['sec_sch', 'uni'].forEach(id => {
+          // Trigger Education/Employment Nil checks for restored values
+          ['sec_sch', 'uni', 'emp1_name', 'emp2_name'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) checkIfNil(el);
+            if (!el) return;
+            if (id.startsWith('emp')) {
+              handleEmpNil(el, id.split('_')[0]);
+            } else {
+              handleEduNil(el, id === 'sec_sch' ? 'sec' : 'uni');
+            }
           });
 
           calcProgress();
