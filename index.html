@@ -4826,21 +4826,29 @@ function handleEmp2Nil(nameInput) {
 
     function updateDockVisibility() {
       if (!actionsDock) return;
+      
+      const currentScrollY = window.scrollY;
+      // 1. Force-reveal at the absolute bottom of the document (Highest priority override!)
+      const isAtBottom = (window.innerHeight + Math.round(currentScrollY)) >= document.documentElement.scrollHeight - 100;
+
+      if (isAtBottom) {
+        actionsDock.classList.remove('hidden');
+        lastScrollY = currentScrollY;
+        return; // Prevents typing or scrolling checks from hiding it here
+      }
+
+      // 2. Next priority: Hide if user is actively focused on input fields (typing state)
       const activeEl = document.activeElement;
       const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT');
       
       if (isTyping) {
         actionsDock.classList.add('hidden');
+        lastScrollY = currentScrollY;
         return;
       }
 
-      const currentScrollY = window.scrollY;
-      // Detect if user is at bottom of form (within 80px buffer)
-      const isAtBottom = (window.innerHeight + Math.round(currentScrollY)) >= document.documentElement.scrollHeight - 80;
-
-      if (isAtBottom) {
-        actionsDock.classList.remove('hidden');
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // 3. Standard momentum: Hide when scrolling down, reveal when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling Down -> Hide it (maximize readable space)
         actionsDock.classList.add('hidden');
       } else if (currentScrollY < lastScrollY) {
