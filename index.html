@@ -2848,6 +2848,7 @@ function handleCourseNil(nameInput, idx) {
   setTimeout(() => calcProgress(), 50);
 }
 
+
 // ── Nil Logic for Employers (emp1/emp2) ──
 function handleEmpNil(nameInput, prefix) {
   enforceNameChars(nameInput);
@@ -2859,6 +2860,7 @@ function handleEmpNil(nameInput, prefix) {
   textDefaults[prefix+'_pos'] = '-';
   textDefaults[prefix+'_duties'] = '-';
   textDefaults[prefix+'_reason'] = '-';
+  textDefaults[prefix+'_salary'] = '-';
 
   if (isNil) {
     depIds.forEach(id => {
@@ -2866,7 +2868,13 @@ function handleEmpNil(nameInput, prefix) {
       const wrap = document.getElementById('f-' + id);
       if (!el) return;
       el.disabled = true;
-      el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
+      if (id.endsWith('_salary')) el.type = 'text';
+      if (id.endsWith('_from') || id.endsWith('_to')) {
+        el.type = 'text';
+        el.value = '-/-/-';
+      } else {
+        el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
+      }
       el.classList.remove('err');
       if (wrap) wrap.classList.remove('has-err');
     });
@@ -2878,7 +2886,15 @@ function handleEmpNil(nameInput, prefix) {
       const el = document.getElementById(id);
       if (!el) return;
       el.disabled = false;
-      if (el.value === '-') el.value = '';
+      if (id.endsWith('_salary')) el.type = 'number';
+      if (id.endsWith('_from') || id.endsWith('_to')) {
+        if (el.value === '-/-/-') {
+          el.type = 'month';
+          el.value = '';
+        }
+      } else {
+        if (el.value === '-') el.value = '';
+      }
     });
   }
   setTimeout(() => calcProgress(), 50);
