@@ -1442,13 +1442,13 @@
         <tr>
           <td class="label-cell" style="vertical-align:top">Telephone (Home) <span class="req">*</span></td>
           <td class="input-cell">
-            <input type="tel" id="emg_home" placeholder="Home number or (Nil)"
+            <input type="tel" id="emg_home" placeholder="Home number or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;margin:4px 0">
             <span class="err-msg">* Valid home number or (Nil) is required.</span>
           </td>
           <td class="label-cell" style="vertical-align:top">(Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_hp">
-            <input type="tel" id="emg_hp" placeholder="Handphone number"
+            <input type="tel" id="emg_hp" placeholder="Handphone number" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;margin-top:3px">
             <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
           </td>
