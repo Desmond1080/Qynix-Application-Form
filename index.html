@@ -627,13 +627,15 @@
       transform: translateX(-50%);
       width: calc(100% - 48px);
       max-width: 820px;
-      background: rgba(241, 243, 245, 0.808); /* Elegant soft light gray glass */
+      background: rgba(241, 243, 245, 0.808);
+      /* Elegant soft light gray glass */
       backdrop-filter: blur(16px) saturate(180%);
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       padding: 14px 32px;
       border-radius: 100px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-      border: 1.5px solid rgba(0, 0, 0, 0.06); /* Subtle border for separation from card */
+      border: 1.5px solid rgba(0, 0, 0, 0.06);
+      /* Subtle border for separation from card */
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -1194,24 +1196,24 @@
         <tr>
           <td class="label-cell" style="width:20%">Contact Numbers (Home) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_home" style="width:20%">
-            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
-              style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" oninput="enforceNumberChars(this)"
+              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid home phone number is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell">Contact Numbers (Office) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_office">
-            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
-              style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" oninput="enforceNumberChars(this)"
+              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid office phone number is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell">Contact Numbers (Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_hp">
-            <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
-              style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)" oninput="enforceNumberChars(this)"
+              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid handphone number is required.</span>
           </td>
         </tr>
@@ -1234,7 +1236,8 @@
             Contact Numbers
             <div style="margin-top:6px">
               <div style="font-size:11.5px;font-weight:600">Home</div>
-              <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb" oninput="enforceNumberChars(this)" maxlength="17">
+              <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb"
+                oninput="enforceNumberChars(this)" maxlength="17">
             </div>
           </td>
         </tr>
@@ -1496,14 +1499,14 @@
         <tr>
           <td class="label-cell" style="vertical-align:top">Telephone (Home) <span class="req">*</span></td>
           <td class="input-cell">
-            <input type="tel" id="emg_home" placeholder="Home number or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
-              style="border-bottom:1.5px solid #bbb;margin:4px 0">
+            <input type="tel" id="emg_home" placeholder="Home number or (Nil)" oninput="enforceNumberChars(this)"
+              maxlength="17" style="border-bottom:1.5px solid #bbb;margin:4px 0">
             <span class="err-msg">* Valid home number or (Nil) is required.</span>
           </td>
           <td class="label-cell" style="vertical-align:top">(Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_hp">
-            <input type="tel" id="emg_hp" placeholder="Handphone number" oninput="enforceNumberChars(this)" maxlength="17"
-              style="border-bottom:1.5px solid #bbb;margin-top:3px">
+            <input type="tel" id="emg_hp" placeholder="Handphone number" oninput="enforceNumberChars(this)"
+              maxlength="17" style="border-bottom:1.5px solid #bbb;margin-top:3px">
             <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
           </td>
         </tr>
@@ -1533,28 +1536,30 @@
         <tr>
           <td class="input-cell" id="f-sec_sch">
             <span>Secondary / High School</span>
-            <textarea maxlength="100" type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)"
-              oninput="handleEduNil(this,'sec')"></textarea>
+            <textarea maxlength="100" type="text" style="min-height: 0lh;" id="sec_sch"
+              placeholder="School name or (Nil)" oninput="handleEduNil(this,'sec')"></textarea>
             <span class="err-msg">* School name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="sec_from"></td>
           <td class="input-cell"><input type="month" id="sec_to"></td>
           <td class="input-cell" id="f-sec_qual">
-            <textarea maxlength="500" id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)"></textarea>
+            <textarea maxlength="500" id="sec_qual" style="min-height:44px"
+              placeholder="Qualifications / results / (Nil)"></textarea>
             <span class="err-msg">* Qualifications / results / (Nil) is required.</span>
           </td>
         </tr>
         <tr>
           <td class="input-cell" id="f-uni">
             <span>College / Polytechnic / University</span>
-            <textarea maxlength="200" type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)"
-              oninput="handleEduNil(this,'uni')"></textarea>
+            <textarea maxlength="200" type="text" style="min-height: 0lh;" id="uni"
+              placeholder="Institution name or (Nil)" oninput="handleEduNil(this,'uni')"></textarea>
             <span class="err-msg">* Institution name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="uni_from"></td>
           <td class="input-cell"><input type="month" id="uni_to"></td>
           <td class="input-cell" id="f-uni_qual">
-            <textarea maxlength="500" id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA / (Nil)"></textarea>
+            <textarea maxlength="500" id="uni_qual" style="min-height:44px"
+              placeholder="Degree / CGPA / (Nil)"></textarea>
             <span class="err-msg">* Degree / CGPA / (Nil) is required.</span>
           </td>
         </tr>
@@ -1577,7 +1582,8 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course1">
-            <textarea id="course1" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,1)"></textarea>
+            <textarea id="course1" style="min-height:36px" placeholder="Course name or Nil"
+              oninput="handleCourseNil(this,1)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course1_inst">
@@ -1593,7 +1599,8 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course2">
-            <textarea id="course2" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,2)"></textarea>
+            <textarea id="course2" style="min-height:36px" placeholder="Course name or Nil"
+              oninput="handleCourseNil(this,2)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course2_inst">
@@ -1609,7 +1616,8 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course3">
-            <textarea id="course3" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,3)"></textarea>
+            <textarea id="course3" style="min-height:36px" placeholder="Course name or Nil"
+              oninput="handleCourseNil(this,3)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course3_inst">
@@ -1886,7 +1894,8 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <em
                 style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em> <span
                 class="req">*</span></span>
-            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110" oninput="handleEmpNil(this, 'emp2')">
+            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110"
+              oninput="handleEmpNil(this, 'emp2')">
             <span class="err-msg">* Employer name or (Nil) is required.</span>
           </td>
         </tr>
@@ -2394,7 +2403,7 @@
       if (isNA) {
         if (dobInput) {
           dobInput.type = 'text';
-          dobInput.value = '-/-/-';
+          dobInput.value = '--/--/----';
           dobInput.disabled = true;
           dobInput.classList.remove('err');
           dobInput.style.pointerEvents = 'none';
@@ -2422,7 +2431,7 @@
         const wrapOcc = document.getElementById('f-' + type + '_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
       } else {
         if (dobInput) {
-          if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
+          if (dobInput.disabled && dobInput.value === '--/--/----') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
           dobInput.style.pointerEvents = '';
@@ -2454,7 +2463,7 @@
       if (isNA) {
         if (dobInput) {
           dobInput.type = 'text';
-          dobInput.value = '-/-/-';
+          dobInput.value = '--/--/----';
           dobInput.disabled = true;
           dobInput.classList.remove('err');
           dobInput.style.pointerEvents = 'none';
@@ -2482,7 +2491,7 @@
         const wrapOcc = document.getElementById('f-sp_occ'); if (wrapOcc) wrapOcc.classList.remove('has-err');
       } else {
         if (dobInput) {
-          if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
+          if (dobInput.disabled && dobInput.value === '--/--/----') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
           dobInput.style.pointerEvents = '';
@@ -2537,7 +2546,7 @@
 
           if (dobInput) {
             dobInput.type = 'text';
-            dobInput.value = '-/-/-';
+            dobInput.value = '--/--/----';
             dobInput.disabled = true;
             dobInput.style.pointerEvents = 'none';
           }
@@ -2555,7 +2564,7 @@
         } else {
           if (dobInput) {
             dobInput.type = 'text';
-            dobInput.value = '-/-/-';
+            dobInput.value = '--/--/----';
             dobInput.disabled = true;
             dobInput.style.pointerEvents = 'none';
           }
@@ -2579,7 +2588,7 @@
         }
       } else {
         if (dobInput) {
-          if (dobInput.disabled && dobInput.value === '-/-/-') dobInput.value = '';
+          if (dobInput.disabled && dobInput.value === '--/--/----') dobInput.value = '';
           dobInput.type = 'date';
           dobInput.disabled = false;
           dobInput.style.pointerEvents = '';
@@ -2787,152 +2796,152 @@
     }
 
     // ── Nil Logic for Educational Data ──
-function handleEduNil(nameInput, rowPrefix) {
-  const val = nameInput.value.trim();
-  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '-/-/-'].includes(val);
-  const fromEl = document.getElementById(rowPrefix + '_from');
-  const toEl   = document.getElementById(rowPrefix + '_to');
-  const qualEl = document.getElementById(rowPrefix + '_qual');
-  const fQual  = document.getElementById('f-' + rowPrefix + '_qual');
+    function handleEduNil(nameInput, rowPrefix) {
+      const val = nameInput.value.trim();
+      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '--/--/----'].includes(val);
+      const fromEl = document.getElementById(rowPrefix + '_from');
+      const toEl = document.getElementById(rowPrefix + '_to');
+      const qualEl = document.getElementById(rowPrefix + '_qual');
+      const fQual = document.getElementById('f-' + rowPrefix + '_qual');
 
-  if (isNil) {
-    // Convert From/To to disabled text fields with "-/-/-"
-    [fromEl, toEl].forEach(el => {
-      if (!el) return;
-      el.type = 'text';
-      el.value = '-/-/-';
-      el.disabled = true;
-      el.classList.remove('err');
-      const wrap = el.closest('.input-cell');
-      if (wrap) wrap.classList.remove('has-err');
-    });
-    if (qualEl) { qualEl.disabled = true; qualEl.value = '-'; qualEl.classList.remove('err'); }
-    if (fQual)  fQual.classList.remove('has-err');
-    nameInput.classList.remove('err');
-    const wrap = nameInput.closest('.input-cell');
-    if (wrap) wrap.classList.remove('has-err');
-  } else {
-    // Restore original month picker behaviour if they clear the Nil value
-    [fromEl, toEl].forEach(el => {
-      if (!el) return;
-      if (el.disabled && el.value === '-/-/-') {
-        el.type = 'month';
-        el.value = '';
-        el.disabled = false;
-      } else if (el.type === 'text') {
-        el.type = 'month';
-        el.disabled = false;
-      }
-    });
-    if (qualEl) { qualEl.disabled = false; if (qualEl.value === '-') qualEl.value = ''; }
-  }
-  setTimeout(() => calcProgress(), 50);
-}
-
-// ── Nil Logic for Course rows ──
-function handleCourseNil(nameInput, idx) {
-  const val = nameInput.value.trim();
-  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '-/-/-'].includes(val);
-  const p = 'course' + idx;
-  const instEl = document.getElementById(p + '_inst');
-  const fromEl = document.getElementById(p + '_from');
-  const toEl   = document.getElementById(p + '_to');
-  const qualEl = document.getElementById(p + '_qual');
-
-  if (isNil) {
-    [fromEl, toEl].forEach(el => {
-      if (!el) return;
-      el.type = 'text';
-      el.value = '-/-/-';
-      el.disabled = true;
-      el.classList.remove('err');
-      const wrap = el.closest('.input-cell');
-      if (wrap) wrap.classList.remove('has-err');
-    });
-    [instEl, qualEl].forEach(el => {
-      if (!el) return;
-      el.disabled = true;
-      el.value = '-';
-      el.classList.remove('err');
-      const wrap = el.closest('.input-cell');
-      if (wrap) wrap.classList.remove('has-err');
-    });
-    nameInput.classList.remove('err');
-    const wrap = nameInput.closest('.input-cell');
-    if (wrap) wrap.classList.remove('has-err');
-  } else {
-    // Restore original month pickers and editable fields
-    [fromEl, toEl].forEach(el => {
-      if (!el) return;
-      if (el.disabled && el.value === '-/-/-') {
-        el.type = 'month';
-        el.value = '';
-        el.disabled = false;
-      } else if (el.type === 'text') {
-        el.type = 'month';
-        el.disabled = false;
-      }
-    });
-    [instEl, qualEl].forEach(el => {
-      if (!el) return;
-      el.disabled = false;
-      if (el.value === '-') el.value = '';
-    });
-  }
-  setTimeout(() => calcProgress(), 50);
-}
-
-
-// ── Nil Logic for Employers (emp1/emp2) ──
-function handleEmpNil(nameInput, prefix) {
-  enforceNameChars(nameInput);
-  const val = nameInput.value.trim();
-  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
-  const depIds = [prefix+'_addr', prefix+'_pos', prefix+'_from', prefix+'_to', prefix+'_salary', prefix+'_duties', prefix+'_reason'];
-  const textDefaults = {};
-  textDefaults[prefix+'_addr'] = '-';
-  textDefaults[prefix+'_pos'] = '-';
-  textDefaults[prefix+'_duties'] = '-';
-  textDefaults[prefix+'_reason'] = '-';
-  textDefaults[prefix+'_salary'] = '-';
-
-  if (isNil) {
-    depIds.forEach(id => {
-      const el = document.getElementById(id);
-      const wrap = document.getElementById('f-' + id);
-      if (!el) return;
-      el.disabled = true;
-      if (id.endsWith('_salary')) el.type = 'text';
-      if (id.endsWith('_from') || id.endsWith('_to')) {
-        el.type = 'text';
-        el.value = '--------- ----';
+      if (isNil) {
+        // Convert From/To to disabled text fields with "--/--/----"
+        [fromEl, toEl].forEach(el => {
+          if (!el) return;
+          el.type = 'text';
+          el.value = '--/--/----';
+          el.disabled = true;
+          el.classList.remove('err');
+          const wrap = el.closest('.input-cell');
+          if (wrap) wrap.classList.remove('has-err');
+        });
+        if (qualEl) { qualEl.disabled = true; qualEl.value = '-'; qualEl.classList.remove('err'); }
+        if (fQual) fQual.classList.remove('has-err');
+        nameInput.classList.remove('err');
+        const wrap = nameInput.closest('.input-cell');
+        if (wrap) wrap.classList.remove('has-err');
       } else {
-        el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
+        // Restore original month picker behaviour if they clear the Nil value
+        [fromEl, toEl].forEach(el => {
+          if (!el) return;
+          if (el.disabled && el.value === '--/--/----') {
+            el.type = 'month';
+            el.value = '';
+            el.disabled = false;
+          } else if (el.type === 'text') {
+            el.type = 'month';
+            el.disabled = false;
+          }
+        });
+        if (qualEl) { qualEl.disabled = false; if (qualEl.value === '-') qualEl.value = ''; }
       }
-      el.classList.remove('err');
-      if (wrap) wrap.classList.remove('has-err');
-    });
-    nameInput.classList.remove('err');
-    const wrap = document.getElementById('f-' + prefix + '_name');
-    if (wrap) wrap.classList.remove('has-err');
-  } else {
-    depIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.disabled = false;
-      if (id.endsWith('_salary')) el.type = 'number';
-      if (id.endsWith('_from') || id.endsWith('_to')) {
-        if (el.value === '--------- ----') {
-          el.type = 'month';
-          el.value = '';
-        }
+      setTimeout(() => calcProgress(), 50);
+    }
+
+    // ── Nil Logic for Course rows ──
+    function handleCourseNil(nameInput, idx) {
+      const val = nameInput.value.trim();
+      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '--/--/----'].includes(val);
+      const p = 'course' + idx;
+      const instEl = document.getElementById(p + '_inst');
+      const fromEl = document.getElementById(p + '_from');
+      const toEl = document.getElementById(p + '_to');
+      const qualEl = document.getElementById(p + '_qual');
+
+      if (isNil) {
+        [fromEl, toEl].forEach(el => {
+          if (!el) return;
+          el.type = 'text';
+          el.value = '--/--/----';
+          el.disabled = true;
+          el.classList.remove('err');
+          const wrap = el.closest('.input-cell');
+          if (wrap) wrap.classList.remove('has-err');
+        });
+        [instEl, qualEl].forEach(el => {
+          if (!el) return;
+          el.disabled = true;
+          el.value = '-';
+          el.classList.remove('err');
+          const wrap = el.closest('.input-cell');
+          if (wrap) wrap.classList.remove('has-err');
+        });
+        nameInput.classList.remove('err');
+        const wrap = nameInput.closest('.input-cell');
+        if (wrap) wrap.classList.remove('has-err');
       } else {
-        if (el.value === '-') el.value = '';
+        // Restore original month pickers and editable fields
+        [fromEl, toEl].forEach(el => {
+          if (!el) return;
+          if (el.disabled && el.value === '--/--/----') {
+            el.type = 'month';
+            el.value = '';
+            el.disabled = false;
+          } else if (el.type === 'text') {
+            el.type = 'month';
+            el.disabled = false;
+          }
+        });
+        [instEl, qualEl].forEach(el => {
+          if (!el) return;
+          el.disabled = false;
+          if (el.value === '-') el.value = '';
+        });
       }
-    });
-  }
-  setTimeout(() => calcProgress(), 50);
-}
+      setTimeout(() => calcProgress(), 50);
+    }
+
+
+    // ── Nil Logic for Employers (emp1/emp2) ──
+    function handleEmpNil(nameInput, prefix) {
+      enforceNameChars(nameInput);
+      const val = nameInput.value.trim();
+      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a'].includes(val);
+      const depIds = [prefix + '_addr', prefix + '_pos', prefix + '_from', prefix + '_to', prefix + '_salary', prefix + '_duties', prefix + '_reason'];
+      const textDefaults = {};
+      textDefaults[prefix + '_addr'] = '-';
+      textDefaults[prefix + '_pos'] = '-';
+      textDefaults[prefix + '_duties'] = '-';
+      textDefaults[prefix + '_reason'] = '-';
+      textDefaults[prefix + '_salary'] = '-';
+
+      if (isNil) {
+        depIds.forEach(id => {
+          const el = document.getElementById(id);
+          const wrap = document.getElementById('f-' + id);
+          if (!el) return;
+          el.disabled = true;
+          if (id.endsWith('_salary')) el.type = 'text';
+          if (id.endsWith('_from') || id.endsWith('_to')) {
+            el.type = 'text';
+            el.value = '--------- ----';
+          } else {
+            el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
+          }
+          el.classList.remove('err');
+          if (wrap) wrap.classList.remove('has-err');
+        });
+        nameInput.classList.remove('err');
+        const wrap = document.getElementById('f-' + prefix + '_name');
+        if (wrap) wrap.classList.remove('has-err');
+      } else {
+        depIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.disabled = false;
+          if (id.endsWith('_salary')) el.type = 'number';
+          if (id.endsWith('_from') || id.endsWith('_to')) {
+            if (el.value === '--------- ----') {
+              el.type = 'month';
+              el.value = '';
+            }
+          } else {
+            if (el.value === '-') el.value = '';
+          }
+        });
+      }
+      setTimeout(() => calcProgress(), 50);
+    }
 
     // ── Required field definitions ──
     const REQUIRED = [
@@ -3070,18 +3079,18 @@ function handleEmpNil(nameInput, prefix) {
           let prefix = f.id.split('_')[0];
           if (f.id !== prefix + '_name') {
             const nameEl = document.getElementById(prefix + '_name');
-            if (nameEl && ['NIL','N/A','NA','-'].includes(nameEl.value.trim().toUpperCase())) shouldSkip = true;
+            if (nameEl && ['NIL', 'N/A', 'NA', '-'].includes(nameEl.value.trim().toUpperCase())) shouldSkip = true;
           }
         }
 
         // Education Logic
         if (!shouldSkip && f.id.startsWith('sec_') && f.id !== 'sec_sch') {
           const main = document.getElementById('sec_sch');
-          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+          if (main && ['NIL', 'N/A', 'NA', '-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
         }
         if (!shouldSkip && f.id.startsWith('uni_') && f.id !== 'uni') {
           const main = document.getElementById('uni');
-          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+          if (main && ['NIL', 'N/A', 'NA', '-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
         }
 
         // Course Logic
@@ -3092,7 +3101,7 @@ function handleEmpNil(nameInput, prefix) {
             const mainId = 'course' + num;
             if (f.id !== mainId) {
               const main = document.getElementById(mainId);
-              if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+              if (main && ['NIL', 'N/A', 'NA', '-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
             }
           }
         }
@@ -3100,11 +3109,11 @@ function handleEmpNil(nameInput, prefix) {
         // Employment Logic
         if (!shouldSkip && f.id.startsWith('emp1_') && f.id !== 'emp1_name') {
           const main = document.getElementById('emp1_name');
-          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+          if (main && ['NIL', 'N/A', 'NA', '-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
         }
         if (!shouldSkip && f.id.startsWith('emp2_') && f.id !== 'emp2_name') {
           const main = document.getElementById('emp2_name');
-          if (main && ['NIL','N/A','NA','-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
+          if (main && ['NIL', 'N/A', 'NA', '-'].includes(main.value.trim().toUpperCase())) shouldSkip = true;
         }
 
         if (shouldSkip) return;
@@ -3250,8 +3259,8 @@ function handleEmpNil(nameInput, prefix) {
           el.disabled = !passportYes;
           if (!passportYes) {
             el.type = 'text';
-            el.value = '-/-/-';
-          } else if (el.value === '-/-/-') {
+            el.value = '--/--/----';
+          } else if (el.value === '--/--/----') {
             el.type = 'date';
             el.value = '';
           }
@@ -3280,8 +3289,8 @@ function handleEmpNil(nameInput, prefix) {
         cWhen.disabled = !criminalYes;
         if (!criminalYes) {
           cWhen.type = 'text';
-          cWhen.value = '-/-/-';
-        } else if (cWhen.value === '-/-/-') {
+          cWhen.value = '--/--/----';
+        } else if (cWhen.value === '--/--/----') {
           cWhen.type = 'date';
           cWhen.value = '';
         }
@@ -3535,16 +3544,16 @@ function handleEmpNil(nameInput, prefix) {
 
 
         // Skip fields disabled by Nil logic
-        if (el.disabled) { 
-          el.classList.remove('err'); 
+        if (el.disabled) {
+          el.classList.remove('err');
           if (wrap) {
-            wrap.classList.remove('has-err'); 
+            wrap.classList.remove('has-err');
             clearFieldError(wrap);
             // Also hide the static error span if it exists
             const staticErr = wrap.querySelector('.err-msg');
             if (staticErr) staticErr.style.display = 'none';
           }
-          return; 
+          return;
         }
         let val = el.value.trim();
         let ok = val !== '';
@@ -4110,11 +4119,11 @@ function handleEmpNil(nameInput, prefix) {
       if (spOcc) spOcc.disabled = false;
 
       // Re-enable edu/course/emp2 fields disabled by Nil
-      ['sec_from','sec_to','sec_qual','uni_from','uni_to','uni_qual',
-       'course1_inst','course1_from','course1_to','course1_qual',
-       'course2_inst','course2_from','course2_to','course2_qual',
-       'course3_inst','course3_from','course3_to','course3_qual',
-       'emp2_addr','emp2_pos','emp2_from','emp2_to','emp2_salary','emp2_duties','emp2_reason'
+      ['sec_from', 'sec_to', 'sec_qual', 'uni_from', 'uni_to', 'uni_qual',
+        'course1_inst', 'course1_from', 'course1_to', 'course1_qual',
+        'course2_inst', 'course2_from', 'course2_to', 'course2_qual',
+        'course3_inst', 'course3_from', 'course3_to', 'course3_qual',
+        'emp2_addr', 'emp2_pos', 'emp2_from', 'emp2_to', 'emp2_salary', 'emp2_duties', 'emp2_reason'
       ].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
@@ -4989,7 +4998,7 @@ function handleEmpNil(nameInput, prefix) {
               if (occInput) occInput.value = item.occ;
 
               if (item.disabled) {
-                if (dobInput) { dobInput.type = 'text'; dobInput.value = '-/-/-'; dobInput.disabled = true; }
+                if (dobInput) { dobInput.type = 'text'; dobInput.value = '--/--/----'; dobInput.disabled = true; }
                 if (ageInput) { ageInput.type = 'text'; ageInput.value = '-'; ageInput.disabled = true; }
                 if (occInput) { occInput.disabled = true; }
               }
@@ -5134,7 +5143,7 @@ function handleEmpNil(nameInput, prefix) {
 
     function updateDockVisibility() {
       if (!actionsDock) return;
-      
+
       const currentScrollY = window.scrollY;
       // 1. Force-reveal at the absolute bottom of the document (Highest priority override!)
       const isAtBottom = (window.innerHeight + Math.round(currentScrollY)) >= document.documentElement.scrollHeight - 100;
@@ -5148,7 +5157,7 @@ function handleEmpNil(nameInput, prefix) {
       // 2. Next priority: Hide if user is actively focused on input fields (typing state)
       const activeEl = document.activeElement;
       const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT');
-      
+
       if (isTyping) {
         actionsDock.classList.add('hidden');
         lastScrollY = currentScrollY;
@@ -5163,7 +5172,7 @@ function handleEmpNil(nameInput, prefix) {
         // Scrolling Up -> Show it immediately (user looking for actions)
         actionsDock.classList.remove('hidden');
       }
-      
+
       lastScrollY = currentScrollY;
     }
 
