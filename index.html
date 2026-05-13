@@ -2046,7 +2046,13 @@
                 class="req">*</span></span>
             <span class="field-hint">State the minimum amount in Ringgit Malaysia (RM)</span>
             <div id="f-exp_salary" style="margin-top:5px">
-              <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px" maxlength="40">
+                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; cursor: pointer; user-select: none;">
+                  <input type="checkbox" id="salary_negotiable" style="width: 14px; height: 14px; margin: 0;">
+                  Negotiable
+                </label>
+              </div>
               <span class="err-msg">* Expected salary is required.</span>
             </div>
           </td>
