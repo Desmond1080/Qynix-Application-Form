@@ -1212,24 +1212,24 @@
         <tr>
           <td class="label-cell" style="width:20%">Contact Numbers (Home) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_home" style="width:20%">
-            <input type="tel" id="tel_home" placeholder="Home phone or (Nil)" oninput="enforceNumberChars(this)"
-              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_home" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" maxlength="15" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid home phone number is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell">Contact Numbers (Office) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_office">
-            <input type="tel" id="tel_office" placeholder="Office phone or (Nil)" oninput="enforceNumberChars(this)"
-              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_office" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" maxlength="15" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid office phone number is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell">Contact Numbers (Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-tel_hp">
-            <input type="tel" id="tel_hp" placeholder="Handphone or (Nil)" oninput="enforceNumberChars(this)"
-              maxlength="17" style="border-bottom:1.5px solid #bbb;width:100%">
+            <input type="tel" id="tel_hp" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" maxlength="15" style="border-bottom:1.5px solid #bbb;width:100%">
             <span class="err-msg">* Valid handphone number is required.</span>
           </td>
         </tr>
@@ -1252,8 +1252,8 @@
             Contact Numbers
             <div style="margin-top:6px">
               <div style="font-size:11.5px;font-weight:600">Home</div>
-              <input type="tel" id="postal_home" placeholder="(if different)" style="border-bottom:1.5px solid #bbb"
-                oninput="enforceNumberChars(this)" maxlength="17">
+              <input type="tel" id="postal_home" placeholder="e.g. 041234567 or N/A" style="border-bottom:1.5px solid #bbb"
+                oninput="enforceNumberChars(this)" onblur="formatPhoneOrNil(this)" maxlength="15">
             </div>
           </td>
         </tr>
@@ -1515,14 +1515,14 @@
         <tr>
           <td class="label-cell" style="vertical-align:top">Telephone (Home) <span class="req">*</span></td>
           <td class="input-cell">
-            <input type="tel" id="emg_home" placeholder="Home number or (Nil)" oninput="enforceNumberChars(this)"
-              maxlength="17" style="border-bottom:1.5px solid #bbb;margin:4px 0">
+            <input type="tel" id="emg_home" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" maxlength="15" style="border-bottom:1.5px solid #bbb;margin:4px 0">
             <span class="err-msg">* Valid home number or (Nil) is required.</span>
           </td>
           <td class="label-cell" style="vertical-align:top">(Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_hp">
-            <input type="tel" id="emg_hp" placeholder="Handphone number" oninput="enforceNumberChars(this)"
-              maxlength="17" style="border-bottom:1.5px solid #bbb;margin-top:3px">
+            <input type="tel" id="emg_hp" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" maxlength="15" style="border-bottom:1.5px solid #bbb;margin-top:3px">
             <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
           </td>
         </tr>
@@ -2059,7 +2059,13 @@
                 class="req">*</span></span>
             <span class="field-hint">State the minimum amount in Ringgit Malaysia (RM)</span>
             <div id="f-exp_salary" style="margin-top:5px">
-              <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <input type="text" id="exp_salary" placeholder="e.g. RM 4,000 per month" style="max-width:300px" maxlength="40">
+                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; cursor: pointer; user-select: none;">
+                  <input type="checkbox" id="salary_negotiable" style="width: 14px; height: 14px; margin: 0;">
+                  Negotiable
+                </label>
+              </div>
               <span class="err-msg">* Expected salary is required.</span>
             </div>
           </td>
@@ -2148,10 +2154,10 @@
             <input type="text" id="ref1_name" placeholder="Referee 1 full name or (Nil)">
           </td>
           <td class="input-cell">
-            Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no. or (Nil)"
-              style="border-bottom:1.5px solid #bbb;margin:3px 0">
-            Office: <input type="tel" id="ref1_office" placeholder="Office no. or (Nil)"
-              style="border-bottom:1.5px solid #bbb;margin-top:3px">
+            Handphone: <input type="tel" id="ref1_hp" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" style="border-bottom:1.5px solid #bbb;margin:3px 0" maxlength="15">
+            Office: <input type="tel" id="ref1_office" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" style="border-bottom:1.5px solid #bbb;margin-top:3px" maxlength="15">
           </td>
           <td class="input-cell" id="f-ref1_occ">
             <input type="text" id="ref1_occ" placeholder="e.g. Manager / Former supervisor or (Nil)">
@@ -2162,10 +2168,10 @@
             <input type="text" id="ref2_name" placeholder="Referee 2 full name or (Nil)">
           </td>
           <td class="input-cell">
-            Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no. or (Nil)"
-              style="border-bottom:1.5px solid #bbb;margin:3px 0">
-            Office: <input type="tel" id="ref2_office" placeholder="Office no. or (Nil)"
-              style="border-bottom:1.5px solid #bbb;margin-top:3px">
+            Handphone: <input type="tel" id="ref2_hp" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" style="border-bottom:1.5px solid #bbb;margin:3px 0" maxlength="15">
+            Office: <input type="tel" id="ref2_office" placeholder="e.g. 041234567 or N/A" oninput="enforceNumberChars(this)"
+              onblur="formatPhoneOrNil(this)" style="border-bottom:1.5px solid #bbb;margin-top:3px" maxlength="15">
           </td>
           <td class="input-cell" id="f-ref2_occ">
             <input type="text" id="ref2_occ" placeholder="e.g. Lecturer / Former colleague or (Nil)">
@@ -2398,13 +2404,37 @@
       }
     }
 
-    // regex function to allow valid number characters for phone and salary fields
+    // regex function to allow valid number characters for phone fields
     function enforceNumberChars(input) {
       const origVal = input.value;
-      const newVal = origVal.replace(/[^0-9,.\s]/g, '');
+      const newVal = origVal.replace(/[^0-9+NILAnila\-\/]/g, '');
       if (origVal !== newVal) {
         input.value = newVal;
       }
+    }
+
+    function formatPhoneOrNil(inputElement) {
+      // 1. Get what the user typed and make it uppercase for easy checking
+      const rawVal = inputElement.value.trim().toUpperCase();
+
+      // 2. If the box is completely empty, just leave it alone
+      if (rawVal === '') {
+        return;
+      }
+
+      // 3. YOUR AWESOME LOGIC: Check if it matches any of the "Nil" variations
+      const isNil = ['NIL', 'N/A', 'NA', '-'].includes(rawVal);
+
+      if (isNil) {
+        // Standardize it! No matter which one they typed, change it to "Nil" for the database
+        inputElement.value = '-';
+      } else {
+        // 4. If it's NOT a Nil variation, we assume it's a phone number.
+        // Strip out any letters, slashes, or dashes so it's a clean number again.
+        const cleanedNumber = inputElement.value.replace(/[^0-9+\-]/g, '');
+        inputElement.value = cleanedNumber;
+      }
+      if (typeof calcProgress === 'function') calcProgress();
     }
 
     function handleParentNA(nameInput, type) {
