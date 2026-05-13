@@ -3317,10 +3317,10 @@
           if (heightWrap) heightWrap.classList.add('has-err');
           showFieldError(heightWrap, 'Height must be a positive number (0 or greater).');
           hasErr = true;
-        } else if (isNaN(heightVal) || heightVal > 350) {
+        } else if (isNaN(heightVal) || heightVal > 250) {
           heightEl.classList.add('err');
           if (heightWrap) heightWrap.classList.add('has-err');
-          showFieldError(heightWrap, 'Height must be 350 cm or less.');
+          showFieldError(heightWrap, 'Height must be 250 cm or less.');
           hasErr = true;
         } else {
           heightEl.classList.remove('err');
