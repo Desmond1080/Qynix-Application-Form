@@ -1118,7 +1118,7 @@
           <td class="label-cell">Race & Dialect Group <span class="req">*</span></td>
           <td class="input-cell" id="f-race">
             <select id="race">
-              <option value="">— Select —</option>
+              <option value="" disabled selected>— Select —</option>
               <option>Chinese</option>
               <option>Malay</option>
               <option>Indian</option>
@@ -1130,13 +1130,15 @@
         <tr>
           <td class="label-cell">Citizenship <span class="req">*</span></td>
           <td class="input-cell" id="f-citizenship">
-            <input type="text" id="citizenship" placeholder="e.g. Malaysian">
+            <select id="citizenship">
+              <option value="" disabled selected>— Select Citizenship —</option>
+            </select>
             <span class="err-msg">* Citizenship is required.</span>
           </td>
           <td class="label-cell">Religion <span class="req">*</span></td>
           <td class="input-cell" id="f-religion">
             <select id="religion">
-              <option value="">— Select —</option>
+              <option value="" disabled selected>— Select —</option>
               <option>Buddhism</option>
               <option>Islam</option>
               <option>Hinduism</option>
@@ -1150,7 +1152,7 @@
           <td class="label-cell">Marital Status <span class="req">*</span></td>
           <td class="input-cell" id="f-marital">
             <select id="marital">
-              <option value="">— Select —</option>
+              <option value="" disabled selected>— Select —</option>
               <option>Single</option>
               <option>Married</option>
               <option>Divorced</option>
@@ -2953,7 +2955,7 @@
       { id: 'nric_new', type: 'text' },
       { id: 'pob', type: 'text' },
       { id: 'race', type: 'text' },
-      { id: 'citizenship', type: 'text' },
+      { id: 'citizenship', type: 'select' },
       { id: 'marital', type: 'select' },
       { id: 'epf', type: 'text' },
       { id: 'socso', type: 'text' },
@@ -4834,7 +4836,46 @@
       repaginateTimeout = setTimeout(repaginateForm, 250);
     }
 
+    function populateCitizenship() {
+      const select = document.getElementById('citizenship');
+      if (!select) return;
+      const citizenships = [
+        "Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Antiguans", "Argentinean", "Armenian", "Australian", "Austrian", "Azerbaijani",
+        "Bahamian", "Bahraini", "Bangladeshi", "Barbadian", "Barbudans", "Batswana", "Belarusian", "Belgian", "Belizean", "Beninese", "Bhutanese", "Bolivian", "Bosnian", "Brazilian", "British", "Bruneian", "Bulgarian", "Burkinabe", "Burmese", "Burundian",
+        "Cambodian", "Cameroonian", "Canadian", "Cape Verdean", "Central African", "Chadian", "Chilean", "Chinese", "Colombian", "Comoran", "Congolese", "Costa Rican", "Croatian", "Cuban", "Cypriot", "Czech",
+        "Danish", "Djiboutian", "Dominican", "Dutch",
+        "East Timorese", "Ecuadorian", "Egyptian", "Emirian", "Equatorial Guinean", "Eritrean", "Estonian", "Ethiopian",
+        "Fijian", "Filipino", "Finnish", "French",
+        "Gabonese", "Gambian", "Georgian", "German", "Ghanaian", "Greek", "Grenadian", "Guatemalan", "Guinea-Bissauan", "Guinean", "Guyanese",
+        "Haitian", "Herzegovinian", "Honduran", "Hungarian",
+        "I-Kiribati", "Icelandic", "Indian", "Indonesian", "Iranian", "Iraqi", "Irish", "Israeli", "Italian", "Ivorian",
+        "Jamaican", "Japanese", "Jordanian",
+        "Kazakhstani", "Kenyan", "Kittian and Nevisian", "Kuwaiti", "Kyrgyz",
+        "Laotian", "Latvian", "Lebanese", "Liberian", "Libyan", "Liechtensteiner", "Lithuanian", "Luxembourger",
+        "Macedonian", "Malagasy", "Malawian", "Malaysian", "Maldivian", "Malian", "Maltese", "Marshallese", "Mauritanian", "Mauritian", "Mexican", "Micronesian", "Moldovan", "Monacan", "Mongolian", "Moroccan", "Mosotho", "Motswana", "Mozambican",
+        "Namibian", "Nauruan", "Nepalese", "New Zealander", "Ni-Vanuatu", "Nicaraguan", "Nigerien", "Nigerian", "North Korean", "Northern Irish", "Norwegian",
+        "Omani",
+        "Pakistani", "Palauan", "Panamanian", "Papua New Guinean", "Paraguayan", "Peruvian", "Polish", "Portuguese",
+        "Qatari",
+        "Romanian", "Russian", "Rwandan",
+        "Saint Lucian", "Salvadoran", "Samoan", "San Marinese", "Sao Tomean", "Saudi", "Scottish", "Senegalese", "Serbian", "Seychellois", "Sierra Leonean", "Singaporean", "Slovakian", "Slovenian", "Solomon Islander", "Somali", "South African", "South Korean", "Spanish", "Sri Lankan", "Sudanese", "Surinamer", "Swazi", "Swedish", "Swiss", "Syrian",
+        "Taiwanese", "Tajik", "Tanzanian", "Thai", "Togolese", "Tongan", "Trinidadian or Tobagonian", "Tunisian", "Turkish", "Tuvaluan",
+        "Ugandan", "Ukrainian", "Uruguayan", "Uzbekistani",
+        "Venezuelan", "Vietnamese",
+        "Welsh",
+        "Yemenite",
+        "Zambian", "Zimbabwean"
+      ];
+      citizenships.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item;
+        opt.textContent = item;
+        select.appendChild(opt);
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+      populateCitizenship();
       loadFormState();
       setTimeout(initRepagination, 150);
     });
