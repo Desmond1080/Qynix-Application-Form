@@ -17,7 +17,8 @@
       font-size: 13px;
       background: #d8d8d8;
       color: #111;
-      padding: 24px 12px;
+      padding: 24px 12px 100px;
+      /* Added padding bottom for floating actions bar */
       width: 1024px;
       margin: 0 auto;
     }
@@ -44,10 +45,7 @@
       border-bottom: 2.5px solid #3aac28;
       padding-bottom: 12px;
       margin-bottom: 18px;
-      position: sticky;
-      top: 0;
       background: #fff;
-      z-index: 100;
       padding-top: 4px;
     }
 
@@ -319,31 +317,7 @@
       display: none;
     }
 
-    /* ── Progress bar ── */
-    #progress-wrap {
-      max-width: 840px;
-      margin: 0 auto 14px;
-      background: #e5e5e5;
-      border-radius: 4px;
-      height: 6px;
-      overflow: hidden;
-    }
 
-    #progress-bar {
-      height: 100%;
-      background: #3aac28;
-      border-radius: 4px;
-      width: 0%;
-      transition: width .3s ease;
-    }
-
-    #progress-label {
-      max-width: 840px;
-      margin: 0 auto 16px;
-      font-size: 11px;
-      color: #666;
-      text-align: right;
-    }
 
     /* ── Position row ── */
     .position-row {
@@ -645,74 +619,154 @@
       display: table-cell;
     }
 
-    /* ── Action buttons ── */
+    /* ── Premium Light Gray Floating Actions Dock ── */
     .form-actions {
-      max-width: 840px;
-      margin: 0 auto 40px;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 820px;
+      background: rgba(241, 243, 245, 0.808); /* Elegant soft light gray glass */
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      padding: 14px 32px;
+      border-radius: 100px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+      border: 1.5px solid rgba(0, 0, 0, 0.06); /* Subtle border for separation from card */
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
       align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      box-sizing: border-box;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, opacity 0.25s ease;
+      opacity: 1;
     }
 
+    .form-actions.hidden {
+      transform: translateX(-50%) translateY(calc(100% + 48px)) !important;
+      box-shadow: none !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .form-actions:hover {
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      transform: translateX(-50%) translateY(-3px);
+    }
+
+    /* Friendly, fully-pill tactile buttons */
     .btn {
-      padding: 10px 24px;
-      font-size: 13px;
+      padding: 12px 26px;
+      font-size: 13.5px;
       font-weight: 700;
       font-family: inherit;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
       border: 1.5px solid transparent;
-      transition: all .18s;
-      letter-spacing: 0.02em;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.01em;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      outline: none;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn svg {
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover svg {
+      transform: scale(1.15);
     }
 
     .btn-clear {
       background: #fff;
-      border-color: #aaa;
-      color: #555;
+      border-color: #d1d5db;
+      color: #4b5563;
     }
 
     .btn-clear:hover {
-      background: #f2f2f2;
-      border-color: #888;
+      background: #fef2f2;
+      border-color: #fca5a5;
+      color: #c0392b;
+      box-shadow: 0 4px 12px rgba(192, 57, 43, 0.08);
     }
 
     .btn-preview {
       background: #fff;
       color: #3aac28;
       border-color: #3aac28;
+      box-shadow: 0 2px 8px rgba(58, 172, 40, 0.08);
     }
 
     .btn-preview:hover {
-      background: #edf8eb;
+      background: rgba(58, 172, 40, 0.04);
+      box-shadow: 0 6px 16px rgba(58, 172, 40, 0.14);
     }
 
     .btn-print {
-      background: #3aac28;
+      background: linear-gradient(135deg, #3aac28 0%, #2c9c1c 100%);
       color: #fff;
-      border-color: #3aac28;
+      border-color: #2c9c1c;
+      box-shadow: 0 4px 12px rgba(44, 156, 28, 0.25);
     }
 
     .btn-print:hover {
-      background: #2d8c20;
-      border-color: #2d8c20;
+      background: linear-gradient(135deg, #42be30 0%, #33ab21 100%);
+      box-shadow: 0 8px 20px rgba(44, 156, 28, 0.35);
     }
 
-    /* ── Completion pill ── */
+    /* Completion status pill with pulsing dot */
     .completion-pill {
-      background: #edf8eb;
-      border: 1px solid #3aac28;
-      color: #1e7012;
-      border-radius: 16px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-weight: 700;
+      background: #fef2f2;
+      border: 1px solid rgba(192, 57, 43, 0.25);
+      color: #c0392b;
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 12.5px;
+      font-weight: 800;
       margin-right: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.02);
+    }
+
+    .completion-pill::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulseDot 2.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.25);
+        box-shadow: 0 0 8px currentColor;
+      }
+
+      100% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
     }
 
     /* ── Tooltip ── */
@@ -802,6 +856,7 @@
       .form-actions,
       #val-banner,
       #success-screen,
+      #progress-section-container,
       #progress-wrap,
       #progress-label,
       .no-print,
@@ -972,10 +1027,7 @@
   <div id="val-banner">⚠ Please complete all required fields (marked with <span style="color:#c0392b">*</span>) before
     printing.</div>
 
-  <div id="progress-wrap">
-    <div id="progress-bar"></div>
-  </div>
-  <div id="progress-label">Form completion: <span id="pct">0</span>% of required fields filled</div>
+
 
   <!-- ══════════════════════════════════════
      PAGE 1 — Personal Details
@@ -1326,6 +1378,7 @@
           </td>
           <td class="input-cell" id="f-sp_dob">
             <input type="date" id="sp_dob">
+            <span class="err-msg">* Spouse's date of birth is required.</span>
           </td>
           <td class="input-cell" id="f-sp_age">
             <input type="number" id="sp_age" min="0" max="120" placeholder="Age">
@@ -1751,7 +1804,8 @@
                 class="req">*</span> <em style="font-weight:400;font-size:10.5px">(Present Employer – if not currently
                 working, state most recent former employer)</em></span>
             <div id="f-emp1_name">
-              <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px" oninput="enforceNameChars(this)" maxlength="110">
+              <input type="text" id="emp1_name" placeholder="Employer / Company name" style="margin-top:3px"
+                oninput="enforceNameChars(this)" maxlength="110">
               <span class="err-msg">* Employer name is required.</span>
             </div>
           </td>
@@ -1772,7 +1826,8 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Position(s) Held <span
                 class="req">*</span></span>
             <div id="f-emp1_pos">
-              <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px" maxlength="50">
+              <input type="text" id="emp1_pos" placeholder="e.g. Software Engineer" style="margin-top:3px"
+                maxlength="50">
               <span class="err-msg">* Position held is required.</span>
             </div>
           </td>
@@ -1830,7 +1885,8 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <em
                 style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em> <span
                 class="req">*</span></span>
-            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110" oninput="enforceNameChars(this)">
+            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110"
+              oninput="enforceNameChars(this)">
             <span class="err-msg">* Employer name or (Nil) is required.</span>
           </td>
         </tr>
@@ -1862,7 +1918,8 @@
           <td colspan="2" class="input-cell" id="f-emp2_salary">
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Last Drawn Salary (per month) <span
                 class="req">*</span></span> &nbsp; RM
-            <input type="number" id="emp2_salary" placeholder="e.g. 2,500" style="max-width:180px;margin-left:6px" min="0" max="1000000">
+            <input type="number" id="emp2_salary" placeholder="e.g. 2,500" style="max-width:180px;margin-left:6px"
+              min="0" max="1000000">
             <span class="err-msg">* Last drawn salary or (0) is required.</span>
           </td>
         </tr>
@@ -2292,24 +2349,24 @@
       const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
       if (isNA) {
-        if (dobInput) { 
-          dobInput.type = 'text'; 
-          dobInput.value = '-/-/-'; 
-          dobInput.disabled = true; 
+        if (dobInput) {
+          dobInput.type = 'text';
+          dobInput.value = '-/-/-';
+          dobInput.disabled = true;
           dobInput.classList.remove('err');
           dobInput.style.pointerEvents = 'none';
         }
-        if (ageInput) { 
-          ageInput.type = 'text'; 
-          ageInput.value = '-'; 
-          ageInput.disabled = true; 
+        if (ageInput) {
+          ageInput.type = 'text';
+          ageInput.value = '-';
+          ageInput.disabled = true;
           ageInput.classList.remove('err');
           ageInput.style.pointerEvents = 'none';
         }
-        if (occInput) { 
-          occInput.value = '-'; 
-          occInput.disabled = true; 
-          occInput.classList.remove('err'); 
+        if (occInput) {
+          occInput.value = '-';
+          occInput.disabled = true;
+          occInput.classList.remove('err');
           occInput.style.pointerEvents = 'none';
         }
 
@@ -2352,24 +2409,24 @@
       const isNA = (val === 'N/A' || val === 'NA' || val === 'NIL' || val === '-');
 
       if (isNA) {
-        if (dobInput) { 
-          dobInput.type = 'text'; 
-          dobInput.value = '-/-/-'; 
-          dobInput.disabled = true; 
-          dobInput.classList.remove('err'); 
+        if (dobInput) {
+          dobInput.type = 'text';
+          dobInput.value = '-/-/-';
+          dobInput.disabled = true;
+          dobInput.classList.remove('err');
           dobInput.style.pointerEvents = 'none';
         }
-        if (ageInput) { 
-          ageInput.type = 'text'; 
-          ageInput.value = '-'; 
-          ageInput.disabled = true; 
-          ageInput.classList.remove('err'); 
+        if (ageInput) {
+          ageInput.type = 'text';
+          ageInput.value = '-';
+          ageInput.disabled = true;
+          ageInput.classList.remove('err');
           ageInput.style.pointerEvents = 'none';
         }
-        if (occInput) { 
-          occInput.value = '-'; 
-          occInput.disabled = true; 
-          occInput.classList.remove('err'); 
+        if (occInput) {
+          occInput.value = '-';
+          occInput.disabled = true;
+          occInput.classList.remove('err');
           occInput.style.pointerEvents = 'none';
         }
 
@@ -2435,39 +2492,39 @@
           if (wrap) wrap.classList.add('has-err');
           if (errSpan) errSpan.innerText = 'N/A not allowed. Please delete this extra row instead.';
 
-          if (dobInput) { 
-            dobInput.type = 'text'; 
-            dobInput.value = '-/-/-'; 
-            dobInput.disabled = true; 
+          if (dobInput) {
+            dobInput.type = 'text';
+            dobInput.value = '-/-/-';
+            dobInput.disabled = true;
             dobInput.style.pointerEvents = 'none';
           }
-          if (ageInput) { 
-            ageInput.type = 'text'; 
-            ageInput.value = '-'; 
-            ageInput.disabled = true; 
+          if (ageInput) {
+            ageInput.type = 'text';
+            ageInput.value = '-';
+            ageInput.disabled = true;
             ageInput.style.pointerEvents = 'none';
           }
-          if (occInput) { 
-            occInput.value = '-'; 
-            occInput.disabled = true; 
+          if (occInput) {
+            occInput.value = '-';
+            occInput.disabled = true;
             occInput.style.pointerEvents = 'none';
           }
         } else {
-          if (dobInput) { 
-            dobInput.type = 'text'; 
-            dobInput.value = '-/-/-'; 
-            dobInput.disabled = true; 
+          if (dobInput) {
+            dobInput.type = 'text';
+            dobInput.value = '-/-/-';
+            dobInput.disabled = true;
             dobInput.style.pointerEvents = 'none';
           }
-          if (ageInput) { 
-            ageInput.type = 'text'; 
-            ageInput.value = '-'; 
-            ageInput.disabled = true; 
+          if (ageInput) {
+            ageInput.type = 'text';
+            ageInput.value = '-';
+            ageInput.disabled = true;
             ageInput.style.pointerEvents = 'none';
           }
-          if (occInput) { 
-            occInput.value = '-'; 
-            occInput.disabled = true; 
+          if (occInput) {
+            occInput.value = '-';
+            occInput.disabled = true;
             occInput.style.pointerEvents = 'none';
           }
 
@@ -2716,6 +2773,7 @@
       { id: 'moth_age', type: 'number' },
       { id: 'moth_occ', type: 'text' },
       { id: 'sp_name', type: 'text' },
+      { id: 'sp_dob', type: 'date' },
       { id: 'sp_age', type: 'number' },
       { id: 'sp_occ', type: 'text' },
       { id: 'emg_name', type: 'text' },
@@ -2800,6 +2858,20 @@
         const el = document.getElementById(f.id);
         if (!el) return;
 
+        // Synchronized Skip check for N/A Parent names
+        if ((f.id.startsWith('sp_') && f.id !== 'sp_name') ||
+          (f.id.startsWith('fath_') && f.id !== 'fath_name') ||
+          (f.id.startsWith('moth_') && f.id !== 'moth_name')) {
+          let prefix = f.id.split('_')[0];
+          const parentNameEl = document.getElementById(prefix + '_name');
+          if (parentNameEl) {
+            const parentNameVal = parentNameEl.value.trim().toUpperCase();
+            if (parentNameVal === 'N/A' || parentNameVal === 'NA' || parentNameVal === 'NIL' || parentNameVal === '-') {
+              return; // Skip validation total and count
+            }
+          }
+        }
+
         // If the field is locked by "N/A", skip it! Do not count it in the total.
         if (el.disabled) return;
 
@@ -2807,7 +2879,15 @@
 
         let val = el.value.trim();
         let ok = val !== '';
-        if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+        // 1:1 Aligned Email Check (Accepts NIL)
+        if (f.type === 'email' && ok) {
+          ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.toUpperCase() === 'NIL' || val.toLowerCase() === 'nil' || val === 'Nil';
+        }
+        // 1:1 Aligned Telephone Check (Accepts NIL)
+        if (f.type === 'tel' && ok) {
+          ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
+        }
+
         if (ok) filled++;
       });
 
@@ -2871,25 +2951,29 @@
       // Cap it at 100% to prevent weird math glitches
       if (pct > 100) pct = 100;
 
-      document.getElementById('progress-bar').style.width = pct + '%';
-      document.getElementById('pct').textContent = pct;
       document.getElementById('completion-pill').textContent = pct + '% complete';
 
       const pill = document.getElementById('completion-pill');
       const valBanner = document.getElementById('val-banner');
-      if (pct === 100) {
-        pill.style.background = '#edf8eb';
-        pill.style.borderColor = '#3aac28';
-        pill.style.color = '#1e7012';
-        if (valBanner) valBanner.style.display = 'none';
-      } else if (pct >= 60) {
-        pill.style.background = '#fff8e1';
-        pill.style.borderColor = '#f59e0b';
-        pill.style.color = '#92400e';
+
+      // ── Intelligent HSL Progress Spectrum Interpolation ──
+      // Smoothly morphs colors as user types, skipping low-contrast yellow bands.
+      let hue;
+      if (pct < 50) {
+        // 0% - 50%: Gradually morphs from Red (5) to a rich Amber Orange (38)
+        hue = Math.round(5 + (pct / 50) * 33);
       } else {
-        pill.style.background = '#fef2f2';
-        pill.style.borderColor = '#c0392b';
-        pill.style.color = '#c0392b';
+        // 50% - 100%: Morphs from Amber Orange (38) into lush Emerald Green (135)
+        hue = Math.round(38 + ((pct - 50) / 50) * 97);
+      }
+
+      // Apply continuous HSL spectrum values matching Light Theme aesthetics
+      pill.style.background = `hsl(${hue}, 85%, 96%)`;
+      pill.style.borderColor = `hsl(${hue}, 60%, 82%)`;
+      pill.style.color = `hsl(${hue}, 75%, 36%)`;
+
+      if (pct === 100 && valBanner) {
+        valBanner.style.display = 'none';
       }
     }
 
@@ -3066,6 +3150,7 @@
       REQUIRED.forEach(f => {
         const el = document.getElementById(f.id);
         if (!el) return;
+        if (el.disabled) return; // Synchronized Skip for disabled fields
         const wrap = document.getElementById('f-' + f.id);
 
         if ((f.id.startsWith('sp_') && f.id !== 'sp_name') ||
@@ -3292,10 +3377,12 @@
             el.classList.add('err');
             if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
             showFieldError(salaryWraps[idx], 'Salary must be greater than 0 or more');
+            hasErr = true;
           } else if (parseInt(el.value) > 1000000) {
             el.classList.add('err');
             if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
             showFieldError(salaryWraps[idx], 'Salary must be 1 million or less');
+            hasErr = true;
           } else {
             el.classList.remove('err');
             if (salaryWraps[idx]) salaryWraps[idx].classList.remove('has-err');
@@ -3368,6 +3455,7 @@
         if (radio && radio.value === c.radioValue) {
           const el = document.getElementById(c.fieldId);
           if (!el) return;
+          if (el.disabled) return; // Synchronized Skip for disabled fields
           const val = el.value.trim();
           let isValid = val !== '';
           let errorMessage = c.message;
@@ -4614,6 +4702,63 @@
             errSpan.innerText = errSpan.dataset.origText;
           }
         }
+      }
+    });
+
+    // ── SMART FLOATING ACTIONS AUTO-HIDE SYSTEM ──
+    // Automatically manages dock visibility to prevent screen clutter and virtual keyboard overlaps
+    let lastScrollY = window.scrollY;
+    const actionsDock = document.getElementById('action-buttons');
+
+    function updateDockVisibility() {
+      if (!actionsDock) return;
+      const activeEl = document.activeElement;
+      const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT');
+      
+      if (isTyping) {
+        actionsDock.classList.add('hidden');
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      // Detect if user is at bottom of form (within 80px buffer)
+      const isAtBottom = (window.innerHeight + Math.round(currentScrollY)) >= document.documentElement.scrollHeight - 80;
+
+      if (isAtBottom) {
+        actionsDock.classList.remove('hidden');
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling Down -> Hide it (maximize readable space)
+        actionsDock.classList.add('hidden');
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling Up -> Show it immediately (user looking for actions)
+        actionsDock.classList.remove('hidden');
+      }
+      
+      lastScrollY = currentScrollY;
+    }
+
+    // 1. Watch scrolling motions to dynamically slide dock
+    window.addEventListener('scroll', updateDockVisibility, { passive: true });
+
+    // 2. Proactively hide the dock whenever typing begins (clears virtual keyboard room)
+    document.addEventListener('focusin', (e) => {
+      if (!actionsDock) return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+        actionsDock.classList.add('hidden');
+      }
+    });
+
+    // 3. Restore when leaving fields, but give a micro-delay for cascading focus swaps
+    document.addEventListener('focusout', (e) => {
+      if (!actionsDock) return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+        setTimeout(() => {
+          const currentActive = document.activeElement;
+          const isStillTyping = currentActive && (currentActive.tagName === 'INPUT' || currentActive.tagName === 'TEXTAREA' || currentActive.tagName === 'SELECT');
+          if (!isStillTyping) {
+            actionsDock.classList.remove('hidden');
+          }
+        }, 50);
       }
     });
   </script>
