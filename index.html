@@ -1051,7 +1051,7 @@
     <div class="position-row">
       <span>Position Applied For: <span style="color:#c0392b; font-weight:900;">*</span></span>
       <div id="f-position">
-        <input type="text" id="position" placeholder="State the position you are applying for">
+        <input type="text" id="position" placeholder="State the position you are applying for" maxlength="90">
         <span class="err-msg">* This field is required.</span>
       </div>
     </div>
@@ -1103,7 +1103,7 @@
           </td>
           <td class="label-cell">Place of Birth <span class="req">*</span></td>
           <td class="input-cell" id="f-pob">
-            <input type="text" id="pob" placeholder="e.g. Penang">
+            <textarea id="pob" placeholder="e.g. Penang" rows="1" maxlength="100"></textarea>
             <span class="err-msg">* Place of birth is required.</span>
           </td>
         </tr>
@@ -1175,7 +1175,7 @@
           <td class="label-cell" style="width:150px;vertical-align:top" rowspan="6">Permanent Address <span
               class="req">*</span></td>
           <td class="input-cell" id="f-perm_addr" style="width:30%;vertical-align:top" rowspan="6">
-            <textarea id="perm_addr" style="min-height:230px;width:100%" maxlength="500"
+            <textarea id="perm_addr" style="min-height:230px;width:100%" maxlength="200"
               placeholder="Full permanent address"></textarea>
             <span class="err-msg">* Permanent address is required.</span>
           </td>
@@ -1218,7 +1218,7 @@
         <tr>
           <td class="label-cell">Email ID <span class="req">*</span></td>
           <td class="input-cell" id="f-email">
-            <textarea type="email" maxlength="200" id="email" placeholder="Email or (Nil)"
+            <textarea type="email" maxlength="100" id="email" placeholder="Email or (Nil)"
               style="border-bottom:1.5px solid #bbb;width:100%"></textarea>
             <span class="err-msg">* Valid email is required.</span>
           </td>
@@ -1227,7 +1227,7 @@
           <td class="label-cell" style="vertical-align:top">Postal Address<br><small style="font-weight:400">(if
               different from above)</small></td>
           <td class="input-cell">
-            <textarea id="postal_addr" style="min-height:60px"
+            <textarea id="postal_addr" style="min-height:60px" maxlength="200"
               placeholder="Leave '-' if same as permanent address"></textarea>
           </td>
           <td class="label-cell" style="vertical-align:top;padding-top:8px" colspan="2">
@@ -1482,26 +1482,27 @@
         <tr>
           <td class="label-cell" style="vertical-align:top">Name <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_name">
-            <textarea rows="1" id="emg_name" placeholder="Emergency contact full name" style="min-height:34px"
-              oninput="enforceNameChars(this)"></textarea>
+            <textarea rows="1" maxlength="100" id="emg_name" placeholder="Emergency contact full name"
+              style="min-height:34px" oninput="enforceNameChars(this)"></textarea>
             <span class="err-msg">* Emergency contact name is required.</span>
           </td>
           <td class="label-cell" style="vertical-align:top">Relationship <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_rel">
-            <input type="text" id="emg_rel" placeholder="e.g. Father, Spouse">
+            <textarea rows="1" maxlength="50" id="emg_rel" placeholder="e.g. Father, Spouse" style="min-height:34px"
+              oninput="enforceNameChars(this)"></textarea>
             <span class="err-msg">* Relationship is required.</span>
           </td>
         </tr>
         <tr>
           <td class="label-cell" style="vertical-align:top">Telephone (Home) <span class="req">*</span></td>
           <td class="input-cell">
-            <input type="tel" id="emg_home" placeholder="Home number or (Nil)"
+            <input type="tel" id="emg_home" placeholder="Home number or (Nil)" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;margin:4px 0">
             <span class="err-msg">* Valid home number or (Nil) is required.</span>
           </td>
           <td class="label-cell" style="vertical-align:top">(Handphone) <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_hp">
-            <input type="tel" id="emg_hp" placeholder="Handphone number"
+            <input type="tel" id="emg_hp" placeholder="Handphone number" oninput="enforceNumberChars(this)" maxlength="17"
               style="border-bottom:1.5px solid #bbb;margin-top:3px">
             <span class="err-msg">* Emergency handphone or (Nil) is required.</span>
           </td>
@@ -1509,7 +1510,8 @@
         <tr>
           <td class="label-cell" style="vertical-align:top">Address <span class="req">*</span></td>
           <td class="input-cell" id="f-emg_addr" style="width:100%" colspan="3">
-            <textarea id="emg_addr" style="min-height: 0lh" placeholder="Emergency contact address"></textarea>
+            <textarea id="emg_addr" style="min-height: 0lh" maxlength="200"
+              placeholder="Emergency contact address"></textarea>
             <span class="err-msg">* Emergency address is required.</span>
           </td>
         </tr>
@@ -1531,29 +1533,28 @@
         <tr>
           <td class="input-cell" id="f-sec_sch">
             <span>Secondary / High School</span>
-            <textarea type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)"
+            <textarea maxlength="100" type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)"
               oninput="handleEduNil(this,'sec')"></textarea>
             <span class="err-msg">* School name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="sec_from"></td>
           <td class="input-cell"><input type="month" id="sec_to"></td>
           <td class="input-cell" id="f-sec_qual">
-            <textarea id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)"
-              oninput="checkIfNil(this)"></textarea>
+            <textarea maxlength="500" id="sec_qual" style="min-height:44px" placeholder="Qualifications / results / (Nil)"></textarea>
             <span class="err-msg">* Qualifications / results / (Nil) is required.</span>
           </td>
         </tr>
         <tr>
           <td class="input-cell" id="f-uni">
             <span>College / Polytechnic / University</span>
-            <textarea type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)"
+            <textarea maxlength="200" type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)"
               oninput="handleEduNil(this,'uni')"></textarea>
             <span class="err-msg">* Institution name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="uni_from"></td>
           <td class="input-cell"><input type="month" id="uni_to"></td>
           <td class="input-cell" id="f-uni_qual">
-            <textarea id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA / (Nil)"></textarea>
+            <textarea maxlength="500" id="uni_qual" style="min-height:44px" placeholder="Degree / CGPA / (Nil)"></textarea>
             <span class="err-msg">* Degree / CGPA / (Nil) is required.</span>
           </td>
         </tr>
@@ -2309,22 +2310,56 @@
   </div>
 
   <script>
+    function showFieldError(wrapElement, message) {
+      if (!wrapElement) return;
+      clearFieldError(wrapElement);
+      let errSpan = document.createElement('span');
+      errSpan.className = 'err-msg custom-err-msg';
+      errSpan.style.display = 'block';
+      errSpan.textContent = message;
+      wrapElement.appendChild(errSpan);
+      wrapElement.classList.add('has-err');
+    }
+
+    function clearFieldError(wrapElement) {
+      if (!wrapElement) return;
+      const existing = wrapElement.querySelector('.custom-err-msg');
+      if (existing) existing.remove();
+      wrapElement.classList.remove('has-err');
+    }
+
     // check if nil or n/a is entered in name fields, and disable related inputs if so
     function checkIfNil(nameInput) {
-      const val = nameInput.value.trim();
-      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na'].includes(val);
+      const val = nameInput.value.trim().toUpperCase();
+      const isNil = ['NIL', 'N/A', 'NA', '-'].includes(val);
       const row = nameInput.closest('tr');
-      const dateBoxes = row ? row.querySelectorAll('input[type="month"]') : [];
+      if (!row) return;
 
-      dateBoxes.forEach(box => {
-        box.disabled = isNil;
+      const otherInputs = row.querySelectorAll('input, textarea, select');
+      otherInputs.forEach(el => {
+        if (el === nameInput) return;
+        el.disabled = isNil;
         if (isNil) {
-          box.value = '';
-          box.classList.remove('err');
-          const wrap = box.closest('.input-cell');
-          if (wrap) wrap.classList.remove('has-err');
+          // Set text fields to '-', clear date/month fields
+          if (el.type === 'month' || el.type === 'date') {
+            el.value = '';
+          } else {
+            el.value = '-';
+          }
+          el.classList.remove('err');
+          const wrap = el.closest('.input-cell') || el.parentElement;
+          if (wrap && wrap.classList) {
+            wrap.classList.remove('has-err');
+            const errMsg = wrap.querySelector('.err-msg');
+            if (errMsg) errMsg.style.display = 'none';
+          }
+        } else {
+          // Restore if it was just a placeholder '-'
+          if (el.value === '-') el.value = '';
+          el.disabled = false;
         }
       });
+      if (typeof calcProgress === 'function') calcProgress();
     }
 
     let sigHasContent = false;
@@ -2847,13 +2882,13 @@ function handleEmp2Nil(nameInput) {
 
     // ── Required field definitions ──
     const REQUIRED = [
-      { id: 'position', type: 'text' },
+      { id: 'position', type: 'position' },
       { id: 'fullname', type: 'text' },
       { id: 'age', type: 'text' },
       { id: 'dob', type: 'text' },
       { id: 'nric_old', type: 'text' },
       { id: 'nric_new', type: 'text' },
-      { id: 'pob', type: 'select' },
+      { id: 'pob', type: 'text' },
       { id: 'race', type: 'text' },
       { id: 'citizenship', type: 'text' },
       { id: 'marital', type: 'select' },
@@ -2884,16 +2919,26 @@ function handleEmp2Nil(nameInput) {
       { id: 'emg_home', type: 'tel' },
       { id: 'emg_hp', type: 'tel' },
       { id: 'sec_sch', type: 'text' },
+      { id: 'sec_from', type: 'month' },
+      { id: 'sec_to', type: 'month' },
       { id: 'sec_qual', type: 'text' },
       { id: 'uni', type: 'text' },
+      { id: 'uni_from', type: 'month' },
+      { id: 'uni_to', type: 'month' },
       { id: 'uni_qual', type: 'text' },
       { id: 'course1', type: 'text' },
+      { id: 'course1_from', type: 'month' },
+      { id: 'course1_to', type: 'month' },
       { id: 'course1_qual', type: 'text' },
       { id: 'course1_inst', type: 'text' },
       { id: 'course2', type: 'text' },
+      { id: 'course2_from', type: 'month' },
+      { id: 'course2_to', type: 'month' },
       { id: 'course2_qual', type: 'text' },
       { id: 'course2_inst', type: 'text' },
       { id: 'course3', type: 'text' },
+      { id: 'course3_from', type: 'month' },
+      { id: 'course3_to', type: 'month' },
       { id: 'course3_qual', type: 'text' },
       { id: 'course3_inst', type: 'text' },
       { id: 'prog_lang', type: 'text' },
@@ -2923,6 +2968,8 @@ function handleEmp2Nil(nameInput) {
       { id: 'emp2_name', type: 'text' },
       { id: 'emp2_addr', type: 'text' },
       { id: 'emp2_pos', type: 'text' },
+      { id: 'emp2_from', type: 'month' },
+      { id: 'emp2_to', type: 'month' },
       { id: 'emp2_salary', type: 'number' },
       { id: 'emp2_duties', type: 'text' },
       { id: 'emp2_reason', type: 'text' },
@@ -2990,6 +3037,10 @@ function handleEmp2Nil(nameInput) {
           ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
         }
 
+        if (f.type === 'position' && ok) {
+          const sanitized = val.replace(/\s\s+/g, ' ');
+          ok = /^[a-zA-Z0-9 \-\/\&,\.]+$/.test(sanitized) && /[a-zA-Z]/.test(sanitized);
+        }
         if (ok) filled++;
       });
 
@@ -3178,6 +3229,57 @@ function handleEmp2Nil(nameInput) {
       calcProgress();
     });
 
+    // ── Live sanitization for Position ──
+    const positionInput = document.getElementById('position');
+    if (positionInput) {
+      positionInput.addEventListener('input', function () {
+        this.value = this.value.replace(/\s\s+/g, ' ');
+      });
+      positionInput.addEventListener('blur', function () {
+        this.value = this.value.trim();
+        calcProgress();
+      });
+    }
+
+    // ── Live Date Order Validation ──
+    function setupDateOrderCheck(fromId, toId) {
+      const fromEl = document.getElementById(fromId);
+      const toEl = document.getElementById(toId);
+      if (!fromEl || !toEl) return;
+
+      const check = () => {
+        const fromVal = fromEl.value;
+        const toVal = toEl.value;
+        const wrapTo = toEl.closest('.input-cell') || toEl.parentElement;
+
+        if (fromVal && toVal && new Date(fromVal) > new Date(toVal)) {
+          toEl.classList.add('err');
+          if (wrapTo) wrapTo.classList.add('has-err');
+          showFieldError(wrapTo, 'To date must be after From date.');
+        } else {
+          toEl.classList.remove('err');
+          if (wrapTo) {
+            wrapTo.classList.remove('has-err');
+            clearFieldError(wrapTo);
+          }
+        }
+      };
+
+      fromEl.addEventListener('input', check);
+      toEl.addEventListener('input', check);
+    }
+
+    const datePairs = [
+      ['sec_from', 'sec_to'],
+      ['uni_from', 'uni_to'],
+      ['course1_from', 'course1_to'],
+      ['course2_from', 'course2_to'],
+      ['course3_from', 'course3_to'],
+      ['emp1_from', 'emp1_to'],
+      ['emp2_from', 'emp2_to']
+    ];
+    datePairs.forEach(pair => setupDateOrderCheck(pair[0], pair[1]));
+
     // ── Validate and print ──
     function validateAndPrint() {
       let hasErr = false;
@@ -3253,7 +3355,8 @@ function handleEmp2Nil(nameInput) {
         const el = document.getElementById(f.id);
         if (!el) return;
         if (el.disabled) return; // Synchronized Skip for disabled fields
-        const wrap = document.getElementById('f-' + f.id);
+        let wrap = document.getElementById('f-' + f.id);
+        if (!wrap) wrap = el.closest('.input-cell') || el.parentElement;
 
         if ((f.id.startsWith('sp_') && f.id !== 'sp_name') ||
           (f.id.startsWith('fath_') && f.id !== 'fath_name') ||
@@ -3271,6 +3374,31 @@ function handleEmp2Nil(nameInput) {
           }
         }
 
+        // Education/Employment Skip Logic
+        const skipRules = {
+          'sec_from': 'sec_sch', 'sec_to': 'sec_sch', 'sec_qual': 'sec_sch',
+          'uni_from': 'uni', 'uni_to': 'uni', 'uni_qual': 'uni',
+          'course1_from': 'course1', 'course1_to': 'course1', 'course1_qual': 'course1', 'course1_inst': 'course1',
+          'course2_from': 'course2', 'course2_to': 'course2', 'course2_qual': 'course2', 'course2_inst': 'course2',
+          'course3_from': 'course3', 'course3_to': 'course3', 'course3_qual': 'course3', 'course3_inst': 'course3',
+          'emp1_addr': 'emp1_name', 'emp1_pos': 'emp1_name', 'emp1_from': 'emp1_name', 'emp1_to': 'emp1_name', 'emp1_salary': 'emp1_name', 'emp1_duties': 'emp1_name', 'emp1_reason': 'emp1_name',
+          'emp2_addr': 'emp2_name', 'emp2_pos': 'emp2_name', 'emp2_from': 'emp2_name', 'emp2_to': 'emp2_name', 'emp2_salary': 'emp2_name', 'emp2_duties': 'emp2_name', 'emp2_reason': 'emp2_name',
+          'rel1_dept': 'rel1_name', 'rel1_rel': 'rel1_name'
+        };
+        if (skipRules[f.id]) {
+          const mainEl = document.getElementById(skipRules[f.id]);
+          if (mainEl) {
+            const mainVal = mainEl.value.trim().toUpperCase();
+            if (mainVal === 'N/A' || mainVal === 'NA' || mainVal === 'NIL' || mainVal === '-') {
+              el.classList.remove('err');
+              if (wrap) wrap.classList.remove('has-err');
+              clearFieldError(wrap);
+              return; // Skip validation
+            }
+          }
+        }
+
+
         // Skip fields disabled by Nil logic
         if (el.disabled) { el.classList.remove('err'); if (wrap) wrap.classList.remove('has-err'); return; }
         let val = el.value.trim();
@@ -3280,6 +3408,18 @@ function handleEmp2Nil(nameInput) {
           ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.toUpperCase() === 'NIL' || val.toLowerCase() === 'nil' || val === 'Nil';
         }
         if (f.type === 'tel' && ok) ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
+
+        if (f.type === 'position' && ok) {
+          val = val.replace(/\s\s+/g, ' ');
+          el.value = val;
+          if (!/^[a-zA-Z0-9 \-\/\&,\.]+$/.test(val)) {
+            ok = false;
+            showFieldError(wrap, 'Contains invalid characters. Only alphabets, numbers, and safe punctuation (-, /, &, ,, .) are allowed.');
+          } else if (!/[a-zA-Z]/.test(val)) {
+            ok = false;
+            showFieldError(wrap, 'Position must contain at least one alphabet (e.g. CEO, Developer).');
+          }
+        }
 
         // ----- DATE OF BIRTH VALIDATION -----
         if (f.id === 'dob' && ok) {
@@ -3435,13 +3575,39 @@ function handleEmp2Nil(nameInput) {
         // ----- EMPLOYMENT FROM/TO DATE ORDER VALIDATION -----
         if (f.id === 'emp1_to' && ok) {
           const fromVal = document.getElementById('emp1_from').value;
-          if (fromVal) {
-            const fromDate = new Date(fromVal);
-            const toDate = new Date(val);
-            if (!isNaN(fromDate) && !isNaN(toDate) && toDate < fromDate) {
-              ok = false;
-              showFieldError(wrap, 'To date must be after From date.');
-            }
+          if (fromVal && new Date(fromVal) > new Date(val)) {
+            ok = false;
+            showFieldError(wrap, 'To date must be after From date.');
+          }
+        }
+        if (f.id === 'emp2_to' && ok) {
+          const fromVal = document.getElementById('emp2_from').value;
+          if (fromVal && new Date(fromVal) > new Date(val)) {
+            ok = false;
+            showFieldError(wrap, 'To date must be after From date.');
+          }
+        }
+        // ----- EDUCATION FROM/TO DATE ORDER VALIDATION -----
+        if (f.id === 'sec_to' && ok) {
+          const fromVal = document.getElementById('sec_from').value;
+          if (fromVal && new Date(fromVal) > new Date(val)) {
+            ok = false;
+            showFieldError(wrap, 'To date must be after From date.');
+          }
+        }
+        if (f.id === 'uni_to' && ok) {
+          const fromVal = document.getElementById('uni_from').value;
+          if (fromVal && new Date(fromVal) > new Date(val)) {
+            ok = false;
+            showFieldError(wrap, 'To date must be after From date.');
+          }
+        }
+        // ----- COURSE 1 DATE ORDER VALIDATION -----
+        if (f.id === 'course1_to' && ok) {
+          const fromVal = document.getElementById('course1_from').value;
+          if (fromVal && new Date(fromVal) > new Date(val)) {
+            ok = false;
+            showFieldError(wrap, 'To date must be after From date.');
           }
         }
         // ----- COURSE 2 DATE ORDER VALIDATION -----
@@ -3638,21 +3804,7 @@ function handleEmp2Nil(nameInput) {
         }
       }
 
-      function showFieldError(wrapElement, message) {
-        clearFieldError(wrapElement);
-        let errSpan = document.createElement('span');
-        errSpan.className = 'err-msg custom-err-msg';
-        errSpan.style.display = 'block';
-        errSpan.textContent = message;
-        wrapElement.appendChild(errSpan);
-        wrapElement.classList.add('has-err');
-      }
 
-      function clearFieldError(wrapElement) {
-        if (!wrapElement) return;
-        const existing = wrapElement.querySelector('.custom-err-msg');
-        if (existing) existing.remove();
-      }
 
       const banner = document.getElementById('val-banner');
       if (hasErr) {
@@ -4768,6 +4920,12 @@ function handleEmp2Nil(nameInput) {
           if (mothName) handleParentNA(mothName, 'moth');
           const spName = document.getElementById('sp_name');
           if (spName) handleSpouseNA(spName);
+
+          // Trigger Education Nil checks for restored values
+          ['sec_sch', 'uni'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) checkIfNil(el);
+          });
 
           calcProgress();
           autoResizeTextareas();
