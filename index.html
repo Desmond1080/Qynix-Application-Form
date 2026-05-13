@@ -2799,20 +2799,17 @@
 
     // ── Nil Logic for Educational Data ──
     function handleEduNil(nameInput, rowPrefix) {
-      const val = nameInput.value.trim();
-      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '--/--/----'].includes(val);
+      const val = nameInput.value.trim().toUpperCase();
+      const isNil = ['NIL', 'N/A', 'NA', '-'].includes(val);
       const fromEl = document.getElementById(rowPrefix + '_from');
       const toEl = document.getElementById(rowPrefix + '_to');
       const qualEl = document.getElementById(rowPrefix + '_qual');
       const fQual = document.getElementById('f-' + rowPrefix + '_qual');
 
       if (isNil) {
-        // Convert From/To to disabled text fields with "--/--/----"
         [fromEl, toEl].forEach(el => {
           if (!el) return;
-          el.type = 'text';
-          el.value = '--/--/----';
-          el.disabled = true;
+        el.disabled = true; el.value = '';
           el.classList.remove('err');
           const wrap = el.closest('.input-cell');
           if (wrap) wrap.classList.remove('has-err');
@@ -2824,26 +2821,17 @@
         if (wrap) wrap.classList.remove('has-err');
       } else {
         // Restore original month picker behaviour if they clear the Nil value
-        [fromEl, toEl].forEach(el => {
-          if (!el) return;
-          if (el.disabled && el.value === '--/--/----') {
-            el.type = 'month';
-            el.value = '';
-            el.disabled = false;
-          } else if (el.type === 'text') {
-            el.type = 'month';
-            el.disabled = false;
-          }
-        });
-        if (qualEl) { qualEl.disabled = false; if (qualEl.value === '-') qualEl.value = ''; }
+        [fromEl, toEl].forEach(el => { if (el) el.disabled = false; });
+
+    if (qualEl) { if (qualEl.value === '-') qualEl.value = ''; qualEl.disabled = false; }
       }
       setTimeout(() => calcProgress(), 50);
     }
 
     // ── Nil Logic for Course rows ──
     function handleCourseNil(nameInput, idx) {
-      const val = nameInput.value.trim();
-      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '--/--/----'].includes(val);
+      const val = nameInput.value.trim().toUpperCase();
+      const isNil = ['NIL', 'N/A', 'NA', '-'].includes(val);
       const p = 'course' + idx;
       const instEl = document.getElementById(p + '_inst');
       const fromEl = document.getElementById(p + '_from');
@@ -2851,40 +2839,20 @@
       const qualEl = document.getElementById(p + '_qual');
 
       if (isNil) {
-        [fromEl, toEl].forEach(el => {
+        [instEl, fromEl, toEl, qualEl].forEach(el => {
           if (!el) return;
-          el.type = 'text';
-          el.value = '--/--/----';
-          el.disabled = true;
+          el.disabled = true; el.value = '';
           el.classList.remove('err');
           const wrap = el.closest('.input-cell');
           if (wrap) wrap.classList.remove('has-err');
         });
-        [instEl, qualEl].forEach(el => {
-          if (!el) return;
-          el.disabled = true;
-          el.value = '-';
-          el.classList.remove('err');
-          const wrap = el.closest('.input-cell');
-          if (wrap) wrap.classList.remove('has-err');
-        });
+    if (instEl) instEl.value = '-';
+    if (qualEl) qualEl.value = '-';
         nameInput.classList.remove('err');
         const wrap = nameInput.closest('.input-cell');
         if (wrap) wrap.classList.remove('has-err');
       } else {
-        // Restore original month pickers and editable fields
-        [fromEl, toEl].forEach(el => {
-          if (!el) return;
-          if (el.disabled && el.value === '--/--/----') {
-            el.type = 'month';
-            el.value = '';
-            el.disabled = false;
-          } else if (el.type === 'text') {
-            el.type = 'month';
-            el.disabled = false;
-          }
-        });
-        [instEl, qualEl].forEach(el => {
+  [instEl, fromEl, toEl, qualEl].forEach(el => {
           if (!el) return;
           el.disabled = false;
           if (el.value === '-') el.value = '';
@@ -2897,8 +2865,8 @@
     // ── Nil Logic for Employers (emp1/emp2) ──
     function handleEmpNil(nameInput, prefix) {
       enforceNameChars(nameInput);
-      const val = nameInput.value.trim();
-      const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a'].includes(val);
+      const val = nameInput.value.trim().toUpperCase();
+      const isNil = ['NIL', 'N/A', 'NA', '-'].includes(val);
       const depIds = [prefix + '_addr', prefix + '_pos', prefix + '_from', prefix + '_to', prefix + '_salary', prefix + '_duties', prefix + '_reason'];
       const textDefaults = {};
       textDefaults[prefix + '_addr'] = '-';
@@ -5117,11 +5085,13 @@
           if (spName) handleSpouseNA(spName);
 
           // Trigger Education/Employment Nil checks for restored values
-          ['sec_sch', 'uni', 'emp1_name', 'emp2_name'].forEach(id => {
+          ['sec_sch', 'uni', 'emp1_name', 'emp2_name', 'course1', 'course2', 'course3'].forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
             if (id.startsWith('emp')) {
               handleEmpNil(el, id.split('_')[0]);
+            } else if (id.startsWith('course')) {
+              handleCourseNil(el, id.replace('course', ''));
             } else {
               handleEduNil(el, id === 'sec_sch' ? 'sec' : 'uni');
             }
