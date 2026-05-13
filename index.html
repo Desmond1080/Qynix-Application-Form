@@ -590,10 +590,20 @@
 
 
     /* ── Office use ── */
+    .office-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 170px;
+    }
+
     .office-box {
       border: 1px solid #999;
       margin-top: 16px;
       border-radius: 2px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .office-box .office-hdr {
@@ -606,8 +616,10 @@
     }
 
     .office-box .office-body {
-      min-height: 170px;
       padding: 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── Dynamic Action Columns ── */
@@ -980,8 +992,9 @@
         border: 1px solid #ccc !important;
         border-radius: 4px !important;
         padding: 10px !important;
-        min-height: 120px !important;
-        height: 120px !important;
+        min-height: 250px !important;
+        height: auto !important;
+        flex: 1 !important;
         background: #fff !important;
         box-sizing: border-box !important;
         overflow: visible !important;
@@ -2266,7 +2279,7 @@
       <hr style="border:none;border-top:2px solid #333;margin:24px 0 16px">
     </div>
 
-    <div class="print-section">
+    <div class="print-section office-section">
       <!-- For Office Use Only -->
       <div class="office-box">
         <div class="office-hdr">For Office Use Only</div>
@@ -2285,7 +2298,7 @@
               style="max-width:180px;border-bottom:1px solid #aaa">
           </div>
           <textarea id="interviewer_notes"
-            style="min-height:120px;border:1px solid #ccc;border-radius:4px;padding:10px;"
+            style="flex:1;min-height:250px;border:1px solid #ccc;border-radius:4px;padding:10px;"
             placeholder="Interviewer's notes and comments..."></textarea>
         </div>
       </div>
