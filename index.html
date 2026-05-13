@@ -1775,7 +1775,7 @@
         <tr>
           <td class="input-cell" id="f-rel1_name">
             <textarea type="text" id="rel1_name" placeholder="Name (or Nil)"
-              style="min-height: 0lh; max-height: 2lh"></textarea>
+              style="min-height: 0lh; max-height: 2lh" oninput="enforceNameChars(this)"></textarea>
             <span class="err-msg">* Name of friend/relative or Nil is required.</span>
           </td>
           <td class="input-cell" id="f-rel1_dept">
@@ -2379,7 +2379,7 @@
     // Regex function to strictly allow valid name characters
     function enforceNameChars(input) {
       const origVal = input.value;
-      const newVal = origVal.replace(/[^a-zA-Z\s/'\-\.]/g, '');
+      const newVal = origVal.replace(/[^a-zA-Z\s/'\-\.@]/g, '');
       if (origVal !== newVal) {
         input.value = newVal;
       }
