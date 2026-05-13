@@ -1532,7 +1532,7 @@
           <td class="input-cell" id="f-sec_sch">
             <span>Secondary / High School</span>
             <textarea type="text" style="min-height: 0lh;" id="sec_sch" placeholder="School name or (Nil)"
-              oninput="checkIfNil(this)"></textarea>
+              oninput="handleEduNil(this,'sec')"></textarea>
             <span class="err-msg">* School name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="sec_from"></td>
@@ -1547,7 +1547,7 @@
           <td class="input-cell" id="f-uni">
             <span>College / Polytechnic / University</span>
             <textarea type="text" style="min-height: 0lh;" id="uni" placeholder="Institution name or (Nil)"
-              oninput="checkIfNil(this)"></textarea>
+              oninput="handleEduNil(this,'uni')"></textarea>
             <span class="err-msg">* Institution name or (Nil) is required.</span>
           </td>
           <td class="input-cell"><input type="month" id="uni_from"></td>
@@ -1576,7 +1576,7 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course1">
-            <textarea id="course1" style="min-height:36px" placeholder="Course name"></textarea>
+            <textarea id="course1" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,1)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course1_inst">
@@ -1592,7 +1592,7 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course2">
-            <textarea id="course2" style="min-height:36px" placeholder="Course name"></textarea>
+            <textarea id="course2" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,2)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course2_inst">
@@ -1608,7 +1608,7 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-course3">
-            <textarea id="course3" style="min-height:36px" placeholder="Course name"></textarea>
+            <textarea id="course3" style="min-height:36px" placeholder="Course name or Nil" oninput="handleCourseNil(this,3)"></textarea>
             <span class="err-msg">* Course name is required.</span>
           </td>
           <td class="input-cell" id="f-course3_inst">
@@ -1885,8 +1885,7 @@
             <span class="label-cell" style="font-size:11.5px;font-weight:600">Name of Employer <em
                 style="font-weight:400;font-size:10.5px">(Most Recent Former Employer)</em> <span
                 class="req">*</span></span>
-            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110"
-              oninput="enforceNameChars(this)">
+            <input type="text" id="emp2_name" placeholder="Company name or (Nil)" style="margin-top:3px" maxlength="110" oninput="handleEmp2Nil(this)">
             <span class="err-msg">* Employer name or (Nil) is required.</span>
           </td>
         </tr>
@@ -2089,7 +2088,7 @@
             <span style="font-weight:600;font-size:12px">6. If offered employment, state the notice period required to
               give to your present employer. <span class="req">*</span></span>
             <span class="field-hint">If no notice required, please state the date you are able to commence work.</span>
-            <textarea id="notice" style="min-height:44px;margin-top:5px" maxlength="500"
+            <textarea id="notice" style="min-height:44px;margin-top:5px"
               placeholder="e.g. 1 month notice / Can commence immediately on DD/MM/YYYY"></textarea>
           </td>
         </tr>
@@ -2099,7 +2098,7 @@
               us <span class="req">*</span></span>
             <span class="field-hint">(e.g. strengths/weaknesses, other knowledge/experiences, participation in political
               activities, associations, clubs, sports, etc.)</span>
-            <textarea id="other_info" style="min-height:80px;margin-top:5px" maxlength="600"
+            <textarea id="other_info" style="min-height:80px;margin-top:5px"
               placeholder="Share anything else you'd like us to know about you..."></textarea>
           </td>
         </tr>
@@ -2120,7 +2119,7 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-ref1_name">
-            <textarea type="text" id="ref1_name" placeholder="Referee 1 full name or (Nil)" maxlength="100"></textarea>
+            <input type="text" id="ref1_name" placeholder="Referee 1 full name or (Nil)">
           </td>
           <td class="input-cell">
             Handphone: <input type="tel" id="ref1_hp" placeholder="Handphone no. or (Nil)"
@@ -2134,7 +2133,7 @@
         </tr>
         <tr>
           <td class="input-cell" id="f-ref2_name">
-            <textarea type="text" id="ref2_name" placeholder="Referee 2 full name or (Nil)" maxlength="100"></textarea>
+            <input type="text" id="ref2_name" placeholder="Referee 2 full name or (Nil)">
           </td>
           <td class="input-cell">
             Handphone: <input type="tel" id="ref2_hp" placeholder="Handphone no. or (Nil)"
@@ -2743,6 +2742,100 @@
       calcProgress();
     }
 
+    // ── Nil Logic for Educational Data ──
+function handleEduNil(nameInput, rowPrefix) {
+  const val = nameInput.value.trim();
+  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
+  const fromEl = document.getElementById(rowPrefix + '_from');
+  const toEl   = document.getElementById(rowPrefix + '_to');
+  const qualEl = document.getElementById(rowPrefix + '_qual');
+  const fQual  = document.getElementById('f-' + rowPrefix + '_qual');
+
+  if (isNil) {
+    [fromEl, toEl].forEach(el => {
+      if (!el) return;
+      el.disabled = true; el.value = '';
+      el.classList.remove('err');
+      const wrap = el.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+    });
+    if (qualEl) { qualEl.disabled = true; qualEl.value = '-'; qualEl.classList.remove('err'); }
+    if (fQual)  fQual.classList.remove('has-err');
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+  } else {
+    [fromEl, toEl].forEach(el => { if (el) el.disabled = false; });
+    if (qualEl) { if (qualEl.value === '-') qualEl.value = ''; qualEl.disabled = false; }
+  }
+  setTimeout(() => calcProgress(), 50);
+}
+
+// ── Nil Logic for Course rows ──
+function handleCourseNil(nameInput, idx) {
+  const val = nameInput.value.trim();
+  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
+  const p = 'course' + idx;
+  const instEl = document.getElementById(p + '_inst');
+  const fromEl = document.getElementById(p + '_from');
+  const toEl   = document.getElementById(p + '_to');
+  const qualEl = document.getElementById(p + '_qual');
+
+  if (isNil) {
+    [instEl, fromEl, toEl, qualEl].forEach(el => {
+      if (!el) return;
+      el.disabled = true; el.value = '';
+      el.classList.remove('err');
+      const wrap = el.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+    });
+    if (instEl) instEl.value = '-';
+    if (qualEl) qualEl.value = '-';
+    nameInput.classList.remove('err');
+    const wrap = nameInput.closest('.input-cell');
+    if (wrap) wrap.classList.remove('has-err');
+  } else {
+    [instEl, fromEl, toEl, qualEl].forEach(el => {
+      if (!el) return;
+      el.disabled = false;
+      if (el.value === '-') el.value = '';
+    });
+  }
+  setTimeout(() => calcProgress(), 50);
+}
+
+// ── Nil Logic for Previous Employer (emp2) ──
+function handleEmp2Nil(nameInput) {
+  enforceNameChars(nameInput);
+  const val = nameInput.value.trim();
+  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
+  const depIds = ['emp2_addr','emp2_pos','emp2_from','emp2_to','emp2_salary','emp2_duties','emp2_reason'];
+  const textDefaults = { emp2_addr:'-', emp2_pos:'-', emp2_duties:'-', emp2_reason:'-' };
+
+  if (isNil) {
+    depIds.forEach(id => {
+      const el = document.getElementById(id);
+      const wrap = document.getElementById('f-' + id);
+      if (!el) return;
+      el.disabled = true;
+      el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
+      el.classList.remove('err');
+      if (wrap) wrap.classList.remove('has-err');
+    });
+    nameInput.classList.remove('err');
+    const wrap = document.getElementById('f-emp2_name');
+    if (wrap) wrap.classList.remove('has-err');
+  } else {
+    depIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.disabled = false;
+      if (el.value === '-') el.value = '';
+    });
+  }
+  setTimeout(() => calcProgress(), 50);
+}
+
     // ── Required field definitions ──
     const REQUIRED = [
       { id: 'position', type: 'text' },
@@ -3169,6 +3262,8 @@
           }
         }
 
+        // Skip fields disabled by Nil logic
+        if (el.disabled) { el.classList.remove('err'); if (wrap) wrap.classList.remove('has-err'); return; }
         let val = el.value.trim();
         let ok = val !== '';
         // Email format check
@@ -3708,6 +3803,16 @@
       if (spAge) spAge.disabled = false;
       if (spOcc) spOcc.disabled = false;
 
+      // Re-enable edu/course/emp2 fields disabled by Nil
+      ['sec_from','sec_to','sec_qual','uni_from','uni_to','uni_qual',
+       'course1_inst','course1_from','course1_to','course1_qual',
+       'course2_inst','course2_from','course2_to','course2_qual',
+       'course3_inst','course3_from','course3_to','course3_qual',
+       'emp2_addr','emp2_pos','emp2_from','emp2_to','emp2_salary','emp2_duties','emp2_reason'
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+      });
       sigHasContent = false;
       isClearing = true;
       document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],input[type="month"],select,textarea').forEach(el => {
