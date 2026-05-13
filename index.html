@@ -1102,7 +1102,7 @@
             <span class="err-msg">* Full name is required.</span>
           </td>
           <td class="label-cell">Chinese Name</td>
-          <td class="input-cell"><textarea type="text" id="chinese_name" placeholder="(if applicable)"></textarea></td>
+          <td class="input-cell"><textarea type="text" id="chinese_name" placeholder="(if applicable)" oninput="enforceChineseNameChars(this)" onblur="trimChineseNameChars(this)"></textarea></td>
         </tr>
         <tr>
           <td class="label-cell">Age <span class="req">*</span></td>
@@ -2418,6 +2418,32 @@
       const newVal = origVal.replace(/[^0-9+NILAnila\-\/]/g, '');
       if (origVal !== newVal) {
         input.value = newVal;
+      }
+    }
+
+    // Allow Chinese Han characters plus spaces and common name separators.
+    function enforceChineseNameChars(input) {
+      const originalValue = input.value;
+      const normalizedValue = originalValue.normalize('NFKC');
+
+      let cleanedValue;
+      try {
+        cleanedValue = normalizedValue.replace(/[^\p{Script=Han}\s·・•]/gu, '');
+      } catch (error) {
+        cleanedValue = normalizedValue.replace(/[^\u3400-\u4dbf\u4e00-\u9fff\uF900-\uFAFF\s·・•]/g, '');
+      }
+
+      cleanedValue = cleanedValue.replace(/\s+/g, ' ');
+
+      if (originalValue !== cleanedValue) {
+        input.value = cleanedValue;
+      }
+    }
+
+    function trimChineseNameChars(input) {
+      const trimmedValue = input.value.replace(/^\s+|\s+$/g, '');
+      if (input.value !== trimmedValue) {
+        input.value = trimmedValue;
       }
     }
 
