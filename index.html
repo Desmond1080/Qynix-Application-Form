@@ -2789,16 +2789,19 @@
     // ── Nil Logic for Educational Data ──
 function handleEduNil(nameInput, rowPrefix) {
   const val = nameInput.value.trim();
-  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
+  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '-/-/-'].includes(val);
   const fromEl = document.getElementById(rowPrefix + '_from');
   const toEl   = document.getElementById(rowPrefix + '_to');
   const qualEl = document.getElementById(rowPrefix + '_qual');
   const fQual  = document.getElementById('f-' + rowPrefix + '_qual');
 
   if (isNil) {
+    // Convert From/To to disabled text fields with "-/-/-"
     [fromEl, toEl].forEach(el => {
       if (!el) return;
-      el.disabled = true; el.value = '';
+      el.type = 'text';
+      el.value = '-/-/-';
+      el.disabled = true;
       el.classList.remove('err');
       const wrap = el.closest('.input-cell');
       if (wrap) wrap.classList.remove('has-err');
@@ -2809,8 +2812,19 @@ function handleEduNil(nameInput, rowPrefix) {
     const wrap = nameInput.closest('.input-cell');
     if (wrap) wrap.classList.remove('has-err');
   } else {
-    [fromEl, toEl].forEach(el => { if (el) el.disabled = false; });
-    if (qualEl) { if (qualEl.value === '-') qualEl.value = ''; qualEl.disabled = false; }
+    // Restore original month picker behaviour if they clear the Nil value
+    [fromEl, toEl].forEach(el => {
+      if (!el) return;
+      if (el.disabled && el.value === '-/-/-') {
+        el.type = 'month';
+        el.value = '';
+        el.disabled = false;
+      } else if (el.type === 'text') {
+        el.type = 'month';
+        el.disabled = false;
+      }
+    });
+    if (qualEl) { qualEl.disabled = false; if (qualEl.value === '-') qualEl.value = ''; }
   }
   setTimeout(() => calcProgress(), 50);
 }
@@ -2818,7 +2832,7 @@ function handleEduNil(nameInput, rowPrefix) {
 // ── Nil Logic for Course rows ──
 function handleCourseNil(nameInput, idx) {
   const val = nameInput.value.trim();
-  const isNil = ['NIL','N/A','NA','-','nil','Nil','na','n/a'].includes(val);
+  const isNil = ['NIL', 'N/A', 'NA', '-', 'nil', 'Nil', 'na', 'n/a', '-/-/-'].includes(val);
   const p = 'course' + idx;
   const instEl = document.getElementById(p + '_inst');
   const fromEl = document.getElementById(p + '_from');
@@ -2826,20 +2840,40 @@ function handleCourseNil(nameInput, idx) {
   const qualEl = document.getElementById(p + '_qual');
 
   if (isNil) {
-    [instEl, fromEl, toEl, qualEl].forEach(el => {
+    [fromEl, toEl].forEach(el => {
       if (!el) return;
-      el.disabled = true; el.value = '';
+      el.type = 'text';
+      el.value = '-/-/-';
+      el.disabled = true;
       el.classList.remove('err');
       const wrap = el.closest('.input-cell');
       if (wrap) wrap.classList.remove('has-err');
     });
-    if (instEl) instEl.value = '-';
-    if (qualEl) qualEl.value = '-';
+    [instEl, qualEl].forEach(el => {
+      if (!el) return;
+      el.disabled = true;
+      el.value = '-';
+      el.classList.remove('err');
+      const wrap = el.closest('.input-cell');
+      if (wrap) wrap.classList.remove('has-err');
+    });
     nameInput.classList.remove('err');
     const wrap = nameInput.closest('.input-cell');
     if (wrap) wrap.classList.remove('has-err');
   } else {
-    [instEl, fromEl, toEl, qualEl].forEach(el => {
+    // Restore original month pickers and editable fields
+    [fromEl, toEl].forEach(el => {
+      if (!el) return;
+      if (el.disabled && el.value === '-/-/-') {
+        el.type = 'month';
+        el.value = '';
+        el.disabled = false;
+      } else if (el.type === 'text') {
+        el.type = 'month';
+        el.disabled = false;
+      }
+    });
+    [instEl, qualEl].forEach(el => {
       if (!el) return;
       el.disabled = false;
       if (el.value === '-') el.value = '';
