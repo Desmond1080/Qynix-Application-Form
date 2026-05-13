@@ -2871,7 +2871,7 @@ function handleEmpNil(nameInput, prefix) {
       if (id.endsWith('_salary')) el.type = 'text';
       if (id.endsWith('_from') || id.endsWith('_to')) {
         el.type = 'text';
-        el.value = '-/-/-';
+        el.value = '--------- ----';
       } else {
         el.value = textDefaults[id] !== undefined ? textDefaults[id] : '';
       }
@@ -2888,7 +2888,7 @@ function handleEmpNil(nameInput, prefix) {
       el.disabled = false;
       if (id.endsWith('_salary')) el.type = 'number';
       if (id.endsWith('_from') || id.endsWith('_to')) {
-        if (el.value === '-/-/-') {
+        if (el.value === '--------- ----') {
           el.type = 'month';
           el.value = '';
         }
@@ -3501,7 +3501,17 @@ function handleEmpNil(nameInput, prefix) {
 
 
         // Skip fields disabled by Nil logic
-        if (el.disabled) { el.classList.remove('err'); if (wrap) wrap.classList.remove('has-err'); return; }
+        if (el.disabled) { 
+          el.classList.remove('err'); 
+          if (wrap) {
+            wrap.classList.remove('has-err'); 
+            clearFieldError(wrap);
+            // Also hide the static error span if it exists
+            const staticErr = wrap.querySelector('.err-msg');
+            if (staticErr) staticErr.style.display = 'none';
+          }
+          return; 
+        }
         let val = el.value.trim();
         let ok = val !== '';
         // Email format check
@@ -3743,7 +3753,7 @@ function handleEmpNil(nameInput, prefix) {
       const salaryEls = [document.getElementById('emp1_salary'), document.getElementById('emp2_salary')];
       const salaryWraps = [document.getElementById('f-emp1_salary'), document.getElementById('f-emp2_salary')];
       salaryEls.forEach((el, idx) => {
-        if (el && el.value) {
+        if (el && !el.disabled && el.value) {
           if (isNaN(el.value) || parseInt(el.value) < 0) {
             el.classList.add('err');
             if (salaryWraps[idx]) salaryWraps[idx].classList.add('has-err');
