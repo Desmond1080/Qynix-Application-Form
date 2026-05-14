@@ -2460,13 +2460,20 @@
       const isNil = ['NIL', 'N/A', 'NA', '-'].includes(rawVal);
 
       if (isNil) {
-        // Standardize it! No matter which one they typed, change it to "Nil" for the database
+        // Standardize it! No matter which one they typed, change it to "-" for the database
         inputElement.value = '-';
       } else {
         // 4. If it's NOT a Nil variation, we assume it's a phone number.
-        // Strip out any letters, slashes, or dashes so it's a clean number again.
+        // Strip out any characters except digits, plus, and dash.
         const cleanedNumber = inputElement.value.replace(/[^0-9+\-]/g, '');
-        inputElement.value = cleanedNumber;
+        
+        // 5. NEW: Strictly require at least one digit if it's not a Nil marker.
+        // This prevents junk input like "++++" or "-------" from passing.
+        if (cleanedNumber !== '' && !/[0-9]/.test(cleanedNumber)) {
+          inputElement.value = '';
+        } else {
+          inputElement.value = cleanedNumber;
+        }
       }
       if (typeof calcProgress === 'function') calcProgress();
     }
@@ -3175,9 +3182,11 @@
         if (f.type === 'email' && ok) {
           ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.toUpperCase() === 'NIL' || val.toLowerCase() === 'nil' || val === 'Nil';
         }
-        // 1:1 Aligned Telephone Check (Accepts NIL)
+        // 1:1 Aligned Telephone Check (Accepts NIL/NA)
         if (f.type === 'tel' && ok) {
-          ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
+          const uVal = val.toUpperCase();
+          const isNilVar = ['NIL', 'N/A', 'NA', '-'].includes(uVal);
+          ok = isNilVar || (/^[0-9+\-\s]+$/.test(val) && /[0-9]/.test(val));
         }
 
         if (f.type === 'position' && ok) {
@@ -3610,7 +3619,11 @@
         if (f.type === 'email' && ok) {
           ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.toUpperCase() === 'NIL' || val.toLowerCase() === 'nil' || val === 'Nil';
         }
-        if (f.type === 'tel' && ok) ok = /^[0-9+\-\s]+$/.test(val) || val === 'Nil'.trim().toLowerCase() || val === 'Nil'.trim().toUpperCase() || val === 'Nil';
+        if (f.type === 'tel' && ok) {
+          const uVal = val.toUpperCase();
+          const isNilVar = ['NIL', 'N/A', 'NA', '-'].includes(uVal);
+          ok = isNilVar || (/^[0-9+\-\s]+$/.test(val) && /[0-9]/.test(val));
+        }
 
         if (f.type === 'position' && ok) {
           val = val.replace(/\s\s+/g, ' ');
